@@ -10,7 +10,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "[7] 리뷰 API")
 @RestController
-@RequestMapping(value = "/api/reviews/v1", produces = APPLICATION_JSON_UTF_8)
+@RequestMapping(value = "/api/v1/reviews", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;

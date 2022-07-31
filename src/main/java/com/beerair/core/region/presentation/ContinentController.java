@@ -10,7 +10,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "[4] 대륙 API")
 @RestController
-@RequestMapping(value = "/api/continents/v1", produces = APPLICATION_JSON_UTF_8)
+@RequestMapping(value = "/api/v1/continents", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
 public class ContinentController {
     private final ContinentService continentService;

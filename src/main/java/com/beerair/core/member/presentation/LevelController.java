@@ -10,7 +10,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "[3] 레벨 API")
 @RestController
-@RequestMapping(value = "/api/levels/v1", produces = APPLICATION_JSON_UTF_8)
+@RequestMapping(value = "/api/v1/levels", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
 public class LevelController {
     private final LevelService levelService;

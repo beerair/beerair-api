@@ -10,7 +10,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "[2] 멤버 API")
 @RestController
-@RequestMapping(value = "/api/members/v1", produces = APPLICATION_JSON_UTF_8)
+@RequestMapping(value = "/api/v1/members", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;

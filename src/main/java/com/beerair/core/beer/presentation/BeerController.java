@@ -10,7 +10,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "[1] 맥주 API")
 @RestController
-@RequestMapping(value = "/api/beers/v1", produces = APPLICATION_JSON_UTF_8)
+@RequestMapping(value = "/api/v1/beers", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
 public class BeerController {
     private final BeerService beerService;
