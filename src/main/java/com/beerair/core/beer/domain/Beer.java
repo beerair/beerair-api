@@ -22,7 +22,7 @@ public class Beer extends BaseEntity {
 
     private String content;
 
-    private String ImageUrl;
+    private String imageUrl;
 
     private String korName;
 

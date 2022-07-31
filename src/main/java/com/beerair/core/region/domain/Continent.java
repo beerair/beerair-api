@@ -1,4 +1,4 @@
-package com.beerair.core.beer.domain;
+package com.beerair.core.region.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
 import lombok.AccessLevel;
@@ -13,20 +13,12 @@ import javax.persistence.Id;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Country extends BaseEntity {
+public class Continent extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String backgroundImageUrl;
-
-    private String imageUrl;
-
     private String korName;
 
     private String engName;
-
-    private Long continentId;
 }
-
-
