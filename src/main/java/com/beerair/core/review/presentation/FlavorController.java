@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
-@Api(tags = "[4] 맛 API")
+@Api(tags = "[6] 맛 API")
 @RestController
 @RequestMapping(value = "/api/flavors/v1", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor

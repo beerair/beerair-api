@@ -1,6 +1,6 @@
-package com.beerair.core.region.presentation;
+package com.beerair.core.member.presentation;
 
-import com.beerair.core.region.application.ContinentService;
+import com.beerair.core.member.application.MemberService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
-@Api(tags = "[4] 대륙 API")
+@Api(tags = "[2] 멤버 API")
 @RestController
-@RequestMapping(value = "/api/continents/v1", produces = APPLICATION_JSON_UTF_8)
+@RequestMapping(value = "/api/members/v1", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
-public class ContinentController {
-    private final ContinentService continentService;
+public class MemberController {
+    private final MemberService memberService;
 }
