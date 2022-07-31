@@ -12,9 +12,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: create-drop # 추후 삭제 진행
-  config:
-    activate:
-      on-profile: "local"
   datasource:
     url: jdbc:mysql://localhost:3306/beerair?useUnicode=true&charset=utf8mb4&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Seoul
     driver-class-name: com.mysql.cj.jdbc.Driver
