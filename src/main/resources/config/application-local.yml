@@ -1,0 +1,35 @@
+spring:
+  data:
+    redis:
+      repositories:
+        enabled: false
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: create-drop # 추후 삭제 진행
+  config:
+    activate:
+      on-profile: "local"
+  datasource:
+    url: jdbc:mysql://localhost:3306/beerair?useUnicode=true&charset=utf8mb4&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 20
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+swagger:
+  url: http://localhost:8080
+  desc: used for local environment
