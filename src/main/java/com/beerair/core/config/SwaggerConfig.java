@@ -3,7 +3,6 @@ package com.beerair.core.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -15,7 +14,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Collections;
 
-@Profile({"staging", "local"})
 @Configuration
 @EnableOpenApi
 public class SwaggerConfig {
@@ -36,14 +34,14 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.beerair.core"))
-                .paths(PathSelectors.regex("/(api|guest)/.*"))
+                .paths(PathSelectors.regex("/api/.*"))
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("beerair api info")
-                .description("beerair API")
+                .title("BeearAir api info")
+                .description("BeerAir API")
                 .version("1.0.0")
                 .build();
     }
