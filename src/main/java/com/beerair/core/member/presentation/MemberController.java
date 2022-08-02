@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class MemberController {
     public ResponseEntity<?> sign() {
         return ResponseDto.created("ok");
     }
-    
+
     @ApiOperation(value = "로그인 API", notes = "MOCK UP API")
     @PostMapping("/login")
     public ResponseEntity<?> login() {
@@ -42,6 +43,12 @@ public class MemberController {
     @ApiOperation(value = "닉네임 변경 API", notes = "MOCK UP API")
     @PatchMapping("/nickname")
     public ResponseEntity<?> modifiedNickname() {
+        return ResponseDto.ok("ok");
+    }
+
+    @ApiOperation(value = "사용자 정보 조회 API", notes = "MOCK UP API")
+    @GetMapping
+    public ResponseEntity<?> get() {
         return ResponseDto.ok("ok");
     }
 }
