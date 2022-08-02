@@ -20,7 +20,8 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 public class BeerController {
     private final BeerService beerService;
 
-    @ApiOperation(value = "맥주 조회 API", notes = "MOCK UP API")
+    @ApiOperation(value = "맥주 조회 API" +
+            "\n(필터,정렬,검색)", notes = "MOCK UP API")
     @GetMapping
     public ResponseEntity<?> getAll() {
         return ResponseDto.created("ok");
@@ -33,4 +34,11 @@ public class BeerController {
     ) {
         return ResponseDto.ok("ok");
     }
+
+    @ApiOperation(value = "맥주 추천 목록 조회 api")
+    @GetMapping("/recommends")
+    public ResponseEntity<Void> getRecommends() {
+        return ResponseDto.noContent();
+    }
+
 }
