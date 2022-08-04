@@ -1,4 +1,4 @@
-[submodule "src/main/resources/config"]
+[submodule "beerair-api-secret"]
 	path = src/main/resources/config
 	url = https://github.com/beerair/beerair-api-secret
 	branch = main
