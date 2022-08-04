@@ -1,4 +1,0 @@
-[submodule "beerair-api-secret"]
-	path = src/main/resources/config
-	url = https://github.com/beerair/beerair-api-secret.git
-	branch = main
