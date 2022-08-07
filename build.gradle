@@ -14,6 +14,10 @@ configurations {
     }
 }
 
+ext {
+    cucumberVersion = '7.5.0'
+}
+
 repositories {
     mavenCentral()
 }
@@ -26,11 +30,19 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+    testImplementation 'com.h2database:h2:2.1.214'
+    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
 }
 
 tasks.named('test') {
