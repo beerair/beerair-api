@@ -11,7 +11,7 @@ import com.beerair.core.acceptance.CucumberHttpResponseContext;
 
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component
-public class MemberHttpClient {
+public class MemberStepClient {
     private static final String SERVER_URL = "http://localhost";
     private static final String ENDPOINT = "/api/v1/members";
 
@@ -20,7 +20,7 @@ public class MemberHttpClient {
 
     private final RestTemplate restTemplate;
 
-    public MemberHttpClient() {
+    public MemberStepClient() {
         this.restTemplate = new RestTemplate();
     }
 
@@ -31,13 +31,6 @@ public class MemberHttpClient {
     public void sign() {
         var response = restTemplate.postForEntity(
             memberEndpoint(), null, String.class
-        );
-        CucumberHttpResponseContext.set(response);
-    }
-
-    public void login() {
-        var response = restTemplate.postForEntity(
-            memberEndpoint() + "/login", null, String.class
         );
         CucumberHttpResponseContext.set(response);
     }

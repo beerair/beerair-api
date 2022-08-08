@@ -10,7 +10,12 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 /**
+ * @author 김재원
+ *
  * Cucumber 테스트 중 ResponseEntity를 저장하기 위한 객체 입니다.
+ *
+ * When 에서 전송한 요청을
+ * Then 에서 검증하기 위해 사용 됩니다.
  * */
 @UtilityClass
 public class CucumberHttpResponseContext {

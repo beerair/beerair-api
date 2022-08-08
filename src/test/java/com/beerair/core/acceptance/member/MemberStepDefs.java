@@ -8,7 +8,7 @@ import io.cucumber.spring.ScenarioScope;
 @ScenarioScope
 public class MemberStepDefs {
     @Autowired
-    private MemberHttpClient memberHttpClient;
+    private MemberStepClient memberHttpClient;
 
     @Given("{string} 이메일로 회원가입 했을때")
     public void sign(String email) {
