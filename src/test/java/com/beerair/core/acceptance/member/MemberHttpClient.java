@@ -4,9 +4,10 @@ import static io.cucumber.spring.CucumberTestContext.*;
 
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import com.beerair.core.acceptance.CucumberHttpResponseContext;
 
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component
@@ -27,13 +28,17 @@ public class MemberHttpClient {
         return SERVER_URL + ":" + port + ENDPOINT;
     }
 
-    public HttpStatus sign() {
-        return restTemplate.postForEntity(memberEndpoint(), null, String.class)
-                           .getStatusCode();
+    public void sign() {
+        var response = restTemplate.postForEntity(
+            memberEndpoint(), null, String.class
+        );
+        CucumberHttpResponseContext.set(response);
     }
 
-    public HttpStatus login() {
-        return restTemplate.postForEntity(memberEndpoint() + "/login", null, String.class)
-                           .getStatusCode();
+    public void login() {
+        var response = restTemplate.postForEntity(
+            memberEndpoint() + "/login", null, String.class
+        );
+        CucumberHttpResponseContext.set(response);
     }
 }

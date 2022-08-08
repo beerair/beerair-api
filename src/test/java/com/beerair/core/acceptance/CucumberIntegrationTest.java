@@ -9,5 +9,5 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
     features = "src/test/resources/features"
 )
-public abstract class CucumberTests {
+public abstract class CucumberIntegrationTest {
 }
