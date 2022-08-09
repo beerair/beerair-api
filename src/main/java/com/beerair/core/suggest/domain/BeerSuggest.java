@@ -20,9 +20,9 @@ public class BeerSuggest extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String imageUrl;
-
     private String beerName;
+
+    private String imageUrls;
 
     private LocalDateTime completedAt;
 
@@ -31,4 +31,10 @@ public class BeerSuggest extends BaseEntity {
     private SuggestStatus status;
 
     private Long memberId;
+
+    public BeerSuggest(String name, String urls, Long memberId) {
+        this.beerName = name;
+        this.imageUrls = urls;
+        this.memberId = memberId;
+    }
 }
