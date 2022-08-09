@@ -1,4 +1,4 @@
-package com.beerair.core.acceptance.member;
+package com.beerair.core.acceptance.auth;
 
 import static io.cucumber.spring.CucumberTestContext.*;
 
@@ -13,20 +13,27 @@ import com.beerair.core.common.dto.ResponseDto;
 
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component
-public class MemberStepClient {
+public class AuthStepClient {
     private static final String SERVER_URL = "http://localhost";
-    private static final String ENDPOINT = "/api/v1/members";
+    private static final String ENDPOINT = "/api/v1/auth";
 
     @LocalServerPort
     private int port;
 
     private final RestTemplate restTemplate;
 
-    public MemberStepClient() {
+    public AuthStepClient() {
         this.restTemplate = new RestTemplate();
     }
 
-    private String memberEndpoint() {
+    private String authEndpoint() {
         return SERVER_URL + ":" + port + ENDPOINT;
+    }
+
+    public void login(OAuth2TokenRequest request) {
+        var response = restTemplate.postForEntity(
+            authEndpoint(), request, ResponseDto.class
+        );
+        CucumberHttpResponseContext.set(response);
     }
 }
