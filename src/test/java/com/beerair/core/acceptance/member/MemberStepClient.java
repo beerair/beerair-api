@@ -27,11 +27,4 @@ public class MemberStepClient {
     private String memberEndpoint() {
         return SERVER_URL + ":" + port + ENDPOINT;
     }
-
-    public void sign() {
-        var response = restTemplate.postForEntity(
-            memberEndpoint(), null, String.class
-        );
-        CucumberHttpResponseContext.set(response);
-    }
 }
