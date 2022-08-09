@@ -1,6 +1,6 @@
 package com.beerair.core.suggest.domain;
 
-import com.beerair.core.beer.domain.vo.SuggestStatus;
+import com.beerair.core.suggest.domain.vo.SuggestStatus;
 import com.beerair.core.common.domain.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;

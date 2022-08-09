@@ -1,6 +1,7 @@
 package com.beerair.core.beer.presentation;
 
 import com.beerair.core.beer.application.BeerTypeService;
+import com.beerair.core.beer.domain.vo.rs.BeerTypeResponses;
 import com.beerair.core.common.dto.ResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,7 +22,7 @@ public class BeerTypeController {
 
     @ApiOperation(value = "맥주 종류 목록 조회 api")
     @GetMapping
-    public ResponseEntity<Void> getAll() {
-        return ResponseDto.noContent();
+    public ResponseEntity<BeerTypeResponses> getAll() {
+        return ResponseDto.ok(beerTypeService.getAll());
     }
 }
