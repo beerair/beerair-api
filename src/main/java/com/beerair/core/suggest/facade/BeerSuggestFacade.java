@@ -7,7 +7,7 @@ import com.beerair.core.error.exception.suggest.BeerAlreadyExistsException;
 import com.beerair.core.error.exception.suggest.BeerSuggestAlreadyExistsException;
 import com.beerair.core.suggest.application.BeerSuggestService;
 import com.beerair.core.suggest.domain.BeerSuggest;
-import com.beerair.core.suggest.dto.BeerSuggestRegisterRequest;
+import com.beerair.core.suggest.dto.request.BeerSuggestRegisterRequest;
 import com.beerair.core.suggest.dto.response.BeerSuggestRegisterResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

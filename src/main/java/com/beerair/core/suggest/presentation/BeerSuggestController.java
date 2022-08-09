@@ -1,7 +1,7 @@
 package com.beerair.core.suggest.presentation;
 
 import com.beerair.core.common.dto.ResponseDto;
-import com.beerair.core.suggest.dto.BeerSuggestRegisterRequest;
+import com.beerair.core.suggest.dto.request.BeerSuggestRegisterRequest;
 import com.beerair.core.suggest.facade.BeerSuggestFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +28,7 @@ public class BeerSuggestController {
     public ResponseEntity<?> validate(
             @RequestParam("name") String name
     ) {
+        // TODO : 인증, 인가 로직 붙이기
         beerSuggestFacade.validate(name, 1L);
         return ResponseDto.noContent();
     }
@@ -37,6 +38,7 @@ public class BeerSuggestController {
     public ResponseEntity<?> register(
             @RequestBody BeerSuggestRegisterRequest request
     ) {
+        // TODO : 인증, 인가 로직 붙이기
         var response = beerSuggestFacade.register(1L, request);
         return ResponseDto.created(response);
     }

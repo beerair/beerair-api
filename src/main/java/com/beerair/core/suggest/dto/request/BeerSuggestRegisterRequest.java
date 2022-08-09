@@ -1,4 +1,4 @@
-package com.beerair.core.suggest.dto;
+package com.beerair.core.suggest.dto.request;
 
 import lombok.Data;
 
