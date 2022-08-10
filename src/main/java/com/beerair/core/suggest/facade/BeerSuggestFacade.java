@@ -20,10 +20,10 @@ public class BeerSuggestFacade {
 
     public void validate(String name, Long memberId) {
         if (beerService.existsByKorNameOrEngName(name)) {
-            throw new BeerAlreadyExistsException(ErrorMessage.BEER_ALREADY_EXISTS_EXCEPTION);
+            throw new BeerAlreadyExistsException();
         }
         if (beerSuggestService.existsByNameAndMemberId(name, memberId)) {
-            throw new BeerSuggestAlreadyExistsException(ErrorMessage.BEER_SUGGEST_ALREADY_EXISTS_EXCEPTION);
+            throw new BeerSuggestAlreadyExistsException();
         }
     }
 

@@ -43,7 +43,7 @@ public class MapperUtil {
             return mapper().writeValueAsString(object);
         } catch (JsonProcessingException exception) {
             log.error(exception.getMessage());
-            throw new MapperException(ErrorMessage.INTERNAL_SERVER_ERROR_BY_MAPPER);
+            throw new MapperException();
         }
     }
 }
