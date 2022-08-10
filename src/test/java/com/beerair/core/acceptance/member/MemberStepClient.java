@@ -7,10 +7,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.beerair.core.acceptance.CucumberHttpResponseContext;
-import com.beerair.core.auth.application.dto.OAuth2TokenRequest;
-import com.beerair.core.common.dto.ResponseDto;
-
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component
 public class MemberStepClient {

@@ -2,7 +2,7 @@ package com.beerair.core.acceptance.common;
 
 import java.util.Random;
 
-import com.beerair.core.auth.application.dto.OAuth2TokenRequest;
+import com.beerair.core.auth.application.dto.request.OAuth2TokenRequest;
 
 import io.cucumber.java.ParameterType;
 import io.cucumber.spring.ScenarioScope;

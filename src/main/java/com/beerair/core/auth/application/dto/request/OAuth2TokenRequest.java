@@ -1,4 +1,4 @@
-package com.beerair.core.auth.application.dto;
+package com.beerair.core.auth.application.dto.request;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

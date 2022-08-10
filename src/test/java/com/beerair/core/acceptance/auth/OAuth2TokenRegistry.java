@@ -3,7 +3,7 @@ package com.beerair.core.acceptance.auth;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.beerair.core.auth.application.dto.OAuth2TokenRequest;
+import com.beerair.core.auth.application.dto.request.OAuth2TokenRequest;
 
 import lombok.experimental.UtilityClass;
 
