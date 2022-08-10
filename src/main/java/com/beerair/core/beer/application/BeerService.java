@@ -8,4 +8,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BeerService {
     private final BeerRepository beerRepository;
+
+    public Boolean existsByKorNameOrEngName(String name) {
+        return beerRepository.findByKorNameOrEngName(name, name);
+    }
 }
