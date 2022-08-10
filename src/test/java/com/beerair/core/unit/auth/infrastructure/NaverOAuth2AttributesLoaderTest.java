@@ -1,4 +1,4 @@
-package com.beerair.core.auth.infrastructure;
+package com.beerair.core.unit.auth.infrastructure;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -21,8 +22,10 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.beerair.core.auth.infrastructure.NaverOAuth2AttributesLoader;
 import com.beerair.core.fixture.Fixture;
 
+@Tag("Unit")
 @ExtendWith(MockitoExtension.class)
 class NaverOAuth2AttributesLoaderTest {
     private NaverOAuth2AttributesLoader loader;
