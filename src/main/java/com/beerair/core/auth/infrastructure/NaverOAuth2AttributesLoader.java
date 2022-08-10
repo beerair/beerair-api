@@ -15,7 +15,7 @@ import com.beerair.core.auth.domain.UserSocialType;
 import lombok.experimental.UtilityClass;
 
 @Component
-public final class NaverOAuth2AttributesLoader extends DefaultDelegateOAuth2AttributesLoader {
+public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesLoader {
     private static final String SUCCESS_RESULT_CODE = "00";
     private static final String REGISTRATION_ID = "naver";
 
