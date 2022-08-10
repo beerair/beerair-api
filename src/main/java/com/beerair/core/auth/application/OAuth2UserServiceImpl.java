@@ -18,6 +18,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
         OAuth2Attributes attributes = loadAttributes(request);
+        assert(attributes != null);
         return null;
     }
 

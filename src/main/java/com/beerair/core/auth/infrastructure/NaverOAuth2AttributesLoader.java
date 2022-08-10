@@ -42,21 +42,19 @@ public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesL
     }
 
     private void verify(DefaultOAuth2User user) {
-        var resultCode = user.getAttribute(Key.RESULT_CODE);
+        var resultCode = resultCode(user);
         if (Objects.nonNull(resultCode) && resultCode.equals(SUCCESS_RESULT_CODE)) {
             return;
         }
-        throw new BadCredentialsException(
-            user.getAttribute(Key.RESULT_CODE)
-        );
+        throw new BadCredentialsException(message(user));
     }
 
     private String resultCode(DefaultOAuth2User user) {
-        return user.getAttribute("resultcode");
+        return user.getAttribute(Key.RESULT_CODE);
     }
 
     private String message(DefaultOAuth2User user) {
-        return user.getAttribute("message");
+        return user.getAttribute(Key.MESSAGE);
     }
 
     @SuppressWarnings("unchecked")
