@@ -2,6 +2,8 @@ package com.beerair.core.acceptance.auth;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.beerair.core.acceptance.CucumberHttpResponseContext;
@@ -14,6 +16,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.ScenarioScope;
 
+@ExtendWith(MockitoExtension.class)
 @ScenarioScope
 public class AuthStepDefs {
     @Autowired

@@ -12,6 +12,6 @@ public class CucumberParameterTypeDefs {
     @ParameterType("\\{소셜:'([A-Z]+)',토큰:'([a-zA-Z0-9]+)'\\}")
     public OAuth2TokenRequest token(String socialType, String token) {
         // TODO Random
-        return new OAuth2TokenRequest(socialType, token, new Random().nextInt() + "");
+        return new OAuth2TokenRequest(null, null);
     }
 }

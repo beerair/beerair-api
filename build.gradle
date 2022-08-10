@@ -16,6 +16,7 @@ configurations {
 
 ext {
     cucumberVersion = '7.5.0'
+    securityVersion = '5.3.4 RELEASE'
 }
 
 repositories {
