@@ -2,29 +2,18 @@ package com.beerair.core.error.exception;
 
 import com.beerair.core.error.dto.ErrorMessage;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 public abstract class BusinessException extends RuntimeException {
-    private final HttpStatus status;
+    private final ErrorMessage errorMessage;
 
-    public BusinessException(String message, HttpStatus status) {
-        super(message);
-        this.status = status;
-    }
-
-    public BusinessException(Throwable cause, HttpStatus status) {
-        super(cause);
-        this.status = status;
-    }
-
-    public BusinessException(String message, Throwable cause, HttpStatus status) {
-        super(message, cause);
-        this.status = status;
-    }
-
-    public BusinessException(ErrorMessage message, HttpStatus status) {
+    public BusinessException(ErrorMessage message) {
         super(message.getDescription());
-        this.status = status;
+        this.errorMessage = message;
+    }
+
+    public BusinessException(ErrorMessage message, String reason) {
+        super(reason);
+        this.errorMessage = message;
     }
 }

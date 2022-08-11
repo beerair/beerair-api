@@ -1,6 +1,5 @@
 package com.beerair.core.common.util;
 
-import com.beerair.core.error.dto.ErrorMessage;
 import com.beerair.core.error.exception.common.MapperException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -41,9 +40,9 @@ public class MapperUtil {
     public static String writeValueAsString(Object object) {
         try {
             return mapper().writeValueAsString(object);
-        } catch (JsonProcessingException exception) {
-            log.error(exception.getMessage());
-            throw new MapperException(ErrorMessage.INTERNAL_SERVER_ERROR_BY_MAPPER);
+        } catch (JsonProcessingException e) {
+            log.error("[ERROR] Exception -> {}", e.getMessage());
+            throw new MapperException(e.getMessage());
         }
     }
 }
