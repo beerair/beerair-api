@@ -14,13 +14,12 @@ import com.beerair.core.auth.domain.UserSocialType;
 
 import lombok.experimental.UtilityClass;
 
-@Component
 public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesLoader {
     private static final String SUCCESS_RESULT_CODE = "00";
-    private static final String REGISTRATION_ID = "naver";
+    public static final String REGISTRATION_ID = "naver";
 
     @Override
-    public boolean isLoadable(OAuth2UserRequest request) {
+    protected boolean isLoadable(OAuth2UserRequest request) {
         return request.getClientRegistration()
                       .getRegistrationId()
                       .equals(REGISTRATION_ID);

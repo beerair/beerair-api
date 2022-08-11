@@ -1,5 +1,6 @@
 package com.beerair.core.unit.auth.infrastructure;
 
+import static java.util.Collections.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -22,6 +23,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.beerair.core.auth.application.OAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.NaverOAuth2AttributesLoader;
 import com.beerair.core.fixture.Fixture;
 
@@ -37,23 +39,15 @@ class NaverOAuth2AttributesLoaderTest {
         loader = new NaverOAuth2AttributesLoader();
     }
 
-    @DisplayName("ClientRegistration.RegistrationId가 'naver' 라면 Attributes를 변환할 수 있다.")
+    @DisplayName("Naver 소셜 로그인이 아니면 다음 체인으로 으로 넘긴다.")
     @Test
     void isLoadable() {
-        stubbingGetClientRegistration();
+        var mockNext = mock(OAuth2AttributesLoader.class);
+        loader.setNextChain(mockNext);
+        stubbingGetClientRegistration("KAKAO");
 
-        assertThat(loader.isLoadable(request))
-            .isTrue();
-    }
-
-    private void stubbingGetClientRegistration() {
-        ClientRegistration registration = ClientRegistration
-            .withRegistrationId("naver")
-            .authorizationGrantType(AuthorizationGrantType.JWT_BEARER)
-            .build();
-
-        when(request.getClientRegistration())
-            .thenReturn(registration);
+        loader.load(request);
+        verify(mockNext, times(1)).load(any());
     }
 
     @DisplayName("DefaultOAuth2User attributes 를 OAuth2Attributes spec 으로 변환한다.")
@@ -61,6 +55,7 @@ class NaverOAuth2AttributesLoaderTest {
     void convert() {
         DefaultOAuth2UserService stub = mockingDefaultOAuth2UserService();
         var user = createUser("response", "00", "message");
+        stubbingGetClientRegistration(NaverOAuth2AttributesLoader.REGISTRATION_ID);
         stubbingLoadUser(stub, user);
 
         var expert = loader.load(request);
@@ -68,26 +63,19 @@ class NaverOAuth2AttributesLoaderTest {
             .isEqualTo("김재원");
     }
 
-    @DisplayName("result code가 '00'이 아니면 BadCredentialsException 오류를 던진다.")
-    @Test
-    void convertFail1() {
-        DefaultOAuth2UserService stub = mockingDefaultOAuth2UserService();
-        var user = createUser("response", "01", "잘못 되었다.");
-        stubbingLoadUser(stub, user);
-
-        assertThatThrownBy(() -> loader.load(request))
-            .isInstanceOf(BadCredentialsException.class);
+    private void stubbingGetClientRegistration(String registrationId) {
+        ClientRegistration registration = ClientRegistration
+            .withRegistrationId(registrationId)
+            .authorizationGrantType(AuthorizationGrantType.JWT_BEARER)
+            .build();
+        when(request.getClientRegistration())
+            .thenReturn(registration);
     }
 
     private DefaultOAuth2UserService mockingDefaultOAuth2UserService() {
         DefaultOAuth2UserService stub = mock(DefaultOAuth2UserService.class);
         new Fixture<>(loader).set("delegate", stub);
         return stub;
-    }
-
-    private void stubbingLoadUser(DefaultOAuth2UserService service, OAuth2User user) {
-        when(service.loadUser(request))
-            .thenReturn(user);
     }
 
     @SuppressWarnings({"SameParameterValue", "rawtypes", "unchecked"})
@@ -105,9 +93,26 @@ class NaverOAuth2AttributesLoaderTest {
             "response", inner
         );
         return new DefaultOAuth2User(
-            Collections.emptyList(),
+            emptyList(),
             attributes,
             nameAttributeKey
         );
+    }
+
+    private void stubbingLoadUser(DefaultOAuth2UserService service, OAuth2User user) {
+        when(service.loadUser(request))
+            .thenReturn(user);
+    }
+
+    @DisplayName("result code가 '00'이 아니면 BadCredentialsException 오류를 던진다.")
+    @Test
+    void convertFail1() {
+        DefaultOAuth2UserService stub = mockingDefaultOAuth2UserService();
+        var user = createUser("response", "01", "잘못 되었다.");
+        stubbingGetClientRegistration(NaverOAuth2AttributesLoader.REGISTRATION_ID);
+        stubbingLoadUser(stub, user);
+
+        assertThatThrownBy(() -> loader.load(request))
+            .isInstanceOf(BadCredentialsException.class);
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.beerair.core.auth.application.OAuth2AttributesLoader;
+import com.beerair.core.auth.infrastructure.NaverOAuth2AttributesLoader;
 import com.beerair.core.auth.presentation.OAuth2SuccessHandler;
 import com.beerair.core.auth.application.OAuth2UserServiceImpl;
 
@@ -20,6 +22,11 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
     private final OAuth2UserServiceImpl oAuth2UserService;
     private final OAuth2SuccessHandler successHandler;
+
+    @Bean
+    public OAuth2AttributesLoader oAuth2AttributesLoader() {
+        return new NaverOAuth2AttributesLoader();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
