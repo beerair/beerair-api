@@ -24,11 +24,6 @@ public class SecurityConfig {
     private final OAuth2SuccessHandler successHandler;
 
     @Bean
-    public OAuth2AttributesLoader oAuth2AttributesLoader() {
-        return new NaverOAuth2AttributesLoader();
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         configureAuthToken(http);
         configureOAuth2(http);
