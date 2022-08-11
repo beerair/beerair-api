@@ -6,11 +6,9 @@ import java.util.Objects;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.stereotype.Component;
 
-import com.beerair.core.auth.application.OAuth2Attributes;
-import com.beerair.core.auth.domain.UserGender;
-import com.beerair.core.auth.domain.UserSocialType;
+import com.beerair.core.auth.domain.OAuth2Attributes;
+import com.beerair.core.member.domain.vo.SocialType;
 
 import lombok.experimental.UtilityClass;
 
@@ -31,11 +29,10 @@ public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesL
 
         Map<String, String> responseAttributes = responseAttributes(user.getAttributes());
         return OAuth2Attributes.builder()
-            .socialType(UserSocialType.NAVER)
+            .socialType(SocialType.NAVER)
             .id(responseAttributes.get("id"))
             .name(responseAttributes.get("name"))
             .profile(responseAttributes.get("profile_image"))
-            .gender(toGender(responseAttributes.get("gender")))
             .email(responseAttributes.get("email"))
             .build();
     }
@@ -59,16 +56,6 @@ public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesL
     @SuppressWarnings("unchecked")
     private Map<String, String> responseAttributes(Map<String, ?> attributes) {
         return (Map<String, String>) attributes.get(Key.RESPONSE);
-    }
-
-    private UserGender toGender(String rawGender) {
-        if (rawGender.equals("M")) {
-            return UserGender.MAN;
-        }
-        if (rawGender.equals("W")) {
-            return UserGender.WOMAN;
-        }
-        return UserGender.UNKNOWN;
     }
 
     @UtilityClass

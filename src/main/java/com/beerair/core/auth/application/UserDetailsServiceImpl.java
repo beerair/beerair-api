@@ -1,4 +1,4 @@
-package com.beerair.core.member.application;
+package com.beerair.core.auth.application;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
