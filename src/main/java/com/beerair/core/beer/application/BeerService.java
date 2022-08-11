@@ -1,5 +1,6 @@
 package com.beerair.core.beer.application;
 
+import com.beerair.core.beer.domain.vo.rs.BeerResponse;
 import com.beerair.core.beer.infrastructure.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,4 +9,18 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BeerService {
     private final BeerRepository beerRepository;
+
+	public BeerResponse get(Long beerId) {
+		var memberId = getLoginMemberId();
+
+		if (memberId == null) {
+			return BeerResponse.from(beerRepository.findByBeerId(beerId));
+		}
+
+		return BeerResponse.from(beerRepository.findByBeerId(beerId, memberId));
+	}
+
+	private Long getLoginMemberId() {
+		return 1L;
+	}
 }
