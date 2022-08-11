@@ -7,20 +7,21 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.beerair.core.auth.application.dto.OAuth2Attributes;
-import com.beerair.core.member.application.MemberService;
 import com.beerair.core.member.application.dto.response.OAuth2Member;
 import com.beerair.core.member.domain.Member;
+import com.beerair.core.member.domain.vo.Role;
 import com.beerair.core.member.infrastructure.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final OAuth2AttributesLoader attributeLoader;
-    private final MemberService memberService;
     private final MemberRepository memberRepository;
 
     @Override
@@ -30,7 +31,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
     }
 
     private Member member(OAuth2Attributes attributes) {
-        Optional<Member> member = memberService.getMember(attributes.getEmail());
+        Optional<Member> member = memberRepository.findByEmail(attributes.getEmail());
         if (member.isEmpty()) {
             return signByOAuth2(attributes);
         }
@@ -38,7 +39,13 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
     }
 
     private Member signByOAuth2(OAuth2Attributes attributes) {
-        Member member = Member.builder().build();
+        Member member = Member.builder()
+            .role(Role.USER)
+            .sociaiId(attributes.getSocialId())
+            .socialType(attributes.getSocialType())
+            .profileUrl(attributes.getProfile())
+            .email(attributes.getEmail())
+            .build();
         return memberRepository.save(member);
     }
 }

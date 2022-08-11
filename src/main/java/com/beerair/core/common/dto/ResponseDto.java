@@ -8,10 +8,10 @@ import java.io.Serializable;
 
 @Getter
 public class ResponseDto<T> implements Serializable {
-    private final T date;
+    private final T data;
 
-    public ResponseDto(T date) {
-        this.date = date;
+    public ResponseDto(T data) {
+        this.data = data;
     }
 
     public static <T> ResponseEntity<T> ok(T data) {
