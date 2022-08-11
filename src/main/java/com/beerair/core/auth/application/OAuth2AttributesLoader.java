@@ -2,7 +2,7 @@ package com.beerair.core.auth.application;
 
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 
-import com.beerair.core.auth.domain.OAuth2Attributes;
+import com.beerair.core.auth.application.dto.OAuth2Attributes;
 
 public abstract class OAuth2AttributesLoader {
     private OAuth2AttributesLoader next;

@@ -6,12 +6,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.beerair.core.auth.application.OAuth2AttributesLoader;
-import com.beerair.core.auth.infrastructure.NaverOAuth2AttributesLoader;
 import com.beerair.core.auth.presentation.OAuth2SuccessHandler;
-import com.beerair.core.auth.application.OAuth2UserServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    private final OAuth2UserServiceImpl oAuth2UserService;
+    private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService;
     private final OAuth2SuccessHandler successHandler;
 
     @Bean

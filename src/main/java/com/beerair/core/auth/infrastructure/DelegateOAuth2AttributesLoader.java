@@ -5,7 +5,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
 import com.beerair.core.auth.application.OAuth2AttributesLoader;
-import com.beerair.core.auth.domain.OAuth2Attributes;
+import com.beerair.core.auth.application.dto.OAuth2Attributes;
 
 public abstract class DelegateOAuth2AttributesLoader extends OAuth2AttributesLoader {
     private final DefaultOAuth2UserService delegate;
@@ -14,15 +14,26 @@ public abstract class DelegateOAuth2AttributesLoader extends OAuth2AttributesLoa
         this.delegate = new DefaultOAuth2UserService();
     }
 
-    public OAuth2Attributes load(OAuth2UserRequest request) {
+    public final OAuth2Attributes load(OAuth2UserRequest request) {
         if (!isLoadable(request)) {
             return next(request);
         }
         DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) delegate.loadUser(request);
-        return convert(defaultOAuth2User);
+        return convert(
+            defaultOAuth2User,
+            getAttributesKey(request)
+        );
     }
 
     protected abstract boolean isLoadable(OAuth2UserRequest request);
 
-    protected abstract OAuth2Attributes convert(DefaultOAuth2User user);
+    private String getAttributesKey(OAuth2UserRequest request) {
+        return request
+            .getClientRegistration()
+            .getProviderDetails()
+            .getUserInfoEndpoint()
+            .getUserNameAttributeName();
+    }
+
+    protected abstract OAuth2Attributes convert(DefaultOAuth2User user, String attributesKey);
 }

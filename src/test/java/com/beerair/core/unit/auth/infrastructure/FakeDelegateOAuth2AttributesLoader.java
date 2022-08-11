@@ -4,7 +4,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
-import com.beerair.core.auth.domain.OAuth2Attributes;
+import com.beerair.core.auth.application.dto.OAuth2Attributes;
 import com.beerair.core.auth.infrastructure.DelegateOAuth2AttributesLoader;
 import com.beerair.core.fixture.Fixture;
 
@@ -27,7 +27,7 @@ public class FakeDelegateOAuth2AttributesLoader extends DelegateOAuth2Attributes
     }
 
     @Override
-    protected OAuth2Attributes convert(DefaultOAuth2User user) {
+    protected OAuth2Attributes convert(DefaultOAuth2User user, String attributeKey) {
         converted = true;
         return null;
     }

@@ -3,6 +3,8 @@ package com.beerair.core.member.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Comment;
+
 import com.beerair.core.common.domain.BaseEntity;
 import com.beerair.core.member.domain.vo.Role;
 import com.beerair.core.member.domain.vo.SocialType;
@@ -19,6 +21,7 @@ public class Member extends BaseEntity {
     @Id
     private String id;
 
+    @Comment("사용자 이메일 (아이디)")
     private String email;
 
     private String nickname;

@@ -59,14 +59,15 @@ class NaverOAuth2AttributesLoaderTest {
         stubbingLoadUser(stub, user);
 
         var expert = loader.load(request);
-        assertThat(expert.getName())
-            .isEqualTo("김재원");
+        assertThat(expert.getEmail())
+            .isEqualTo("email1234@naver.com");
     }
 
     private void stubbingGetClientRegistration(String registrationId) {
         ClientRegistration registration = ClientRegistration
             .withRegistrationId(registrationId)
             .authorizationGrantType(AuthorizationGrantType.JWT_BEARER)
+            .userNameAttributeName("response")
             .build();
         when(request.getClientRegistration())
             .thenReturn(registration);

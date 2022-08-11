@@ -7,7 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
-import com.beerair.core.auth.domain.OAuth2Attributes;
+import com.beerair.core.auth.application.dto.OAuth2Attributes;
 import com.beerair.core.member.domain.vo.SocialType;
 
 import lombok.experimental.UtilityClass;
@@ -24,16 +24,17 @@ public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesL
     }
 
     @Override
-    protected OAuth2Attributes convert(DefaultOAuth2User user) {
+    protected OAuth2Attributes convert(DefaultOAuth2User user, String attributeKey) {
         verify(user);
 
-        Map<String, String> responseAttributes = responseAttributes(user.getAttributes());
+        Map<String, String> attributes = user.getAttribute(attributeKey);
+        Map<String, Object> rawAttributes = user.getAttribute(attributeKey);
         return OAuth2Attributes.builder()
             .socialType(SocialType.NAVER)
-            .id(responseAttributes.get("id"))
-            .name(responseAttributes.get("name"))
-            .profile(responseAttributes.get("profile_image"))
-            .email(responseAttributes.get("email"))
+            .socialId(attributes.get("id"))
+            .profile(attributes.get("profile_image"))
+            .email(attributes.get("email"))
+            .attributes(rawAttributes)
             .build();
     }
 
@@ -53,15 +54,9 @@ public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesL
         return user.getAttribute(Key.MESSAGE);
     }
 
-    @SuppressWarnings("unchecked")
-    private Map<String, String> responseAttributes(Map<String, ?> attributes) {
-        return (Map<String, String>) attributes.get(Key.RESPONSE);
-    }
-
     @UtilityClass
     private class Key {
         private static final String RESULT_CODE = "resultcode";
         private static final String MESSAGE = "message";
-        private static final String RESPONSE = "response";
     }
 }
