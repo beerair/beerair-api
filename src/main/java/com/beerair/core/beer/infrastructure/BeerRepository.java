@@ -18,7 +18,7 @@ public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificat
 	               "JOIN Country c on b.countryId = c.id " +
 	               "LEFT OUTER JOIN BeerLike bl on b.id = bl.beerId " +
 	               "WHERE b.id = :beerId and b.deletedAt is null")
-	BeerDto findByBeerId(@Param("beerId") Long beerId);
+	BeerDto findByIdWithTypeAndCountry(@Param("beerId") Long beerId);
 
 	@Query(value = "SELECT b as beer, " +
 	               "c as country, bt as beerType, (bl is not null) as isLiked " +
@@ -27,5 +27,5 @@ public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificat
 	               "JOIN Country c on b.countryId = c.id " +
 	               "LEFT OUTER JOIN BeerLike bl on b.id = bl.beerId and bl.memberId = :memberId " +
 	               "WHERE b.id = :beerId and b.deletedAt is null")
-	BeerDto findByBeerId(@Param("beerId") Long beerId, @Param("memberId") Long memberId);
+	BeerDto findByIdWithTypeAndCountry(@Param("beerId") Long beerId, @Param("memberId") Long memberId);
 }

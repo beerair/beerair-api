@@ -14,10 +14,10 @@ public class BeerService {
 		var memberId = getLoginMemberId();
 
 		if (memberId == null) {
-			return BeerResponse.from(beerRepository.findByBeerId(beerId));
+			return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId));
 		}
 
-		return BeerResponse.from(beerRepository.findByBeerId(beerId, memberId));
+		return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId, memberId));
 	}
 
 	private Long getLoginMemberId() {
