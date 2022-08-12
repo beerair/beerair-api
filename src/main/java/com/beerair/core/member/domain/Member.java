@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import org.hibernate.annotations.Comment;
 
 import com.beerair.core.common.domain.BaseEntity;
+import com.beerair.core.common.util.IdGenerator;
 import com.beerair.core.member.domain.vo.Role;
 import com.beerair.core.member.domain.vo.SocialType;
 
@@ -43,6 +44,7 @@ public class Member extends BaseEntity {
     @Builder
     private Member(String email, String nickname, String phoneNumber, String profileUrl, Role role, String sociaiId,
                   SocialType socialType, Integer exp, Long leverId) {
+        this.id = IdGenerator.createUUID();
         this.email = email;
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;

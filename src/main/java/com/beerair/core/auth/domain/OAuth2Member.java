@@ -1,4 +1,4 @@
-package com.beerair.core.member.application.dto.response;
+package com.beerair.core.auth.domain;
 
 import java.util.Collection;
 import java.util.Map;
@@ -19,6 +19,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class OAuth2Member implements OAuth2User {
+    private String id;
     private SocialType socialType;
     private String socialId;
     private String email;
@@ -28,6 +29,7 @@ public class OAuth2Member implements OAuth2User {
 
     public static OAuth2Member of(Member member) {
         return OAuth2Member.builder()
+            .id(member.getId())
             .socialType(member.getSocialType())
             .socialId(member.getSociaiId())
             .email(member.getEmail())

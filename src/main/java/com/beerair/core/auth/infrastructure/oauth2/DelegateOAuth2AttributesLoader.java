@@ -1,11 +1,11 @@
-package com.beerair.core.auth.infrastructure;
+package com.beerair.core.auth.infrastructure.oauth2;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
-import com.beerair.core.auth.application.OAuth2AttributesLoader;
-import com.beerair.core.auth.application.dto.OAuth2Attributes;
+import com.beerair.core.auth.domain.OAuth2AttributesLoader;
+import com.beerair.core.auth.domain.OAuth2Attributes;
 
 public abstract class DelegateOAuth2AttributesLoader extends OAuth2AttributesLoader {
     private final DefaultOAuth2UserService delegate;

@@ -1,4 +1,4 @@
-package com.beerair.core.unit.auth.infrastructure;
+package com.beerair.core.unit.auth.infrastructure.oauth2;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
-import com.beerair.core.auth.application.OAuth2AttributesLoader;
+import com.beerair.core.auth.domain.OAuth2AttributesLoader;
 
 @ExtendWith(MockitoExtension.class)
 public class DelegateOAuth2AttributesLoaderTest {
@@ -53,7 +53,7 @@ public class DelegateOAuth2AttributesLoaderTest {
         FakeDelegateOAuth2AttributesLoader loader = new FakeDelegateOAuth2AttributesLoader(
             defaultOAuth2UserService
         );
-        loader.setNextChain(nextChain);
+        loader.setNext(nextChain);
 
         loader.setLoadable(false);
         loader.load(any());

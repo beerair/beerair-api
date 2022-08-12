@@ -9,8 +9,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.beerair.core.auth.application.dto.OAuth2Attributes;
-import com.beerair.core.member.application.dto.response.OAuth2Member;
+import com.beerair.core.auth.domain.OAuth2AttributesLoader;
+import com.beerair.core.auth.domain.OAuth2Attributes;
+import com.beerair.core.auth.domain.OAuth2Member;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.Role;
 import com.beerair.core.member.infrastructure.MemberRepository;

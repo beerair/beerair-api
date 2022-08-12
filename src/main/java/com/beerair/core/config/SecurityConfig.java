@@ -10,8 +10,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
-
-import com.beerair.core.auth.presentation.OAuth2SuccessHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 public class SecurityConfig {
     private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService;
-    private final OAuth2SuccessHandler successHandler;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -45,7 +44,7 @@ public class SecurityConfig {
     private void configureOAuth2(HttpSecurity http) throws Exception {
         // /oauth2/authorization/naver
         http.oauth2Login()
-            .successHandler(successHandler)
+            .successHandler(authenticationSuccessHandler)
             .userInfoEndpoint().userService(oAuth2UserService);
     }
 

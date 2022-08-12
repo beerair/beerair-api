@@ -14,11 +14,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 
-import com.beerair.core.auth.application.OAuth2AttributesLoader;
+import com.beerair.core.auth.domain.OAuth2AttributesLoader;
 import com.beerair.core.auth.application.OAuth2UserServiceImpl;
-import com.beerair.core.auth.application.dto.OAuth2Attributes;
-import com.beerair.core.member.application.MemberService;
-import com.beerair.core.member.application.dto.response.OAuth2Member;
+import com.beerair.core.auth.domain.OAuth2Attributes;
+import com.beerair.core.auth.domain.OAuth2Member;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.infrastructure.MemberRepository;
 

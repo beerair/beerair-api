@@ -1,4 +1,4 @@
-package com.beerair.core.auth.application.dto;
+package com.beerair.core.auth.domain;
 
 import java.util.Map;
 

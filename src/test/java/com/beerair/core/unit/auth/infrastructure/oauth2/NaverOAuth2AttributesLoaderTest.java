@@ -1,10 +1,9 @@
-package com.beerair.core.unit.auth.infrastructure;
+package com.beerair.core.unit.auth.infrastructure.oauth2;
 
 import static java.util.Collections.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -23,8 +22,8 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.beerair.core.auth.application.OAuth2AttributesLoader;
-import com.beerair.core.auth.infrastructure.NaverOAuth2AttributesLoader;
+import com.beerair.core.auth.domain.OAuth2AttributesLoader;
+import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
 import com.beerair.core.fixture.Fixture;
 
 @Tag("Unit")
@@ -43,7 +42,7 @@ class NaverOAuth2AttributesLoaderTest {
     @Test
     void isLoadable() {
         var mockNext = mock(OAuth2AttributesLoader.class);
-        loader.setNextChain(mockNext);
+        loader.setNext(mockNext);
         stubbingGetClientRegistration("KAKAO");
 
         loader.load(request);
