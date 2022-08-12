@@ -20,6 +20,11 @@ public class BeerService {
 		return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId, memberId));
 	}
 
+    public Boolean existsByKorNameOrEngName(String name) {
+        return beerRepository.findByKorNameOrEngName(name, name);
+    }
+
+	// TODO: 로그인 구현 전 임시
 	private Long getLoginMemberId() {
 		return 1L;
 	}
