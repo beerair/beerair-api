@@ -6,16 +6,19 @@ import java.io.Serializable;
 
 @Getter
 public class ErrorDto implements Serializable {
+    private final String name;
     private final String message;
     private final String reason;
 
-    public ErrorDto(String message, String reason) {
-        this.message = message;
+    public ErrorDto(ErrorMessage message, String reason) {
+        this.name = message.name();
+        this.message = message.getDescription();
         this.reason = reason;
     }
 
     public ErrorDto(ErrorMessage message) {
-        this.message = message.name();
-        this.reason = message.getDescription();
+        this.name = message.name();
+        this.message = message.getDescription();
+        this.reason = "";
     }
 }
