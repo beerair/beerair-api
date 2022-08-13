@@ -37,7 +37,7 @@ public class BeerResponse {
 
 	private final Integer volume;
 
-	private final Boolean isLiked;
+	private final Boolean liked;
 
 	private final LocalDateTime createdAt;
 
@@ -55,7 +55,7 @@ public class BeerResponse {
 				beerDto.getBeer().getAlcohol(),
 				beerDto.getBeer().getPrice(),
 				beerDto.getBeer().getVolume(),
-				beerDto.getIsLiked(),
+				beerDto.getLiked(),
 				beerDto.getBeer().getCreatedAt(),
 				beerDto.getBeer().getModifiedAt()
 		);

@@ -2,6 +2,7 @@ package com.beerair.core.beer.application;
 
 import com.beerair.core.beer.domain.vo.rs.BeerResponse;
 import com.beerair.core.beer.infrastructure.BeerRepository;
+import com.beerair.core.error.exception.beer.BeerNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,12 @@ public class BeerService {
 		var memberId = getLoginMemberId();
 
 		if (memberId == null) {
-			return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId));
+			return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId)
+					.orElseThrow(() -> new BeerNotFoundException()));
 		}
 
-		return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId, memberId));
+		return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId, memberId)
+				.orElseThrow(() -> new BeerNotFoundException()));
 	}
 
     public Boolean existsByKorNameOrEngName(String name) {

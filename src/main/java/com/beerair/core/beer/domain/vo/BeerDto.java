@@ -10,7 +10,7 @@ public interface BeerDto {
 
 	BeerTypeInfo getBeerType();
 
-	Boolean getIsLiked();
+	Boolean getLiked();
 
 	interface BeerInfo {
 
