@@ -14,6 +14,7 @@ public class CountryService {
     private final CountryRepository countryRepository;
 
     public CountryResponses getByContinentId(Long continentId) {
+
         return CountryResponses.from(
                 countryRepository.findByContinentId(continentId)
                 .stream()

@@ -1,5 +1,6 @@
 package com.beerair.core.region.facade;
 
+import com.beerair.core.error.exception.region.ContinentNotFoundException;
 import com.beerair.core.region.application.ContinentService;
 import com.beerair.core.region.application.CountryService;
 import com.beerair.core.region.domain.vo.rs.ContinentResponses;
@@ -11,14 +12,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RegionFacade {
 
-    private ContinentService continentService;
-    private CountryService countryService;
+    private final ContinentService continentService;
+    private final CountryService countryService;
 
     public ContinentResponses getAll() {
         return continentService.getAll();
     }
 
     public CountryResponses getCountriesByContinentId(Long continentId) {
+
+        validateContinent(continentId);
+
         return countryService.getByContinentId(continentId);
+    }
+
+    private void validateContinent(Long continentId) {
+        if (!continentService.exists(continentId)) {
+            throw new ContinentNotFoundException();
+        }
     }
 }

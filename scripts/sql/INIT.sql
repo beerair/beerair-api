@@ -216,9 +216,10 @@ INSERT INTO beer (id, alcohol,content,price,`type_id`,volume,country_id,deleted_
     (150,4.3,'신선한 생맥주 그대로 병입한 제품으로 생맥주의 부드러움이 특징',2800,4,500,17,NULL,'https://beerair-service.s3.ap-northeast-2.amazonaws.com/BEER/tsingtao_pure_draft.png','TSINGTAO PURE DRAFT','칭따오 퓨어 드래프트',now(), now()),
     (151,5,'라거보다 깊고 에일보다 깔끔한 맥주',2500,4,500,12,NULL,'https://beerair-service.s3.ap-northeast-2.amazonaws.com/BEER/hop_house_13_lager.png','HOP HOUSE 13 LAGER','13 홉 하우스 라거',now(), now());
 
-INSERT INTO level (id, image_url,req,tier, created_at, modified_at) VALUES
-  (1, 'https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/1.png',0,'1', now(), now()),
-  (2, 'https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/2.png',1,'2', now(), now()),
-  (3, 'https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/3.png',5,'3', now(), now()),
-  (4, 'https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/4.png',12,'4', now(), now()),
-  (5, 'https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/5.png',20,'5', now(), now());
+
+INSERT INTO level (id, image_url, request_exp, tier, created_at, modified_at) VALUES
+  (1, 'https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/1.png',0,1, now(), now()),
+  (2, 'https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/2.png',1,2, now(), now()),
+  (3, 'https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/3.png',5,3, now(), now()),
+  (4, 'https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/4.png',12,4, now(), now()),
+  (5, 'https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/5.png',20,5, now(), now());
