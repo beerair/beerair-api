@@ -15,8 +15,12 @@ public class RegionFacade {
     private final ContinentService continentService;
     private final CountryService countryService;
 
-    public ContinentResponses getAll() {
+    public ContinentResponses getAllContinents() {
         return continentService.getAll();
+    }
+
+    public CountryResponses getAllCountries() {
+        return countryService.getAll();
     }
 
     public CountryResponses getCountriesByContinentId(Long continentId) {

@@ -13,12 +13,19 @@ import java.util.stream.Collectors;
 public class CountryService {
     private final CountryRepository countryRepository;
 
+    public CountryResponses getAll() {
+        return CountryResponses.from(
+                countryRepository.findAll()
+                        .stream().map(CountryResponse::from)
+                        .collect(Collectors.toList()));
+    }
+
     public CountryResponses getByContinentId(Long continentId) {
 
         return CountryResponses.from(
                 countryRepository.findByContinentId(continentId)
-                .stream()
-                .map(CountryResponse::from)
-                .collect(Collectors.toList()));
+                        .stream()
+                        .map(CountryResponse::from)
+                        .collect(Collectors.toList()));
     }
 }

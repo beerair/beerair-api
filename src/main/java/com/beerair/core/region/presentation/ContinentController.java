@@ -25,7 +25,7 @@ public class ContinentController {
     @ApiOperation(value = "대륙 목록 조회 api")
     @GetMapping
     public ResponseEntity<ContinentResponses> getAll() {
-        return ResponseDto.ok(regionFacade.getAll());
+        return ResponseDto.ok(regionFacade.getAllContinents());
     }
 
     @ApiOperation(value = "특정 대륙 내 국가 목록 조회 api")
