@@ -3,13 +3,17 @@ package com.beerair.core.auth.infrastructure.jwt;
 import java.security.Key;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.beerair.core.auth.domain.AuthTokenProvider;
 
@@ -23,17 +27,18 @@ public abstract class JJwtProvider implements AuthTokenProvider {
     @Setter
     private JJwtProvider next;
 
-    private SignatureAlgorithm signatureAlgorithm;
-    private Key signatureKey;
-    private int expiration;
-    private JwtParser jwtParser;
+    private final SignatureAlgorithm signatureAlgorithm;
+    private final Key signatureKey;
+    private final int expiration;
+    private final JwtParser jwtParser;
 
     public JJwtProvider(String signatureAlgorithm, String signatureKey, int expiration) {
         this.signatureAlgorithm = SignatureAlgorithm.forName(signatureAlgorithm);
         this.signatureKey = new SecretKeySpec(
             DatatypeConverter.parseBase64Binary(signatureKey),
-            signatureAlgorithm
+            this.signatureAlgorithm.getJcaName()
         );
+
         this.jwtParser = Jwts.parserBuilder()
                              .setSigningKey(this.signatureKey)
                              .build();
@@ -42,6 +47,8 @@ public abstract class JJwtProvider implements AuthTokenProvider {
 
     @Override
     public final String getId(String token) {
+        var a = jwtParser.parseClaimsJws(token)
+                         .getBody();
         return jwtParser.parseClaimsJws(token)
                         .getBody()
                         .getSubject();
@@ -49,10 +56,17 @@ public abstract class JJwtProvider implements AuthTokenProvider {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(String token) {
-        //noinspection unchecked
-        return (Collection<? extends GrantedAuthority>) jwtParser.parseClaimsJws(token)
-                        .getBody()
-                        .get(ClaimKey.AUTHORITIES);
+        // json 변환 과정 중 Map 으로 변환됨
+        @SuppressWarnings("unchecked")
+        List<Map<String, String>> raw = (List<Map<String, String>>) jwtParser
+            .parseClaimsJws(token)
+            .getBody()
+            .get(ClaimKey.AUTHORITIES);
+        return raw
+            .stream()
+            .map(each -> each.get(ClaimKey.AUTHORITY))
+            .map(SimpleGrantedAuthority::new)
+            .collect(Collectors.toSet());
     }
 
     @Override
@@ -77,10 +91,11 @@ public abstract class JJwtProvider implements AuthTokenProvider {
 
     protected abstract String getId(Authentication authentication);
 
-    protected abstract Collection<? extends GrantedAuthority> getAuthorities(Authentication authentication);
+    protected abstract Set<GrantedAuthority> getAuthorities(Authentication authentication);
 
     @UtilityClass
     private static class ClaimKey {
         private final String AUTHORITIES = "authorities";
+        private final String AUTHORITY = "authority";
     }
 }

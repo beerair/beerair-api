@@ -2,7 +2,11 @@ package com.beerair.core.unit.auth.infrastructure.jwt;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +17,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 class JJwtProviderTest {
     private Authentication authentication;
+    private static final String ALGORITHM = "HS256";
+    private static final String KEY = "8L49ndmVcjq6zOnWpGyQW7NoeEpAE9pP7csj1kWCnC4KOcrK";
 
     @BeforeEach
     void setUp() {
@@ -25,7 +31,11 @@ class JJwtProviderTest {
         // Given
         final var ID = "ID";
         final GrantedAuthority AUTHORITY = new SimpleGrantedAuthority("1");
-        var provider = new FakeJJwtProvider("HS256", "1234", 1000);
+        var provider = new FakeJJwtProvider(
+            ALGORITHM,
+            KEY,
+            10000
+        );
         provider.setProvidable(true);
         provider.setId(ID);
         provider.setAuthorities(Set.of(AUTHORITY));
@@ -36,14 +46,15 @@ class JJwtProviderTest {
         // Then
         assertThat(provider.getId(token))
             .isEqualTo(ID);
-        assertThat(provider.getAuthorities(token).contains(AUTHORITY))
-            .isTrue();
+        //noinspection unchecked
+        assertThat((Set<GrantedAuthority>) provider.getAuthorities(token))
+            .containsExactly(AUTHORITY);
     }
 
     @DisplayName("토큰 만료")
     @Test
     void verify() {
-        var provider = new FakeJJwtProvider("HS256", "1234", 0);
+        var provider = new FakeJJwtProvider(ALGORITHM, KEY, 0);
         provider.setProvidable(true);
 
         String token = provider.encode(authentication);

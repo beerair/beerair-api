@@ -48,7 +48,7 @@ public class OAuth2Member implements OAuth2User {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Set<GrantedAuthority> getAuthorities() {
         return authorities;
     }
 }

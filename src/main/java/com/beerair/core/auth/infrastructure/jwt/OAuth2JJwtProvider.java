@@ -1,6 +1,7 @@
 package com.beerair.core.auth.infrastructure.jwt;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,7 +28,7 @@ public final class OAuth2JJwtProvider extends JJwtProvider {
     }
 
     @Override
-    protected Collection<? extends GrantedAuthority> getAuthorities(Authentication authentication) {
+    protected Set<GrantedAuthority> getAuthorities(Authentication authentication) {
         return oAuth2Member(authentication).getAuthorities();
     }
 }
