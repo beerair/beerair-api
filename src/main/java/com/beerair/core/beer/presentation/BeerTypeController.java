@@ -22,7 +22,7 @@ public class BeerTypeController {
 
     @ApiOperation(value = "맥주 종류 목록 조회 api")
     @GetMapping
-    public ResponseEntity<BeerTypeResponses> getAll() {
+    public ResponseEntity<ResponseDto<BeerTypeResponses>> getAll() {
         return ResponseDto.ok(beerTypeService.getAll());
     }
 }
