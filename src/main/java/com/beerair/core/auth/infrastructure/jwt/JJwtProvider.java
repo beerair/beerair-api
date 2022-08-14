@@ -1,11 +1,10 @@
 package com.beerair.core.auth.infrastructure.jwt;
 
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -15,12 +14,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import com.beerair.core.auth.domain.AuthTokenProvider;
+import com.beerair.core.auth.application.AuthTokenProvider;
 
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 public abstract class JJwtProvider implements AuthTokenProvider {
@@ -47,8 +47,6 @@ public abstract class JJwtProvider implements AuthTokenProvider {
 
     @Override
     public final String getId(String token) {
-        var a = jwtParser.parseClaimsJws(token)
-                         .getBody();
         return jwtParser.parseClaimsJws(token)
                         .getBody()
                         .getSubject();
@@ -56,42 +54,38 @@ public abstract class JJwtProvider implements AuthTokenProvider {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(String token) {
-        // json 변환 과정 중 Map 으로 변환됨
         @SuppressWarnings("unchecked")
-        List<Map<String, String>> raw = (List<Map<String, String>>) jwtParser
+        List<String> authorities = jwtParser
             .parseClaimsJws(token)
             .getBody()
-            .get(ClaimKey.AUTHORITIES);
-        return raw
+            .get(ClaimKey.AUTHORITIES, ArrayList.class);
+        return authorities
             .stream()
-            .map(each -> each.get(ClaimKey.AUTHORITY))
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toSet());
     }
 
+    @SneakyThrows
     @Override
     public final String encode(Authentication authentication) {
         if (!isProvidable(authentication)) {
             return next.encode(authentication);
         }
+        Date now = new Date();
         return Jwts.builder()
             .setSubject(getId(authentication))
             .claim(ClaimKey.AUTHORITIES, getAuthorities(authentication))
-            .setExpiration(createExpiration())
             .signWith(signatureKey, signatureAlgorithm)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(now.getTime() + expiration))
             .compact();
-    }
-
-    private Date createExpiration() {
-        Date now = new Date();
-        return new Date(now.getTime() + expiration);
     }
 
     protected abstract boolean isProvidable(Authentication authentication);
 
     protected abstract String getId(Authentication authentication);
 
-    protected abstract Set<GrantedAuthority> getAuthorities(Authentication authentication);
+    protected abstract List<String> getAuthorities(Authentication authentication);
 
     @UtilityClass
     private static class ClaimKey {

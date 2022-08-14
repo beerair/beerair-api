@@ -10,10 +10,10 @@ import lombok.Getter;
 @Getter
 public enum Role {
     USER(Set.of(
-        new SimpleGrantedAuthority("user"))
+        new SimpleGrantedAuthority("ROLE_USER"))
     ),
     MEMBER(Set.of(
-        new SimpleGrantedAuthority("member"))
+        new SimpleGrantedAuthority("ROLE_MEMBER"))
     );
 
     private final Set<GrantedAuthority> authorities;

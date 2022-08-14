@@ -1,6 +1,5 @@
-package com.beerair.core.auth.domain;
+package com.beerair.core.auth.infrastructure.oauth2.dto;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,13 +26,15 @@ public class OAuth2Member implements OAuth2User {
     private Map<String, Object> attributes;
     private Set<GrantedAuthority> authorities;
 
-    public static OAuth2Member of(Member member) {
+    public static OAuth2Member of(Member member, Map<String, Object> attributes) {
         return OAuth2Member.builder()
             .id(member.getId())
             .socialType(member.getSocialType())
             .socialId(member.getSociaiId())
             .email(member.getEmail())
             .profile(member.getProfileUrl())
+            .authorities(member.getRole().getAuthorities())
+            .attributes(attributes)
             .build();
     }
 

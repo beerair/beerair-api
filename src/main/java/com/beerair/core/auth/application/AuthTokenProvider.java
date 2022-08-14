@@ -1,4 +1,4 @@
-package com.beerair.core.auth.domain;
+package com.beerair.core.auth.application;
 
 import java.util.Collection;
 

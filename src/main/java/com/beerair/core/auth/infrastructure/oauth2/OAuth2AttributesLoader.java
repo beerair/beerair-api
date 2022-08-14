@@ -1,6 +1,8 @@
-package com.beerair.core.auth.domain;
+package com.beerair.core.auth.infrastructure.oauth2;
 
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+
+import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
 
 import lombok.Setter;
 

@@ -7,7 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
-import com.beerair.core.auth.domain.OAuth2Attributes;
+import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
 import com.beerair.core.member.domain.vo.SocialType;
 
 import lombok.experimental.UtilityClass;

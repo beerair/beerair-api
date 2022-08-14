@@ -1,6 +1,7 @@
 package com.beerair.core.unit.auth.infrastructure.jwt;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.core.Authentication;
@@ -14,7 +15,7 @@ import lombok.Setter;
 public class FakeJJwtProvider extends JJwtProvider {
     private boolean providable;
     private String id;
-    private Set<GrantedAuthority> authorities;
+    private List<String> authorities;
 
     public FakeJJwtProvider(String signatureAlgorithm, String signatureKey, int expiration) {
         super(signatureAlgorithm, signatureKey, expiration);
@@ -31,7 +32,7 @@ public class FakeJJwtProvider extends JJwtProvider {
     }
 
     @Override
-    protected Set<GrantedAuthority> getAuthorities(Authentication authentication) {
+    protected List<String> getAuthorities(Authentication authentication) {
         return authorities;
     }
 }

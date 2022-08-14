@@ -11,6 +11,9 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.beerair.core.auth.application.AuthTokenAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
     private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AuthTokenAuthenticationFilter authTokenAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -45,7 +49,8 @@ public class SecurityConfig {
         // /oauth2/authorization/naver
         http.oauth2Login()
             .successHandler(authenticationSuccessHandler)
-            .userInfoEndpoint().userService(oAuth2UserService);
+            .userInfoEndpoint()
+            .userService(oAuth2UserService);
     }
 
     private void configureAuthorizeRequests(HttpSecurity http) throws Exception {
@@ -55,6 +60,6 @@ public class SecurityConfig {
     }
 
     private void configureFilters(HttpSecurity http) {
-        //http.addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

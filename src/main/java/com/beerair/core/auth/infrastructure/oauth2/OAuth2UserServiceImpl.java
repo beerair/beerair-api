@@ -1,4 +1,4 @@
-package com.beerair.core.auth.application;
+package com.beerair.core.auth.infrastructure.oauth2;
 
 import java.util.Optional;
 
@@ -9,9 +9,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.beerair.core.auth.domain.OAuth2AttributesLoader;
-import com.beerair.core.auth.domain.OAuth2Attributes;
-import com.beerair.core.auth.domain.OAuth2Member;
+import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
+import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.Role;
 import com.beerair.core.member.infrastructure.MemberRepository;
@@ -28,7 +27,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
     @Override
     public OAuth2User loadUser(OAuth2UserRequest request) throws OAuth2AuthenticationException {
         OAuth2Attributes attributes = attributeLoader.load(request);
-        return OAuth2Member.of(member(attributes));
+        return OAuth2Member.of(member(attributes), attributes.getAttributes());
     }
 
     private Member member(OAuth2Attributes attributes) {

@@ -22,7 +22,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.beerair.core.auth.domain.OAuth2AttributesLoader;
+import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
 import com.beerair.core.fixture.Fixture;
 

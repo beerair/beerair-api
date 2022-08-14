@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
-import com.beerair.core.auth.domain.OAuth2AttributesLoader;
+import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 
 @ExtendWith(MockitoExtension.class)
 public class DelegateOAuth2AttributesLoaderTest {

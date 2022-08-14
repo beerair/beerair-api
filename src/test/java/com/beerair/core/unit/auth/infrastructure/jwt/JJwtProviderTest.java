@@ -30,7 +30,7 @@ class JJwtProviderTest {
     void crypto() {
         // Given
         final var ID = "ID";
-        final GrantedAuthority AUTHORITY = new SimpleGrantedAuthority("1");
+        final var AUTH = "MEMBER";
         var provider = new FakeJJwtProvider(
             ALGORITHM,
             KEY,
@@ -38,7 +38,7 @@ class JJwtProviderTest {
         );
         provider.setProvidable(true);
         provider.setId(ID);
-        provider.setAuthorities(Set.of(AUTHORITY));
+        provider.setAuthorities(List.of(AUTH));
 
         // When
         String token = provider.encode(authentication);
@@ -48,7 +48,7 @@ class JJwtProviderTest {
             .isEqualTo(ID);
         //noinspection unchecked
         assertThat((Set<GrantedAuthority>) provider.getAuthorities(token))
-            .containsExactly(AUTHORITY);
+            .containsExactly(new SimpleGrantedAuthority(AUTH));
     }
 
     @DisplayName("토큰 만료")

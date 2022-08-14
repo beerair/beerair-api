@@ -1,12 +1,12 @@
 package com.beerair.core.auth.infrastructure.jwt;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import com.beerair.core.auth.domain.OAuth2Member;
+import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 
 public final class OAuth2JJwtProvider extends JJwtProvider {
     public OAuth2JJwtProvider(String signatureAlgorithm, String signatureKey, int expiration) {
@@ -20,7 +20,7 @@ public final class OAuth2JJwtProvider extends JJwtProvider {
 
     @Override
     protected String getId(Authentication authentication) {
-        return oAuth2Member(authentication).getName();
+        return oAuth2Member(authentication).getId();
     }
 
     private OAuth2Member oAuth2Member(Authentication authentication) {
@@ -28,7 +28,11 @@ public final class OAuth2JJwtProvider extends JJwtProvider {
     }
 
     @Override
-    protected Set<GrantedAuthority> getAuthorities(Authentication authentication) {
-        return oAuth2Member(authentication).getAuthorities();
+    protected List<String> getAuthorities(Authentication authentication) {
+        return oAuth2Member(authentication)
+            .getAuthorities()
+            .stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
     }
 }
