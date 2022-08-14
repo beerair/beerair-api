@@ -9,4 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface BeerSuggestRepository extends JpaRepository<BeerSuggest, Long> {
     @Transactional(readOnly = true)
     Boolean existsByBeerNameAndMemberId(String name, Long memberId);
+
+    @Transactional(readOnly = true)
+    Long countByMemberId(Long memberId);
 }

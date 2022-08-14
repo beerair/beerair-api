@@ -1,6 +1,7 @@
 package com.beerair.core.suggest.presentation;
 
 import com.beerair.core.common.dto.ResponseDto;
+import com.beerair.core.suggest.application.BeerSuggestService;
 import com.beerair.core.suggest.dto.request.BeerSuggestRegisterRequest;
 import com.beerair.core.suggest.facade.BeerSuggestFacade;
 import io.swagger.annotations.Api;
@@ -22,6 +23,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequiredArgsConstructor
 public class BeerSuggestController {
     private final BeerSuggestFacade beerSuggestFacade;
+    private final BeerSuggestService beerSuggestService;
 
     @ApiOperation(value = "맥주 등록 요청시 validation api")
     @GetMapping("/validate")
@@ -51,7 +53,8 @@ public class BeerSuggestController {
 
     @ApiOperation(value = "요청한 맥주 목록 count api")
     @GetMapping("/count")
-    public ResponseEntity<Void> count() {
-        return ResponseDto.noContent();
+    public ResponseEntity<?> count() {
+        var response = beerSuggestService.count(1L);
+        return ResponseDto.ok(response);
     }
 }
