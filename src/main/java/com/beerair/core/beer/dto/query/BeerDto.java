@@ -1,4 +1,4 @@
-package com.beerair.core.beer.dto.response;
+package com.beerair.core.beer.dto.query;
 
 import java.time.LocalDateTime;
 

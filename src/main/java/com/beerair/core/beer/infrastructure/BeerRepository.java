@@ -1,7 +1,7 @@
 package com.beerair.core.beer.infrastructure;
 
 import com.beerair.core.beer.domain.Beer;
-import com.beerair.core.beer.dto.response.BeerDto;
+import com.beerair.core.beer.dto.query.BeerDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

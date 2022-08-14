@@ -2,6 +2,7 @@ package com.beerair.core.beer.dto.response;
 
 import com.beerair.core.beer.domain.Beer;
 import com.beerair.core.beer.domain.BeerType;
+import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.region.domain.Country;
 import com.beerair.core.region.domain.vo.rs.CountryResponse;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
