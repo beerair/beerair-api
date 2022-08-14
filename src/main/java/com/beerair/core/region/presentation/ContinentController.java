@@ -1,5 +1,6 @@
 package com.beerair.core.region.presentation;
 
+import com.beerair.core.beer.dto.response.BeerTypeResponses;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.region.domain.vo.rs.ContinentResponses;
 import com.beerair.core.region.domain.vo.rs.CountryResponses;
@@ -24,13 +25,13 @@ public class ContinentController {
 
     @ApiOperation(value = "대륙 목록 조회 api")
     @GetMapping
-    public ResponseEntity<ContinentResponses> getAll() {
+    public ResponseEntity<ResponseDto<ContinentResponses>> getAll() {
         return ResponseDto.ok(regionFacade.getAllContinents());
     }
 
     @ApiOperation(value = "특정 대륙 내 국가 목록 조회 api")
     @GetMapping(value = "/{continentId}/countries")
-    public ResponseEntity<CountryResponses> getCountriesByContinentId(
+    public ResponseEntity<ResponseDto<CountryResponses>> getCountriesByContinentId(
             @PathVariable(value = "continentId") Long continentId
     ) {
         return ResponseDto.ok(regionFacade.getCountriesByContinentId(continentId));

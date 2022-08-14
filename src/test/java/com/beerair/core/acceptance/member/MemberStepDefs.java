@@ -2,16 +2,17 @@ package com.beerair.core.acceptance.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.cucumber.spring.ScenarioScope;
 
 @ScenarioScope
 public class MemberStepDefs {
     @Autowired
-    private MemberStepClient memberHttpClient;
+    private MemberStepClient memberStepClient;
 
-    @Given("{string} 이메일로 회원가입 했을때")
-    public void sign(String email) {
-        memberHttpClient.sign();
+    @When("사용자 정보 등록을 요청하면")
+    public void sign() {
+        assert(false);
     }
 }

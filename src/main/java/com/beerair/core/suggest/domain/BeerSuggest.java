@@ -1,7 +1,7 @@
 package com.beerair.core.suggest.domain;
 
-import com.beerair.core.suggest.domain.vo.SuggestStatus;
 import com.beerair.core.common.domain.BaseEntity;
+import com.beerair.core.suggest.domain.vo.SuggestStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +35,7 @@ public class BeerSuggest extends BaseEntity {
     public BeerSuggest(String name, String urls, Long memberId) {
         this.beerName = name;
         this.imageUrls = urls;
+        this.status = SuggestStatus.PROCEED;
         this.memberId = memberId;
     }
 }

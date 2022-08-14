@@ -1,4 +1,4 @@
-package com.beerair.core.beer.domain.vo.rs;
+package com.beerair.core.beer.dto.response;
 
 import lombok.AccessLevel;
 import lombok.Getter;

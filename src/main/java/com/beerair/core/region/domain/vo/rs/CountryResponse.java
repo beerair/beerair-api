@@ -1,6 +1,6 @@
 package com.beerair.core.region.domain.vo.rs;
 
-import com.beerair.core.beer.domain.vo.BeerDto;
+import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.region.domain.Country;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;

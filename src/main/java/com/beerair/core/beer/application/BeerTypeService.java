@@ -1,7 +1,7 @@
 package com.beerair.core.beer.application;
 
-import com.beerair.core.beer.domain.vo.rs.BeerTypeResponse;
-import com.beerair.core.beer.domain.vo.rs.BeerTypeResponses;
+import com.beerair.core.beer.dto.response.BeerTypeResponse;
+import com.beerair.core.beer.dto.response.BeerTypeResponses;
 import com.beerair.core.beer.infrastructure.BeerTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

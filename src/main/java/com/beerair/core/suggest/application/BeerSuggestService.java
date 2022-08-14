@@ -1,8 +1,12 @@
 package com.beerair.core.suggest.application;
 
 import com.beerair.core.suggest.domain.BeerSuggest;
+import com.beerair.core.suggest.dto.response.BeerSuggestCountResponse;
+import com.beerair.core.suggest.dto.response.BeerSuggestResponse;
 import com.beerair.core.suggest.infrastructure.BeerSuggestRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,5 +20,16 @@ public class BeerSuggestService {
 
     public BeerSuggest save(BeerSuggest beerSuggest) {
         return beerSuggestRepository.save(beerSuggest);
+    }
+
+    public BeerSuggestCountResponse count(Long memberId) {
+        var count = beerSuggestRepository.countByMemberId(memberId);
+
+        return new BeerSuggestCountResponse(memberId, count);
+    }
+
+    public Page<BeerSuggestResponse> getAll(Pageable pageable, Long memberId) {
+        return beerSuggestRepository.findAllById(pageable, memberId)
+                .map(BeerSuggestResponse::new);
     }
 }

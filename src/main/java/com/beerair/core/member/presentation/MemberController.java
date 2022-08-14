@@ -28,12 +28,6 @@ public class MemberController {
         return ResponseDto.created("ok");
     }
 
-    @ApiOperation(value = "로그인 API", notes = "MOCK UP API")
-    @PostMapping("/login")
-    public ResponseEntity<?> login() {
-        return ResponseDto.ok("ok");
-    }
-
     @ApiOperation(value = "탈퇴 API", notes = "MOCK UP API")
     @DeleteMapping("/resign")
     public ResponseEntity<?> resign() {

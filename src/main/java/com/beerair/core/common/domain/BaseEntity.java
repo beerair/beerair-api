@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @MappedSuperclass
@@ -23,5 +24,9 @@ public abstract class BaseEntity {
 
     public void delete() {
         this.deletedAt = LocalDateTime.now();
+    }
+
+    public boolean isDeleted() {
+        return Objects.nonNull(deletedAt);
     }
 }

@@ -1,7 +1,7 @@
 package com.beerair.core.beer.infrastructure;
 
 import com.beerair.core.beer.domain.Beer;
-import com.beerair.core.beer.domain.vo.BeerDto;
+import com.beerair.core.beer.dto.query.BeerDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +13,6 @@ import java.util.Optional;
 
 @Repository
 public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificationExecutor<Beer> {
-
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT b as beer, " +
 	               "c as country, bt as beerType, false as liked " +

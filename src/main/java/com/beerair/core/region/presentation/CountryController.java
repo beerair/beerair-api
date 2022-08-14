@@ -22,7 +22,7 @@ public class CountryController {
 
     @ApiOperation(value = "국가 목록 조회 api")
     @GetMapping
-    public ResponseEntity<CountryResponses> getAll() {
+    public ResponseEntity<ResponseDto<CountryResponses>> getAll() {
         return ResponseDto.ok(regionFacade.getAllCountries());
     }
 
