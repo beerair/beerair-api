@@ -1,5 +1,6 @@
 package com.beerair.core.suggest.presentation;
 
+import com.beerair.core.common.dto.PageDto;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.suggest.application.BeerSuggestService;
 import com.beerair.core.suggest.dto.request.BeerSuggestRegisterRequest;
@@ -7,6 +8,8 @@ import com.beerair.core.suggest.facade.BeerSuggestFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,13 +50,17 @@ public class BeerSuggestController {
 
     @ApiOperation(value = "요청한 맥주 목록 조회 api")
     @GetMapping
-    public ResponseEntity<Void> getAll() {
-        return ResponseDto.noContent();
+    public ResponseEntity<?> getAll(
+            @PageableDefault Pageable pageable
+    ) {
+        var response = beerSuggestService.getAll(pageable, 1L);
+        return PageDto.ok(response);
     }
 
     @ApiOperation(value = "요청한 맥주 목록 count api")
     @GetMapping("/count")
     public ResponseEntity<?> count() {
+        // TODO : 인증, 인가 로직 붙이기
         var response = beerSuggestService.count(1L);
         return ResponseDto.ok(response);
     }

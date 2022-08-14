@@ -2,7 +2,6 @@ package com.beerair.core.suggest.facade;
 
 import com.beerair.core.beer.application.BeerService;
 import com.beerair.core.common.util.MapperUtil;
-import com.beerair.core.error.dto.ErrorMessage;
 import com.beerair.core.error.exception.suggest.BeerAlreadyExistsException;
 import com.beerair.core.error.exception.suggest.BeerSuggestAlreadyExistsException;
 import com.beerair.core.suggest.application.BeerSuggestService;
