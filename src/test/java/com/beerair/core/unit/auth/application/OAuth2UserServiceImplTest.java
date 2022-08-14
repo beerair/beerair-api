@@ -19,6 +19,7 @@ import com.beerair.core.auth.infrastructure.oauth2.OAuth2UserServiceImpl;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.member.domain.Member;
+import com.beerair.core.member.domain.vo.Role;
 import com.beerair.core.member.infrastructure.MemberRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,7 +46,7 @@ public class OAuth2UserServiceImplTest {
     void loadUserWithSign() {
         stubbingGetMember(null);
         when(memberRepository.save(any()))
-            .thenReturn(Member.builder().build());
+            .thenReturn(Member.builder().role(Role.USER).build());
 
         oAuth2UserService.loadUser(request);
 
@@ -56,7 +57,7 @@ public class OAuth2UserServiceImplTest {
     @DisplayName("OAuth2로 등록된 유저가 있다면 해당 유저 정보를 사용한다.")
     @Test
     void loadUserWithLogin() {
-        Member member = Member.builder().sociaiId("1234").build();
+        Member member = Member.builder().role(Role.MEMBER).sociaiId("1234").build();
         stubbingGetMember(member);
 
         OAuth2Member oAuth2Member = (OAuth2Member) oAuth2UserService.loadUser(request);
