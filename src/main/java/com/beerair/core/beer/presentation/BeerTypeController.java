@@ -1,7 +1,7 @@
 package com.beerair.core.beer.presentation;
 
 import com.beerair.core.beer.application.BeerTypeService;
-import com.beerair.core.beer.domain.vo.rs.BeerTypeResponses;
+import com.beerair.core.beer.dto.response.BeerTypeResponses;
 import com.beerair.core.common.dto.ResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

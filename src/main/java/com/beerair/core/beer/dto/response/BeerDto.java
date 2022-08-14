@@ -1,4 +1,4 @@
-package com.beerair.core.beer.domain.vo;
+package com.beerair.core.beer.dto.response;
 
 import java.time.LocalDateTime;
 
