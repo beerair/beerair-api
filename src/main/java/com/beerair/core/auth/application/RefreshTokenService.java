@@ -8,15 +8,19 @@ import com.beerair.core.auth.infrastructure.RefreshTokenRepository;
 import com.beerair.core.error.exception.auth.RefreshTokenNotFoundException;
 import com.beerair.core.member.dto.LoggedInUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class RefreshTokenProvider {
+public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
-    private final AuthTokenEncoder authTokenEncoder;
+    @Qualifier(TokenType.ACCESS)
+    private final AuthTokenEncoder accessTokenEncoder;
+    @Qualifier(TokenType.REFRESH)
+    private final AuthTokenEncoder refreshTokenEncoder;
 
     public void create(String token) {
         refreshTokenRepository.save(new RefreshToken(token));
@@ -25,13 +29,13 @@ public class RefreshTokenProvider {
     public TokenResponse issueToken(String token) {
         get(token).use();
 
-        LoggedInUser loggedInUser = authTokenEncoder.getLoggedInUser(token);
-        var authorities = authTokenEncoder.getAuthorities(token);
+        LoggedInUser loggedInUser = refreshTokenEncoder.getLoggedInUser(token);
+        var authorities = refreshTokenEncoder.getAuthorities(token);
 
-        var newAccess = authTokenEncoder.encode(TokenType.ACCESS, loggedInUser, authorities);
-        var newRefresh = authTokenEncoder.encode(TokenType.REFRESH, loggedInUser, authorities);
+        var newAccess = accessTokenEncoder.encode(loggedInUser, authorities);
+        var newRefresh = refreshTokenEncoder.encode(loggedInUser, authorities);
         return new TokenResponse(
-                newAccess, newRefresh, authTokenEncoder.getExpired(newAccess)
+                newAccess, newRefresh, accessTokenEncoder.getExpired(newAccess)
         );
     }
 

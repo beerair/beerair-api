@@ -12,7 +12,7 @@ public class AuthTokenAuthentication extends AbstractAuthenticationToken {
     private final LoggedInUser loggedInUser;
 
     @Builder
-    private AuthTokenAuthentication(Collection<? extends GrantedAuthority> authorities, String token, LoggedInUser loggedInUser) {
+    private AuthTokenAuthentication(String token, LoggedInUser loggedInUser, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.token = token;
         this.loggedInUser = loggedInUser;

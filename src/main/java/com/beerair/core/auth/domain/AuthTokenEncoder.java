@@ -8,9 +8,9 @@ import java.util.Collection;
 import java.util.Date;
 
 public interface AuthTokenEncoder {
-    String encode(TokenType tokenType, Authentication authentication);
+    String encode(AuthTokenAuthentication authentication);
 
-    String encode(TokenType tokenType, LoggedInUser loggedInUser, Collection<? extends GrantedAuthority> authorities);
+    String encode(LoggedInUser loggedInUser, Collection<? extends GrantedAuthority> authorities);
 
     Collection<? extends GrantedAuthority> getAuthorities(String token);
 

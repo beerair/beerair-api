@@ -1,5 +1,6 @@
 package com.beerair.core.auth.infrastructure.oauth2.dto;
 
+import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.SocialType;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -31,9 +33,17 @@ public class OAuth2Member implements OAuth2User {
                 .socialId(member.getSociaiId())
                 .email(member.getEmail())
                 .profile(member.getProfileUrl())
-                .authorities(member.getRole().getAuthorities())
+                .authorities(authorities(member))
                 .attributes(attributes)
                 .build();
+    }
+
+    private static Set<GrantedAuthority> authorities(Member member) {
+        return member.getRole()
+                .getAuthorities()
+                .stream()
+                .map(CustomGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
 
     @Override

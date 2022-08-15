@@ -1,17 +1,19 @@
 package com.beerair.core.fixture.fake;
 
+import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenEncoder;
-import com.beerair.core.auth.domain.TokenType;
-import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
+import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
+import com.beerair.core.error.TestDebugException;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.dto.LoggedInUser;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FakeAuthTokenEncoder implements AuthTokenEncoder {
     private static final Map<String, Member> memberEachToken = new HashMap<>();
@@ -20,18 +22,15 @@ public class FakeAuthTokenEncoder implements AuthTokenEncoder {
         memberEachToken.put(token, member);
     }
 
-    @Override
-    public String encode(TokenType tokenType, Authentication authentication) {
-        if (authentication instanceof OAuth2Member) {
-            var oAuth2Member = (OAuth2Member) authentication;
-            return findTokenByMemberId(oAuth2Member.getId());
-        }
-        return null;
+    private static Member get(String token) {
+        return Optional
+                .ofNullable(memberEachToken.get(token))
+                .orElseThrow(() -> new TestDebugException("사전에 등록된 token이 없습니다."));
     }
 
     @Override
-    public String encode(TokenType tokenType, LoggedInUser loggedInUser, Collection<? extends GrantedAuthority> authorities) {
-        return null;
+    public String encode(AuthTokenAuthentication authentication) {
+        return findTokenByMemberId(authentication.getPrincipal().getId());
     }
 
     private String findTokenByMemberId(String memberId) {
@@ -41,17 +40,27 @@ public class FakeAuthTokenEncoder implements AuthTokenEncoder {
                 .filter(each -> each.getValue().getId().equals(memberId))
                 .findFirst()
                 .map(Map.Entry::getKey)
-                .orElseThrow(() -> new RuntimeException("사전에 등록된 Auth Token 이 없습니다."));
+                .orElseThrow(() -> new TestDebugException("사전에 등록된 memberId가 없습니다."));
+    }
+
+    @Override
+    public String encode(LoggedInUser loggedInUser, Collection<? extends GrantedAuthority> authorities) {
+        return findTokenByMemberId(loggedInUser.getId());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(String token) {
-        return memberEachToken.get(token).getRole().getAuthorities();
+        return get(token)
+                .getRole()
+                .getAuthorities()
+                .stream()
+                .map(CustomGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
 
     @Override
     public LoggedInUser getLoggedInUser(String token) {
-        var member = memberEachToken.get(token);
+        var member = get(token);
         return LoggedInUser.builder()
                 .id(member.getId())
                 .nickname(member.getNickname())

@@ -1,30 +1,27 @@
 package com.beerair.core.auth.infrastructure.jwt;
 
+import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenEncoder;
-import com.beerair.core.auth.domain.TokenType;
+import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
+import com.beerair.core.common.util.MapperUtil;
 import com.beerair.core.member.dto.LoggedInUser;
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
-public abstract class JJwtEncoder implements AuthTokenEncoder {
-    @Setter
-    private JJwtEncoder next;
+public final class JJwtEncoder implements AuthTokenEncoder {
     private final SignatureAlgorithm signatureAlgorithm;
     private final Key signatureKey;
     private final int expiration;
@@ -36,31 +33,29 @@ public abstract class JJwtEncoder implements AuthTokenEncoder {
                 DatatypeConverter.parseBase64Binary(signatureKey),
                 this.signatureAlgorithm.getJcaName()
         );
+        this.expiration = expiration;
 
         this.jwtParser = Jwts.parserBuilder()
                 .setSigningKey(this.signatureKey)
                 .build();
-        this.expiration = expiration;
     }
 
     @Override
     public LoggedInUser getLoggedInUser(String token) {
-        return jwtParser.parseClaimsJws(token)
+        String json = jwtParser
+                .parseClaimsJws(token)
                 .getBody()
-                .get(ClaimKey.USER, LoggedInUser.class);
+                .get(ClaimKey.USER, String.class);
+        return MapperUtil.readValue(json, TypeRef.USER);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(String token) {
-        @SuppressWarnings("unchecked")
-        List<String> authorities = jwtParser
+        String json = jwtParser
                 .parseClaimsJws(token)
                 .getBody()
-                .get(ClaimKey.AUTHORITIES, ArrayList.class);
-        return authorities
-                .stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toSet());
+                .get(ClaimKey.AUTHORITIES, String.class);
+        return MapperUtil.readValue(json, TypeRef.AUTHORITIES);
     }
 
     @Override
@@ -70,49 +65,34 @@ public abstract class JJwtEncoder implements AuthTokenEncoder {
                 .getExpiration();
     }
 
+    @Override
+    public String encode(AuthTokenAuthentication authentication) {
+        return encode(authentication.getPrincipal(), authentication.getAuthorities());
+    }
+
     @SneakyThrows
     @Override
-    public final String encode(TokenType tokenType, LoggedInUser loggedInUser, Collection<? extends GrantedAuthority> authorities) {
-        if (!isProvidable(tokenType, null)) {
-            return next.encode(tokenType, loggedInUser, authorities);
-        }
-
+    public String encode(LoggedInUser loggedInUser, Collection<? extends GrantedAuthority> authorities) {
         Date now = new Date();
         return Jwts.builder()
                 .setSubject(loggedInUser.getId())
-                .claim(ClaimKey.USER, loggedInUser)
-                .claim(ClaimKey.AUTHORITIES, convert(authorities))
+                .claim(ClaimKey.USER, MapperUtil.writeValueAsString(loggedInUser))
+                .claim(ClaimKey.AUTHORITIES, MapperUtil.writeValueAsString(authorities))
                 .signWith(signatureKey, signatureAlgorithm)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(now.getTime() + expiration))
                 .compact();
     }
 
-    private List<String> convert(Collection<? extends GrantedAuthority> authorities) {
-        return authorities
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-    }
-
-    @SneakyThrows
-    @Override
-    public final String encode(TokenType tokenType, Authentication authentication) {
-        if (!isProvidable(tokenType, authentication)) {
-            return next.encode(tokenType, authentication);
-        }
-        return encode(
-                tokenType, getLoggedInUser(authentication), authentication.getAuthorities()
-        );
-    }
-
-    protected abstract boolean isProvidable(TokenType tokenType, Authentication authentication);
-
-    protected abstract LoggedInUser getLoggedInUser(Authentication authentication);
-
     @UtilityClass
     private static class ClaimKey {
         private final String AUTHORITIES = "authorities";
         private final String USER = "user";
+    }
+
+    @UtilityClass
+    private static class TypeRef {
+        private static final TypeReference<Set<CustomGrantedAuthority>> AUTHORITIES = new TypeReference<>() {};
+        private static final TypeReference<LoggedInUser> USER = new TypeReference<>() {};
     }
 }

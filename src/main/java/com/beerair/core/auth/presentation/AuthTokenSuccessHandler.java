@@ -1,8 +1,10 @@
 package com.beerair.core.auth.presentation;
 
-import com.beerair.core.auth.application.RefreshTokenProvider;
+import com.beerair.core.auth.application.RefreshTokenService;
+import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenEncoder;
-import com.beerair.core.auth.domain.TokenType;
+import com.beerair.core.error.exception.auth.InvalidAuthException;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -14,16 +16,20 @@ import java.io.IOException;
 
 public final class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final String successRedirectUri;
-    private final AuthTokenEncoder authTokenProvider;
-    private final RefreshTokenProvider refreshTokenService;
+    private final AuthTokenEncoder accessTokenEncoder;
+    private final AuthTokenEncoder refreshTokenEncoder;
+    private final RefreshTokenService refreshTokenService;
 
-    public AuthTokenSuccessHandler(
+    @Builder
+    private AuthTokenSuccessHandler(
             @Value("${auth.success_redirect_uri}") String successRedirectUri,
-            AuthTokenEncoder authTokenProvider,
-            RefreshTokenProvider refreshTokenService
+            AuthTokenEncoder accessTokenEncoder,
+            AuthTokenEncoder refreshTokenEncoder,
+            RefreshTokenService refreshTokenService
     ) {
         this.successRedirectUri = successRedirectUri;
-        this.authTokenProvider = authTokenProvider;
+        this.accessTokenEncoder = accessTokenEncoder;
+        this.refreshTokenEncoder = refreshTokenEncoder;
         this.refreshTokenService = refreshTokenService;
     }
 
@@ -33,8 +39,12 @@ public final class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSucces
             HttpServletResponse response,
             Authentication authentication
     ) throws IOException {
-        String access = authTokenProvider.encode(TokenType.ACCESS, authentication);
-        String refresh = authTokenProvider.encode(TokenType.REFRESH, authentication);
+        if (!(authentication instanceof AuthTokenAuthentication)) {
+            throw new InvalidAuthException();
+        }
+        var authTokenAuthentication = (AuthTokenAuthentication) authentication;
+        String access = accessTokenEncoder.encode(authTokenAuthentication);
+        String refresh = refreshTokenEncoder.encode(authTokenAuthentication);
 
         refreshTokenService.create(refresh);
 

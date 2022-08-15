@@ -1,6 +1,6 @@
 package com.beerair.core.auth.presentation;
 
-import com.beerair.core.auth.application.RefreshTokenProvider;
+import com.beerair.core.auth.application.RefreshTokenService;
 import com.beerair.core.auth.dto.request.RefreshTokenRequest;
 import com.beerair.core.common.dto.ResponseDto;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +17,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequestMapping(value = "/api/v1/auths", consumes = APPLICATION_JSON_UTF_8, produces = APPLICATION_JSON_UTF_8)
 @RestController
 public class AuthController {
-    private final RefreshTokenProvider refreshTokenService;
+    private final RefreshTokenService refreshTokenService;
 
     @ApiOperation(value = "Refresh Token 사용한 Access Token 발급 요청 api")
     @PostMapping("refresh")

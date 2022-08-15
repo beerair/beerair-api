@@ -2,6 +2,7 @@ package com.beerair.core.common.util;
 
 import com.beerair.core.error.exception.common.MapperException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -40,6 +41,15 @@ public class MapperUtil {
     public static String writeValueAsString(Object object) {
         try {
             return mapper().writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            log.error("[ERROR] Exception -> {}", e.getMessage());
+            throw new MapperException(e.getMessage());
+        }
+    }
+
+    public static <T> T readValue(String json, TypeReference<T> typeReference) {
+        try {
+            return mapper().readValue(json, typeReference);
         } catch (JsonProcessingException e) {
             log.error("[ERROR] Exception -> {}", e.getMessage());
             throw new MapperException(e.getMessage());

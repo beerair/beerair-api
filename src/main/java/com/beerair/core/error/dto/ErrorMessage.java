@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorMessage {
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 토큰이 없습니다."),
     REFRESH_TOKEN_ALREADY_USED(HttpStatus.CONFLICT, "사용할 수 없는 토큰 입니다."),
-    NO_AUTH(HttpStatus.FORBIDDEN, "로그인이 필요 합니다."),
+    NO_AUTH(HttpStatus.FORBIDDEN, "로그인이 필요합니다."),
+    INVALID_AUTH(HttpStatus.FORBIDDEN, "올바르지 않은 로그인 입니다."),
 
     CONFLICT_ERROR(HttpStatus.BAD_REQUEST, "예기치 못한 에러가 발생했습니다."),
 
