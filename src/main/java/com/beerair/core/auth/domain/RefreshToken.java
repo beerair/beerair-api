@@ -11,18 +11,19 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-@Table(indexes = {
-        @Index(name = "INDEX_TOKEN", columnList = "token", unique = true)
-})
+import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
+
 @Getter
 @Entity
 public class RefreshToken extends BaseEntity {
     @Id
+    @Column(nullable = false, length = UUID_LENGTH)
     private String id;
 
-    @Column(unique = true)
+    @Column(nullable = false, length = 1000)
     private String token;
 
+    @Column(nullable = false)
     private Boolean used;
 
     protected RefreshToken() {

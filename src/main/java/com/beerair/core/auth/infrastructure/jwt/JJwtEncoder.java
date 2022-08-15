@@ -3,6 +3,7 @@ package com.beerair.core.auth.infrastructure.jwt;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenEncoder;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
+import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.common.util.MapperUtil;
 import com.beerair.core.member.dto.LoggedInUser;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -12,6 +13,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -66,8 +68,9 @@ public final class JJwtEncoder implements AuthTokenEncoder {
     }
 
     @Override
-    public String encode(AuthTokenAuthentication authentication) {
-        return encode(authentication.getPrincipal(), authentication.getAuthorities());
+    public String encode(OAuth2AuthenticationToken authentication) {
+        OAuth2Member oAuth2Member = (OAuth2Member) authentication.getPrincipal();
+        return encode(oAuth2Member, authentication.getAuthorities());
     }
 
     @SneakyThrows

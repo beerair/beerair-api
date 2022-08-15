@@ -12,15 +12,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@RequiredArgsConstructor
 @Transactional
 @Service
 public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
-    @Qualifier(TokenType.ACCESS)
     private final AuthTokenEncoder accessTokenEncoder;
-    @Qualifier(TokenType.REFRESH)
     private final AuthTokenEncoder refreshTokenEncoder;
+
+    public RefreshTokenService(
+            RefreshTokenRepository refreshTokenRepository,
+            @Qualifier(TokenType.ACCESS) AuthTokenEncoder accessTokenEncoder,
+            @Qualifier(TokenType.REFRESH) AuthTokenEncoder refreshTokenEncoder
+    ) {
+        this.refreshTokenRepository = refreshTokenRepository;
+        this.accessTokenEncoder = accessTokenEncoder;
+        this.refreshTokenEncoder = refreshTokenEncoder;
+    }
 
     public void create(String token) {
         refreshTokenRepository.save(new RefreshToken(token));

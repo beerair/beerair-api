@@ -57,13 +57,13 @@ public class OAuth2UserServiceImplTest {
     @DisplayName("OAuth2로 등록된 유저가 있다면 해당 유저 정보를 사용한다.")
     @Test
     void loadUserWithLogin() {
-        Member member = Member.builder().role(Role.MEMBER).sociaiId("1234").build();
+        Member member = Member.builder().role(Role.MEMBER).nickname("nickname").build();
         stubbingGetMember(member);
 
         OAuth2Member oAuth2Member = (OAuth2Member) oAuth2UserService.loadUser(request);
 
-        assertThat(oAuth2Member.getSocialId())
-            .isEqualTo(member.getSociaiId());
+        assertThat(oAuth2Member.getNickname())
+            .isEqualTo(member.getNickname());
     }
 
     private void stubbingGetMember(Member member) {

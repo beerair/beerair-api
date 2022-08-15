@@ -7,6 +7,7 @@ import com.beerair.core.error.exception.auth.InvalidAuthException;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,10 +40,10 @@ public final class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSucces
             HttpServletResponse response,
             Authentication authentication
     ) throws IOException {
-        if (!(authentication instanceof AuthTokenAuthentication)) {
+        if (!(authentication instanceof OAuth2AuthenticationToken)) {
             throw new InvalidAuthException();
         }
-        var authTokenAuthentication = (AuthTokenAuthentication) authentication;
+        var authTokenAuthentication = (OAuth2AuthenticationToken) authentication;
         String access = accessTokenEncoder.encode(authTokenAuthentication);
         String refresh = refreshTokenEncoder.encode(authTokenAuthentication);
 

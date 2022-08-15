@@ -15,7 +15,7 @@ public class LoggedInUser {
     }
 
     @Builder
-    private LoggedInUser(String id, String email, String nickname) {
+    protected LoggedInUser(String id, String email, String nickname) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;

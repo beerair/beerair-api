@@ -7,6 +7,7 @@ import com.beerair.core.error.TestDebugException;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.dto.LoggedInUser;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import java.util.Collection;
 import java.util.Date;
@@ -29,8 +30,8 @@ public class FakeAuthTokenEncoder implements AuthTokenEncoder {
     }
 
     @Override
-    public String encode(AuthTokenAuthentication authentication) {
-        return findTokenByMemberId(authentication.getPrincipal().getId());
+    public String encode(OAuth2AuthenticationToken authentication) {
+        return findTokenByMemberId(authentication.getPrincipal().getName());
     }
 
     private String findTokenByMemberId(String memberId) {
