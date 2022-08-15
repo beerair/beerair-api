@@ -11,8 +11,13 @@ import io.cucumber.spring.ScenarioScope;
 @ScenarioScope
 public class CommonStepDefs {
     @Then("요청이 성공한다.")
-    public void sign() {
+    public void success() {
         assertThat(CucumberHttpResponseContext.is2XX()).isTrue();
+    }
+
+    @Then("요청이 실패한다.")
+    public void fail() {
+        assertThat(CucumberHttpResponseContext.is4XX()).isTrue();
     }
 
     @Then("{string}가 반환된다.")

@@ -30,6 +30,13 @@ public class AuthStepClient {
         return SERVER_URL + ":" + port + ENDPOINT;
     }
 
+    public void loginByOAuth2(String registration) {
+        var response = this.restTemplate.getForEntity(
+            authEndpoint() + "/login/oauth2/code" + registration, Void.class
+        );
+        CucumberHttpResponseContext.set(response);
+    }
+
     public void issueAccessToken() {
         var response = this.restTemplate.postForEntity(
             authEndpoint() + "/refresh", null, ResponseDto.class

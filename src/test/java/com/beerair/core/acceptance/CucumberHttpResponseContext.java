@@ -45,6 +45,10 @@ public class CucumberHttpResponseContext {
         return getStatusCodeRange() == 2;
     }
 
+    public static boolean is4XX() {
+        return getStatusCodeRange() == 4;
+    }
+
     private static int getStatusCodeRange() {
         return latestResponse.getStatusCodeValue() / 100;
     }
