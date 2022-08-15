@@ -35,4 +35,10 @@ public class ResponseDto<T> implements Serializable {
                 .status(HttpStatus.NO_CONTENT)
                 .build();
     }
+
+    public static ResponseEntity<Void> notFound() {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .build();
+    }
 }
