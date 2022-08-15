@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.beerair.core.auth.domain.TokenType;
 import com.beerair.core.auth.infrastructure.jwt.JJwtProvider;
 
 import lombok.Setter;
@@ -22,7 +23,7 @@ public class FakeJJwtProvider extends JJwtProvider {
     }
 
     @Override
-    protected boolean isProvidable(Authentication authentication) {
+    protected boolean isProvidable(TokenType tokenType, Authentication authentication) {
         return providable;
     }
 

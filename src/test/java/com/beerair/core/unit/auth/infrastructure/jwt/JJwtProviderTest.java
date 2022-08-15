@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.beerair.core.auth.domain.TokenType;
+
 class JJwtProviderTest {
     private Authentication authentication;
     private static final String ALGORITHM = "HS256";
@@ -41,7 +43,7 @@ class JJwtProviderTest {
         provider.setAuthorities(List.of(AUTH));
 
         // When
-        String token = provider.encode(authentication);
+        String token = provider.encode(TokenType.ACCESS, authentication);
 
         // Then
         assertThat(provider.getId(token))
@@ -57,7 +59,7 @@ class JJwtProviderTest {
         var provider = new FakeJJwtProvider(ALGORITHM, KEY, 0);
         provider.setProvidable(true);
 
-        String token = provider.encode(authentication);
+        String token = provider.encode(TokenType.ACCESS, authentication);
         assertThatThrownBy(() -> provider.getId(token))
             .isInstanceOf(Exception.class); // TODO Excpetion
     }

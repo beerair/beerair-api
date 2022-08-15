@@ -5,8 +5,10 @@ import java.util.Collection;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.beerair.core.auth.domain.TokenType;
+
 public interface AuthTokenProvider {
-    String encode(Authentication authentication);
+    String encode(TokenType tokenType, Authentication authentication);
 
     String getId(String token);
 

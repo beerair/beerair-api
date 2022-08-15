@@ -15,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.beerair.core.auth.application.AuthTokenProvider;
+import com.beerair.core.auth.domain.TokenType;
 
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -26,7 +27,6 @@ import lombok.experimental.UtilityClass;
 public abstract class JJwtProvider implements AuthTokenProvider {
     @Setter
     private JJwtProvider next;
-
     private final SignatureAlgorithm signatureAlgorithm;
     private final Key signatureKey;
     private final int expiration;
@@ -67,9 +67,9 @@ public abstract class JJwtProvider implements AuthTokenProvider {
 
     @SneakyThrows
     @Override
-    public final String encode(Authentication authentication) {
-        if (!isProvidable(authentication)) {
-            return next.encode(authentication);
+    public final String encode(TokenType tokenType, Authentication authentication) {
+        if (!isProvidable(tokenType, authentication)) {
+            return next.encode(tokenType, authentication);
         }
         Date now = new Date();
         return Jwts.builder()
@@ -81,7 +81,7 @@ public abstract class JJwtProvider implements AuthTokenProvider {
             .compact();
     }
 
-    protected abstract boolean isProvidable(Authentication authentication);
+    protected abstract boolean isProvidable(TokenType tokenType, Authentication authentication);
 
     protected abstract String getId(Authentication authentication);
 
@@ -90,6 +90,5 @@ public abstract class JJwtProvider implements AuthTokenProvider {
     @UtilityClass
     private static class ClaimKey {
         private final String AUTHORITIES = "authorities";
-        private final String AUTHORITY = "authority";
     }
 }

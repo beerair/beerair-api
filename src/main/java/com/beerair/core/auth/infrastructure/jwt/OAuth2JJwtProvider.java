@@ -6,16 +6,20 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.beerair.core.auth.domain.TokenType;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 
 public final class OAuth2JJwtProvider extends JJwtProvider {
-    public OAuth2JJwtProvider(String signatureAlgorithm, String signatureKey, int expiration) {
+    private final TokenType tokenType;
+    public OAuth2JJwtProvider(TokenType tokenType, String signatureAlgorithm, String signatureKey, int expiration) {
         super(signatureAlgorithm, signatureKey, expiration);
+        this.tokenType = tokenType;
     }
 
     @Override
-    protected boolean isProvidable(Authentication authentication) {
-        return authentication.getPrincipal() instanceof OAuth2Member;
+    protected boolean isProvidable(TokenType tokenType, Authentication authentication) {
+        return this.tokenType == tokenType &&
+            authentication.getPrincipal() instanceof OAuth2Member;
     }
 
     @Override
