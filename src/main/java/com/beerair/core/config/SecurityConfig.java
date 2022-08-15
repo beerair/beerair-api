@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.beerair.core.auth.application.AuthTokenAuthenticationFilter;
+import com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 
