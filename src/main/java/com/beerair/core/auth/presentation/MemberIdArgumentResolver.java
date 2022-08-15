@@ -1,4 +1,4 @@
-package com.beerair.core.auth.application;
+package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.member.application.MemberId;
