@@ -1,15 +1,13 @@
 package com.beerair.core.auth.application;
 
-import static com.beerair.core.auth.application.AuthTokenAuthenticationFilter.*;
-
-import java.io.IOException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
+import static com.beerair.core.auth.application.AuthTokenAuthenticationFilter.TOKEN_TYPE;
 
 @Component
 public final class AuthTokenSuccessHandler implements AuthenticationSuccessHandler {
@@ -20,9 +18,12 @@ public final class AuthTokenSuccessHandler implements AuthenticationSuccessHandl
     }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) {
-        String authToken = authTokenProvider.encode(authentication);
+    public void onAuthenticationSuccess(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Authentication authentication
+    ) {
+        var authToken = authTokenProvider.encode(authentication);
         response.setHeader("authorization", TOKEN_TYPE + " " + authToken);
     }
 }

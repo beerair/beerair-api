@@ -1,16 +1,14 @@
 package com.beerair.core.auth.infrastructure.oauth2;
 
-import java.util.Map;
-import java.util.Objects;
-
+import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
+import com.beerair.core.member.domain.vo.SocialType;
+import lombok.experimental.UtilityClass;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
-import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
-import com.beerair.core.member.domain.vo.SocialType;
-
-import lombok.experimental.UtilityClass;
+import java.util.Map;
+import java.util.Objects;
 
 public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesLoader {
     private static final String SUCCESS_RESULT_CODE = "00";
@@ -19,8 +17,8 @@ public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesL
     @Override
     protected boolean isLoadable(OAuth2UserRequest request) {
         return request.getClientRegistration()
-                      .getRegistrationId()
-                      .equals(REGISTRATION_ID);
+                .getRegistrationId()
+                .equals(REGISTRATION_ID);
     }
 
     @Override
@@ -29,13 +27,14 @@ public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesL
 
         Map<String, String> attributes = user.getAttribute(attributeKey);
         Map<String, Object> rawAttributes = user.getAttribute(attributeKey);
+
         return OAuth2Attributes.builder()
-            .socialType(SocialType.NAVER)
-            .socialId(attributes.get("id"))
-            .profile(attributes.get("profile_image"))
-            .email(attributes.get("email"))
-            .attributes(rawAttributes)
-            .build();
+                .socialType(SocialType.NAVER)
+                .socialId(attributes.get("id"))
+                .profile(attributes.get("profile_image"))
+                .email(attributes.get("email"))
+                .attributes(rawAttributes)
+                .build();
     }
 
     private void verify(DefaultOAuth2User user) {

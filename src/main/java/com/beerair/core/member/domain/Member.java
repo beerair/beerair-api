@@ -1,19 +1,17 @@
 package com.beerair.core.member.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-import org.hibernate.annotations.Comment;
-
 import com.beerair.core.common.domain.BaseEntity;
 import com.beerair.core.common.util.IdGenerator;
 import com.beerair.core.member.domain.vo.Role;
 import com.beerair.core.member.domain.vo.SocialType;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Getter
 @Entity
@@ -42,8 +40,17 @@ public class Member extends BaseEntity {
     private Long leverId;
 
     @Builder
-    private Member(String email, String nickname, String phoneNumber, String profileUrl, Role role, String sociaiId,
-                  SocialType socialType, Integer exp, Long leverId) {
+    private Member(
+            String email,
+            String nickname,
+            String phoneNumber,
+            String profileUrl,
+            Role role,
+            String sociaiId,
+            SocialType socialType,
+            Integer exp,
+            Long leverId
+    ) {
         this.id = IdGenerator.createUUID();
         this.email = email;
         this.nickname = nickname;

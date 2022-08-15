@@ -1,7 +1,11 @@
 package com.beerair.core.auth.infrastructure.oauth2;
 
-import java.util.Optional;
-
+import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
+import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
+import com.beerair.core.member.domain.Member;
+import com.beerair.core.member.domain.vo.Role;
+import com.beerair.core.member.infrastructure.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -9,13 +13,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
-import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
-import com.beerair.core.member.domain.Member;
-import com.beerair.core.member.domain.vo.Role;
-import com.beerair.core.member.infrastructure.MemberRepository;
-
-import lombok.RequiredArgsConstructor;
+import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor
@@ -40,12 +38,12 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 
     private Member signByOAuth2(OAuth2Attributes attributes) {
         Member member = Member.builder()
-            .role(Role.USER)
-            .sociaiId(attributes.getSocialId())
-            .socialType(attributes.getSocialType())
-            .profileUrl(attributes.getProfile())
-            .email(attributes.getEmail())
-            .build();
+                .role(Role.USER)
+                .sociaiId(attributes.getSocialId())
+                .socialType(attributes.getSocialType())
+                .profileUrl(attributes.getProfile())
+                .email(attributes.getEmail())
+                .build();
         return memberRepository.save(member);
     }
 }

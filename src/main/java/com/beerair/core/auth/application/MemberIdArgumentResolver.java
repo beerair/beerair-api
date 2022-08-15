@@ -1,8 +1,7 @@
 package com.beerair.core.auth.application;
 
-import java.util.Objects;
-import java.util.Optional;
-
+import com.beerair.core.auth.domain.AuthTokenAuthentication;
+import com.beerair.core.member.application.MemberId;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -10,8 +9,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.beerair.core.auth.domain.AuthTokenAuthentication;
-import com.beerair.core.member.application.MemberId;
+import java.util.Objects;
+import java.util.Optional;
 
 public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
@@ -20,8 +19,12 @@ public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+    public Object resolveArgument(
+            MethodParameter parameter,
+            ModelAndViewContainer mavContainer,
+            NativeWebRequest webRequest,
+            WebDataBinderFactory binderFactory
+    ) {
         var memberId = memberId();
         if (parameter.getParameterType() == Optional.class) {
             return memberId;

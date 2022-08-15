@@ -1,18 +1,16 @@
 package com.beerair.core.auth.infrastructure.oauth2.dto;
 
-import java.util.Map;
-import java.util.Set;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.SocialType;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+
+import java.util.Map;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -28,14 +26,14 @@ public class OAuth2Member implements OAuth2User {
 
     public static OAuth2Member of(Member member, Map<String, Object> attributes) {
         return OAuth2Member.builder()
-            .id(member.getId())
-            .socialType(member.getSocialType())
-            .socialId(member.getSociaiId())
-            .email(member.getEmail())
-            .profile(member.getProfileUrl())
-            .authorities(member.getRole().getAuthorities())
-            .attributes(attributes)
-            .build();
+                .id(member.getId())
+                .socialType(member.getSocialType())
+                .socialId(member.getSociaiId())
+                .email(member.getEmail())
+                .profile(member.getProfileUrl())
+                .authorities(member.getRole().getAuthorities())
+                .attributes(attributes)
+                .build();
     }
 
     @Override
