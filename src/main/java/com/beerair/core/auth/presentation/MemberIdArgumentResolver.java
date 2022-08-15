@@ -1,4 +1,4 @@
-package com.beerair.core.auth.application;
+package com.beerair.core.auth.presentation;
 
 import java.util.Objects;
 import java.util.Optional;

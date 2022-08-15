@@ -1,4 +1,4 @@
-package com.beerair.core.auth.application;
+package com.beerair.core.auth.presentation;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
+import com.beerair.core.auth.domain.AuthTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 

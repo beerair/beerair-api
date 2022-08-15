@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.beerair.core.auth.application.AuthTokenProvider;
+import com.beerair.core.auth.domain.AuthTokenProvider;
 import com.beerair.core.auth.domain.TokenType;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.jwt.OAuth2JJwtProvider;
