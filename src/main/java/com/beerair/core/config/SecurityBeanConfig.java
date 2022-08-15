@@ -1,17 +1,22 @@
 package com.beerair.core.config;
 
+import com.beerair.core.auth.application.RefreshTokenProvider;
+import com.beerair.core.auth.presentation.AuthTokenSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.beerair.core.auth.domain.AuthTokenProvider;
+import com.beerair.core.auth.domain.AuthTokenEncoder;
 import com.beerair.core.auth.domain.TokenType;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
-import com.beerair.core.auth.infrastructure.jwt.OAuth2JJwtProvider;
+import com.beerair.core.auth.infrastructure.jwt.OAuth2JJwtEncoder;
 import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+@Profile({ "local", "prod", "staging" })
 @Configuration
-public class SecurityChainConfig {
+public class SecurityBeanConfig {
     @Value("${auth.jjwt.access.signatureAlgorithm}")
     private String accessSignatureAlgorithm;
     @Value("${auth.jjwt.access.signatureKey}")
@@ -33,14 +38,14 @@ public class SecurityChainConfig {
     }
 
     @Bean
-    public AuthTokenProvider oAuth2AccessProvider() {
-        var oAuth2Access = new OAuth2JJwtProvider(
+    public AuthTokenEncoder oAuth2AccessEncoder() {
+        var oAuth2Access = new OAuth2JJwtEncoder(
             TokenType.ACCESS,
             accessSignatureAlgorithm,
             accessSignatureKey,
             accessExpiration
         );
-        var oAuth2Refresh = new OAuth2JJwtProvider(
+        var oAuth2Refresh = new OAuth2JJwtEncoder(
             TokenType.REFRESH,
             refreshSignatureAlgorithm,
             refreshSignatureKey,
@@ -48,5 +53,14 @@ public class SecurityChainConfig {
         );
         oAuth2Access.setNext(oAuth2Refresh);
         return oAuth2Access;
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler(
+            @Value("${auth.success_redirect_uri}") String successRedirectUri,
+            AuthTokenEncoder authTokenProvider,
+            RefreshTokenProvider refreshTokenService
+    ) {
+        return new AuthTokenSuccessHandler(successRedirectUri, authTokenProvider, refreshTokenService);
     }
 }

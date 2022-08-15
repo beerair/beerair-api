@@ -2,14 +2,15 @@ package com.beerair.core.auth.infrastructure.jwt;
 
 import com.beerair.core.auth.domain.TokenType;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
+import com.beerair.core.member.dto.LoggedInUser;
 import org.springframework.security.core.Authentication;
 
 import java.util.Objects;
 
-public final class OAuth2JJwtProvider extends JJwtProvider {
+public final class OAuth2JJwtEncoder extends JJwtEncoder {
     private final TokenType tokenType;
 
-    public OAuth2JJwtProvider(
+    public OAuth2JJwtEncoder(
             TokenType tokenType,
             String signatureAlgorithm,
             String signatureKey,
@@ -33,9 +34,10 @@ public final class OAuth2JJwtProvider extends JJwtProvider {
     }
 
     @Override
-    protected String getId(Authentication authentication) {
-        return oAuth2Member(authentication).getId();
+    protected LoggedInUser getLoggedInUser(Authentication authentication) {
+        return (LoggedInUser) authentication.getPrincipal();
     }
+
 
     private OAuth2Member oAuth2Member(Authentication authentication) {
         return (OAuth2Member) authentication.getPrincipal();

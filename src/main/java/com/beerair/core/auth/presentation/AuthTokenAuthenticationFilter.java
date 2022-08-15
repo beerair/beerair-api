@@ -1,7 +1,8 @@
 package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
-import com.beerair.core.auth.domain.AuthTokenProvider;
+import com.beerair.core.auth.domain.AuthTokenEncoder;
+import com.beerair.core.member.dto.LoggedInUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @Component
 public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     public static final String TOKEN_TYPE = "Bearer";
-    private final AuthTokenProvider authTokenProvider;
+    private final AuthTokenEncoder authTokenEncoder;
 
     @Override
     protected void doFilterInternal(
@@ -48,8 +49,8 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
         AuthTokenAuthentication authentication = AuthTokenAuthentication
                 .builder()
                 .token(token)
-                .memberId(authTokenProvider.getId(token))
-                .authorities(authTokenProvider.getAuthorities(token))
+                .loggedInUser(authTokenEncoder.getLoggedInUser(token))
+                .authorities(authTokenEncoder.getAuthorities(token))
                 .build();
         authentication.setAuthenticated(true);
         return authentication;

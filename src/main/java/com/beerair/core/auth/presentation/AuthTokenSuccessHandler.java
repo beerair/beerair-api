@@ -1,28 +1,26 @@
 package com.beerair.core.auth.presentation;
 
-import com.beerair.core.auth.application.RefreshTokenService;
-import com.beerair.core.auth.domain.AuthTokenProvider;
+import com.beerair.core.auth.application.RefreshTokenProvider;
+import com.beerair.core.auth.domain.AuthTokenEncoder;
 import com.beerair.core.auth.domain.TokenType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
 public final class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final String successRedirectUri;
-    private final AuthTokenProvider authTokenProvider;
-    private final RefreshTokenService refreshTokenService;
+    private final AuthTokenEncoder authTokenProvider;
+    private final RefreshTokenProvider refreshTokenService;
 
     public AuthTokenSuccessHandler(
             @Value("${auth.success_redirect_uri}") String successRedirectUri,
-            AuthTokenProvider authTokenProvider,
-            RefreshTokenService refreshTokenService
+            AuthTokenEncoder authTokenProvider,
+            RefreshTokenProvider refreshTokenService
     ) {
         this.successRedirectUri = successRedirectUri;
         this.authTokenProvider = authTokenProvider;

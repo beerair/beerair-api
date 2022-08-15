@@ -1,7 +1,8 @@
 package com.beerair.core.auth.infrastructure.jwt;
 
-import com.beerair.core.auth.domain.AuthTokenProvider;
+import com.beerair.core.auth.domain.AuthTokenEncoder;
 import com.beerair.core.auth.domain.TokenType;
+import com.beerair.core.member.dto.LoggedInUser;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,15 +22,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class JJwtProvider implements AuthTokenProvider {
+public abstract class JJwtEncoder implements AuthTokenEncoder {
     @Setter
-    private JJwtProvider next;
+    private JJwtEncoder next;
     private final SignatureAlgorithm signatureAlgorithm;
     private final Key signatureKey;
     private final int expiration;
     private final JwtParser jwtParser;
 
-    public JJwtProvider(String signatureAlgorithm, String signatureKey, int expiration) {
+    public JJwtEncoder(String signatureAlgorithm, String signatureKey, int expiration) {
         this.signatureAlgorithm = SignatureAlgorithm.forName(signatureAlgorithm);
         this.signatureKey = new SecretKeySpec(
                 DatatypeConverter.parseBase64Binary(signatureKey),
@@ -43,10 +44,10 @@ public abstract class JJwtProvider implements AuthTokenProvider {
     }
 
     @Override
-    public final String getId(String token) {
+    public LoggedInUser getLoggedInUser(String token) {
         return jwtParser.parseClaimsJws(token)
                 .getBody()
-                .getSubject();
+                .get(ClaimKey.USER, LoggedInUser.class);
     }
 
     @Override
@@ -71,14 +72,15 @@ public abstract class JJwtProvider implements AuthTokenProvider {
 
     @SneakyThrows
     @Override
-    public final String encode(TokenType tokenType, String id, Collection<? extends GrantedAuthority> authorities) {
+    public final String encode(TokenType tokenType, LoggedInUser loggedInUser, Collection<? extends GrantedAuthority> authorities) {
         if (!isProvidable(tokenType, null)) {
-            return next.encode(tokenType, id, authorities);
+            return next.encode(tokenType, loggedInUser, authorities);
         }
 
         Date now = new Date();
         return Jwts.builder()
-                .setSubject(id)
+                .setSubject(loggedInUser.getId())
+                .claim(ClaimKey.USER, loggedInUser)
                 .claim(ClaimKey.AUTHORITIES, convert(authorities))
                 .signWith(signatureKey, signatureAlgorithm)
                 .setIssuedAt(new Date())
@@ -100,16 +102,17 @@ public abstract class JJwtProvider implements AuthTokenProvider {
             return next.encode(tokenType, authentication);
         }
         return encode(
-                tokenType, getId(authentication), authentication.getAuthorities()
+                tokenType, getLoggedInUser(authentication), authentication.getAuthorities()
         );
     }
 
     protected abstract boolean isProvidable(TokenType tokenType, Authentication authentication);
 
-    protected abstract String getId(Authentication authentication);
+    protected abstract LoggedInUser getLoggedInUser(Authentication authentication);
 
     @UtilityClass
     private static class ClaimKey {
         private final String AUTHORITIES = "authorities";
+        private final String USER = "user";
     }
 }

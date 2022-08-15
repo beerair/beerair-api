@@ -1,14 +1,18 @@
 package com.beerair.core.common.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
 
-@Getter
+@Data
 public class ResponseDto<T> implements Serializable {
-    private final T data;
+    private T data;
+
+    protected ResponseDto() {
+    }
 
     public ResponseDto(T data) {
         this.data = data;

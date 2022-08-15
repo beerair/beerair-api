@@ -2,20 +2,21 @@ package com.beerair.core.unit.auth.infrastructure.jwt;
 
 import java.util.List;
 
+import com.beerair.core.member.dto.LoggedInUser;
 import org.springframework.security.core.Authentication;
 
 import com.beerair.core.auth.domain.TokenType;
-import com.beerair.core.auth.infrastructure.jwt.JJwtProvider;
+import com.beerair.core.auth.infrastructure.jwt.JJwtEncoder;
 
 import lombok.Setter;
 
 @Setter
-public class FakeJJwtProvider extends JJwtProvider {
+public class FakeJJwtEncoder extends JJwtEncoder {
     private boolean providable;
-    private String id;
+    private LoggedInUser loggedInUser;
     private List<String> authorities;
 
-    public FakeJJwtProvider(String signatureAlgorithm, String signatureKey, int expiration) {
+    public FakeJJwtEncoder(String signatureAlgorithm, String signatureKey, int expiration) {
         super(signatureAlgorithm, signatureKey, expiration);
     }
 
@@ -25,7 +26,7 @@ public class FakeJJwtProvider extends JJwtProvider {
     }
 
     @Override
-    protected String getId(Authentication authentication) {
-        return id;
+    protected LoggedInUser getLoggedInUser(Authentication authentication) {
+        return loggedInUser;
     }
 }

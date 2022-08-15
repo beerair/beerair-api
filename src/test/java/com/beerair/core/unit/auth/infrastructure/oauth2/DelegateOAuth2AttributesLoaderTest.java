@@ -1,8 +1,9 @@
 package com.beerair.core.unit.auth.infrastructure.oauth2;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+import com.beerair.core.fixture.fake.FakeDelegateOAuth2AttributesLoader;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,15 +18,10 @@ import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 
 @ExtendWith(MockitoExtension.class)
 public class DelegateOAuth2AttributesLoaderTest {
-    @Mock
-    private DefaultOAuth2UserService defaultOAuth2UserService;
-
     @DisplayName("delegate 에게 OAuth2를 요청한 후 자식 객체에게 OAuth2Attributes 변환을 위윔한다.")
     @Test
     void load() {
-        FakeDelegateOAuth2AttributesLoader loader = new FakeDelegateOAuth2AttributesLoader(
-            defaultOAuth2UserService
-        );
+        FakeDelegateOAuth2AttributesLoader loader = new FakeDelegateOAuth2AttributesLoader();
 
         loader.setLoadable(true);
         loader.load(createRequest());
@@ -50,9 +46,7 @@ public class DelegateOAuth2AttributesLoaderTest {
     @Test
     void isLoadableFalse() {
         OAuth2AttributesLoader nextChain = mock(OAuth2AttributesLoader.class);
-        FakeDelegateOAuth2AttributesLoader loader = new FakeDelegateOAuth2AttributesLoader(
-            defaultOAuth2UserService
-        );
+        FakeDelegateOAuth2AttributesLoader loader = new FakeDelegateOAuth2AttributesLoader();
         loader.setNext(nextChain);
 
         loader.setLoadable(false);
