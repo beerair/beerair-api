@@ -1,4 +1,4 @@
-package com.beerair.core.auth.application.dto.request;
+package com.beerair.core.auth.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

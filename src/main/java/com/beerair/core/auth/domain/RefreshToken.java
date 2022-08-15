@@ -1,20 +1,18 @@
 package com.beerair.core.auth.domain;
 
+import com.beerair.core.common.domain.BaseEntity;
+import com.beerair.core.common.util.IdGenerator;
+import com.beerair.core.error.exception.auth.RefreshTokenAlreadyUsedException;
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-import com.beerair.core.common.domain.BaseEntity;
-import com.beerair.core.common.util.IdGenerator;
-import com.beerair.core.error.exception.auth.RefreshTokenAlreadyUsedException;
-
-import lombok.Builder;
-import lombok.Getter;
-
 @Table(indexes = {
-    @Index(name = "INDEX_TOKEN", columnList = "token", unique = true)
+        @Index(name = "INDEX_TOKEN", columnList = "token", unique = true)
 })
 @Getter
 @Entity

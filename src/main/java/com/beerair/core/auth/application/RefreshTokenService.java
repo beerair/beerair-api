@@ -1,16 +1,14 @@
 package com.beerair.core.auth.application;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.beerair.core.auth.application.dto.response.TokenResponse;
 import com.beerair.core.auth.domain.AuthTokenProvider;
 import com.beerair.core.auth.domain.RefreshToken;
 import com.beerair.core.auth.domain.TokenType;
+import com.beerair.core.auth.dto.response.TokenResponse;
 import com.beerair.core.auth.infrastructure.RefreshTokenRepository;
 import com.beerair.core.error.exception.auth.RefreshTokenNotFoundException;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Transactional
@@ -32,13 +30,13 @@ public class RefreshTokenService {
         var newAccess = authTokenProvider.encode(TokenType.ACCESS, id, authorities);
         var newRefresh = authTokenProvider.encode(TokenType.REFRESH, id, authorities);
         return new TokenResponse(
-            newAccess, newRefresh, authTokenProvider.getExpired(newAccess)
+                newAccess, newRefresh, authTokenProvider.getExpired(newAccess)
         );
     }
 
     public RefreshToken get(String token) {
         return refreshTokenRepository
-            .findByToken(token)
-            .orElseThrow(RefreshTokenNotFoundException::new);
+                .findByToken(token)
+                .orElseThrow(RefreshTokenNotFoundException::new);
     }
 }

@@ -1,23 +1,27 @@
 package com.beerair.core.auth.infrastructure.jwt;
 
-import java.util.Objects;
-
-import org.springframework.security.core.Authentication;
-
 import com.beerair.core.auth.domain.TokenType;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
+import org.springframework.security.core.Authentication;
+
+import java.util.Objects;
 
 public final class OAuth2JJwtProvider extends JJwtProvider {
     private final TokenType tokenType;
-    public OAuth2JJwtProvider(TokenType tokenType, String signatureAlgorithm, String signatureKey, int expiration) {
+
+    public OAuth2JJwtProvider(
+            TokenType tokenType,
+            String signatureAlgorithm,
+            String signatureKey,
+            int expiration
+    ) {
         super(signatureAlgorithm, signatureKey, expiration);
         this.tokenType = tokenType;
     }
 
     @Override
     protected boolean isProvidable(TokenType tokenType, Authentication authentication) {
-        return this.tokenType == tokenType &&
-            (isTokenRequest(authentication) || isOAuth2MemberRequest(authentication));
+        return this.tokenType == tokenType && (isTokenRequest(authentication) || isOAuth2MemberRequest(authentication));
     }
 
     private boolean isTokenRequest(Authentication authentication) {

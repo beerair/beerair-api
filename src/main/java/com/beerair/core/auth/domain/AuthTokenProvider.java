@@ -1,13 +1,10 @@
 package com.beerair.core.auth.domain;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Date;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import com.beerair.core.auth.domain.TokenType;
+import java.util.Collection;
+import java.util.Date;
 
 public interface AuthTokenProvider {
     String encode(TokenType tokenType, Authentication authentication);
