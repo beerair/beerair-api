@@ -1,7 +1,8 @@
 package com.beerair.core.auth.infrastructure.oauth2.dto;
 
+import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
 import com.beerair.core.member.domain.Member;
-import com.beerair.core.member.domain.vo.SocialType;
+import com.beerair.core.member.dto.LoggedInUser;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,36 +10,38 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-@Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class OAuth2Member implements OAuth2User {
-    private String id;
-    private SocialType socialType;
-    private String socialId;
-    private String email;
-    private String profile;
-    private Map<String, Object> attributes;
-    private Set<GrantedAuthority> authorities;
+public class OAuth2Member extends LoggedInUser implements OAuth2User {
+    private final Map<String, Object> attributes;
+    private final Set<GrantedAuthority> authorities;
 
-    public static OAuth2Member of(Member member, Map<String, Object> attributes) {
-        return OAuth2Member.builder()
-                .id(member.getId())
-                .socialType(member.getSocialType())
-                .socialId(member.getSociaiId())
-                .email(member.getEmail())
-                .profile(member.getProfileUrl())
-                .authorities(member.getRole().getAuthorities())
-                .attributes(attributes)
-                .build();
+    private OAuth2Member(String id, String email, String nickname, Set<GrantedAuthority> authorities, Map<String, Object> attributes) {
+        super(id, email, nickname);
+        this.attributes = attributes;
+        this.authorities = authorities;
     }
 
-    @Override
-    public String getName() {
-        return email;
+    public static OAuth2Member of(Member member, Map<String, Object> attributes) {
+        return new OAuth2Member(
+                member.getId(),
+                member.getEmail(),
+                member.getNickname(),
+                createAuthorities(member),
+                attributes
+        );
+    }
+
+    private static Set<GrantedAuthority> createAuthorities(Member member) {
+        return member.getRole()
+                .getAuthorities()
+                .stream()
+                .map(CustomGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -47,7 +50,12 @@ public class OAuth2Member implements OAuth2User {
     }
 
     @Override
-    public Set<GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    @Override
+    public String getName() {
+        return getId();
     }
 }

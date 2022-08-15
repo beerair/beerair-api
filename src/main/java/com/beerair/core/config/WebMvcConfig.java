@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.beerair.core.auth.presentation.MemberIdArgumentResolver;
+import com.beerair.core.auth.presentation.AuthUserArgumentResolver;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -16,7 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public MemberIdArgumentResolver memberIdArgumentResolver() {
-        return new MemberIdArgumentResolver();
+    public AuthUserArgumentResolver memberIdArgumentResolver() {
+        return new AuthUserArgumentResolver();
     }
 }

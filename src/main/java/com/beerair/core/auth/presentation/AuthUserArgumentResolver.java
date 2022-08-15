@@ -1,7 +1,9 @@
 package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
-import com.beerair.core.member.application.MemberId;
+import com.beerair.core.error.exception.auth.NoAuthException;
+import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.presentation.annotation.AuthUser;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -12,10 +14,10 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import java.util.Objects;
 import java.util.Optional;
 
-public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
+public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return Objects.nonNull(parameter.getParameterAnnotation(MemberId.class));
+        return Objects.nonNull(parameter.getParameterAnnotation(AuthUser.class));
     }
 
     @Override
@@ -25,17 +27,17 @@ public class MemberIdArgumentResolver implements HandlerMethodArgumentResolver {
             NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory
     ) {
-        var memberId = memberId();
+        var loggedInUser = loggedInUser();
         if (parameter.getParameterType() == Optional.class) {
-            return memberId;
+            return loggedInUser;
         }
-        return memberId.orElseThrow(() -> new RuntimeException("TODO"));
+        return loggedInUser.orElseThrow(NoAuthException::new);
     }
 
-    private Optional<String> memberId() {
+    private Optional<LoggedInUser> loggedInUser() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AuthTokenAuthentication) {
-            return Optional.of((String) authentication.getPrincipal());
+            return Optional.of((LoggedInUser) authentication.getPrincipal());
         }
         return Optional.empty();
     }

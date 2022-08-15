@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.beerair.core.error.TestDebugException;
+import lombok.SneakyThrows;
 
 /**
  * @author 김재원
@@ -60,7 +61,7 @@ public class Fixture<T> {
      *
      * @exception TestDebugException 모든 부모 객체에서도 지정된 이름의 필드를 찾지 못했을경우
      */
-    public Field getField(Class<?> clazz, String fieldName) {
+    private Field getField(Class<?> clazz, String fieldName) {
         try {
             return clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
@@ -70,6 +71,11 @@ public class Fixture<T> {
             }
             return getField(superClazz, fieldName);
         }
+    }
+
+    @SneakyThrows
+    public <T> T getField(String fieldName) {
+        return (T) getField(instance.getClass(), fieldName).get(instance);
     }
 
     /**

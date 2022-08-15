@@ -1,24 +1,17 @@
 package com.beerair.core.member.domain.vo;
 
-import java.util.Set;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import lombok.Getter;
+
+import java.util.Set;
 
 @Getter
 public enum Role {
-    USER(Set.of(
-            new SimpleGrantedAuthority("ROLE_USER"))
-    ),
-    MEMBER(Set.of(
-            new SimpleGrantedAuthority("ROLE_MEMBER"))
-    );
+    USER(Set.of("ROLE_USER")),
+    MEMBER(Set.of("ROLE_MEMBER"));
 
-    private final Set<GrantedAuthority> authorities;
+    private final Set<String> authorities;
 
-    Role(Set<GrantedAuthority> authorities) {
+    Role(Set<String> authorities) {
         this.authorities = authorities;
     }
 }

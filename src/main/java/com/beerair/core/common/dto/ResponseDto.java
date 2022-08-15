@@ -1,14 +1,18 @@
 package com.beerair.core.common.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
 
-@Getter
+@Data
 public class ResponseDto<T> implements Serializable {
-    private final T data;
+    private T data;
+
+    protected ResponseDto() {
+    }
 
     public ResponseDto(T data) {
         this.data = data;
@@ -29,6 +33,12 @@ public class ResponseDto<T> implements Serializable {
     public static ResponseEntity<Void> noContent() {
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
+                .build();
+    }
+
+    public static ResponseEntity<Void> notFound() {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .build();
     }
 }
