@@ -1,11 +1,10 @@
 package com.beerair.core.auth.application.dto.response;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.Date;
 
 @Builder
 @AllArgsConstructor
