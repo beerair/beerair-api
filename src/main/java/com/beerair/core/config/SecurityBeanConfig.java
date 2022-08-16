@@ -2,7 +2,7 @@ package com.beerair.core.config;
 
 import com.beerair.core.auth.application.RefreshTokenService;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
-import com.beerair.core.auth.domain.TokenType;
+import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.infrastructure.jwt.JJwtCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Profile({ "local", "prod", "staging" })
@@ -39,7 +40,7 @@ public class SecurityBeanConfig {
     }
 
     @Primary
-    @Bean(name = TokenType.ACCESS)
+    @Bean(name = TokenPurpose.ACCESS)
     public AuthTokenCrypto accessTokenCrypto() {
         return JJwtCrypto.builder()
                 .signatureAlgorithm(accessSignatureAlgorithm)
@@ -48,8 +49,8 @@ public class SecurityBeanConfig {
                 .build();
     }
 
-    @Bean(name = TokenType.REFRESH)
-    public AuthTokenCrypto refreshTokenCrypto() {
+    @Bean(name = TokenPurpose.REFRESH)
+    public AuthTokenCrypto refreshTokenCrypto(RedisTemplate<String, Object> redisTemplate) {
         return JJwtCrypto.builder()
                 .signatureAlgorithm(refreshSignatureAlgorithm)
                 .signatureKey(refreshSignatureKey)
@@ -59,12 +60,14 @@ public class SecurityBeanConfig {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler(
+            RedisTemplate<String, Object> redisTemplate,
             @Value("${auth.success_redirect_uri}") String successRedirectUri,
-            @Qualifier(TokenType.ACCESS) AuthTokenCrypto accessTokenCrypto,
-            @Qualifier(TokenType.REFRESH) AuthTokenCrypto refreshTokenCrypto,
+            @Qualifier(TokenPurpose.ACCESS) AuthTokenCrypto accessTokenCrypto,
+            @Qualifier(TokenPurpose.REFRESH) AuthTokenCrypto refreshTokenCrypto,
             RefreshTokenService refreshTokenService
     ) {
         return AuthTokenSuccessHandler.builder()
+                .redisTemplate(redisTemplate)
                 .successRedirectUri(successRedirectUri)
                 .accessTokenCrypto(accessTokenCrypto)
                 .refreshTokenCrypto(refreshTokenCrypto)

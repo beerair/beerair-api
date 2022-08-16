@@ -3,11 +3,10 @@ package com.beerair.core.auth.application;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.RefreshToken;
-import com.beerair.core.auth.domain.TokenType;
+import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.dto.response.TokenResponse;
 import com.beerair.core.auth.infrastructure.RefreshTokenRepository;
-import com.beerair.core.error.exception.auth.RefreshTokenNotFoundException;
-import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.error.exception.auth.TokenNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,19 +20,21 @@ public class RefreshTokenService {
 
     public RefreshTokenService(
             RefreshTokenRepository refreshTokenRepository,
-            @Qualifier(TokenType.ACCESS) AuthTokenCrypto accessTokenCrypto,
-            @Qualifier(TokenType.REFRESH) AuthTokenCrypto refreshTokenCrypto
+            @Qualifier(TokenPurpose.ACCESS) AuthTokenCrypto accessTokenCrypto,
+            @Qualifier(TokenPurpose.REFRESH) AuthTokenCrypto refreshTokenCrypto
     ) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.accessTokenCrypto = accessTokenCrypto;
         this.refreshTokenCrypto = refreshTokenCrypto;
     }
 
-    public void create(String token) {
-        refreshTokenRepository.save(new RefreshToken(token));
+    public void renew(String memberId, String token) {
+        refreshTokenRepository.findAllByMemberId(memberId)
+                .forEach(RefreshToken::delete);
+        refreshTokenRepository.save(new RefreshToken(memberId, token));
     }
 
-    public TokenResponse issueToken(String token) {
+    public TokenResponse issueByRefreshToken(String token) {
         get(token).use();
 
         AuthTokenAuthentication authentication = refreshTokenCrypto.decrypt(token);
@@ -47,6 +48,6 @@ public class RefreshTokenService {
     public RefreshToken get(String token) {
         return refreshTokenRepository
                 .findByToken(token)
-                .orElseThrow(RefreshTokenNotFoundException::new);
+                .orElseThrow(TokenNotFoundException::new);
     }
 }

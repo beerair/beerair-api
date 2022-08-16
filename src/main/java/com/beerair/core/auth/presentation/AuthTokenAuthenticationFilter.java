@@ -2,7 +2,9 @@ package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
+import com.beerair.core.error.exception.auth.TokenNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     public static final String TOKEN_TYPE = "Bearer";
     private final AuthTokenCrypto accessTokenCrypto;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     protected void doFilterInternal(
@@ -27,11 +30,21 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        Optional<String> token = getToken(request);
+        try {
+            Optional<String> optionalToken = getToken(request);
+            if (optionalToken.isEmpty()) {
+                return;
+            }
 
-        token.map(this::convert)
-                .ifPresent(SecurityContextHolder.getContext()::setAuthentication);
-        filterChain.doFilter(request, response);
+            String token = optionalToken.get();
+            var authentication = convert(token);
+            String memberId = authentication.getLoggedInUser().getId();
+
+            verify(memberId, token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } finally {
+            filterChain.doFilter(request, response);
+        }
     }
 
     private Optional<String> getToken(HttpServletRequest request) {
@@ -41,6 +54,14 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
         }
         return Optional.of(token)
                 .map(t -> t.split(" ")[1]);
+    }
+
+    private void verify(String memberId, String token) {
+        Object raw = redisTemplate.opsForValue().get("authToken:" + memberId);
+        var saved = Optional.ofNullable(raw).map(t -> (String) t);
+        if (saved.isEmpty() || !token.equals(saved.get())) {
+            throw new TokenNotFoundException();
+        }
     }
 
     private AuthTokenAuthentication convert(String token) {

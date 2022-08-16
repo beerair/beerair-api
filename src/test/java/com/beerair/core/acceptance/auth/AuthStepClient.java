@@ -1,14 +1,19 @@
 package com.beerair.core.acceptance.auth;
 
 import static com.beerair.core.acceptance.config.RestTemplateFactory.createRestTemplate;
+import static com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter.TOKEN_TYPE;
 import static io.cucumber.spring.CucumberTestContext.*;
 
 import com.beerair.core.auth.dto.request.RefreshTokenRequest;
+import com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter;
 import com.beerair.core.common.util.MapperUtil;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -45,7 +50,20 @@ public class AuthStepClient {
 
     public void issueAccessToken(RefreshTokenRequest request) {
         var response = this.restTemplate.postForEntity(
-            authEndpoint() + "/refresh", request, ResponseDto.class
+                authEndpoint() + "/refresh", request, ResponseDto.class
+        );
+        CucumberHttpResponseContext.set(response);
+    }
+
+    public void testTokenDetail(String access) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("authorization", TOKEN_TYPE + " " + access);
+
+        var response = this.restTemplate.exchange(
+                authEndpoint(),
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                ResponseDto.class
         );
         CucumberHttpResponseContext.set(response);
     }
