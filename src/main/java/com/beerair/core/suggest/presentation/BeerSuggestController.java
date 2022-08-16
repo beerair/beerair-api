@@ -34,7 +34,7 @@ public class BeerSuggestController {
             @RequestParam("name") String name
     ) {
         // TODO : 인증, 인가 로직 붙이기
-        beerSuggestFacade.validate(name, 1L);
+        beerSuggestFacade.validate(name, "1L");
         return ResponseDto.noContent();
     }
 
@@ -44,7 +44,7 @@ public class BeerSuggestController {
             @RequestBody BeerSuggestRegisterRequest request
     ) {
         // TODO : 인증, 인가 로직 붙이기
-        var response = beerSuggestFacade.register(1L, request);
+        var response = beerSuggestFacade.register("1L", request);
         return ResponseDto.created(response);
     }
 
@@ -53,7 +53,7 @@ public class BeerSuggestController {
     public ResponseEntity<?> getAll(
             @PageableDefault Pageable pageable
     ) {
-        var response = beerSuggestService.getAll(pageable, 1L);
+        var response = beerSuggestService.getAll(pageable, "1L");
         return PageDto.ok(response);
     }
 
@@ -61,7 +61,7 @@ public class BeerSuggestController {
     @GetMapping("/count")
     public ResponseEntity<?> count() {
         // TODO : 인증, 인가 로직 붙이기
-        var response = beerSuggestService.count(1L);
+        var response = beerSuggestService.count("1L");
         return ResponseDto.ok(response);
     }
 }

@@ -30,9 +30,9 @@ public class BeerSuggest extends BaseEntity {
 
     private SuggestStatus status;
 
-    private Long memberId;
+    private String memberId;
 
-    public BeerSuggest(String name, String urls, Long memberId) {
+    public BeerSuggest(String name, String urls, String memberId) {
         this.beerName = name;
         this.imageUrls = urls;
         this.status = SuggestStatus.PROCEED;

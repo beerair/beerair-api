@@ -17,7 +17,7 @@ public class BeerSuggestFacade {
     private final BeerSuggestService beerSuggestService;
     private final BeerService beerService;
 
-    public void validate(String name, Long memberId) {
+    public void validate(String name, String memberId) {
         if (beerService.existsByKorNameOrEngName(name)) {
             throw new BeerAlreadyExistsException();
         }
@@ -26,7 +26,7 @@ public class BeerSuggestFacade {
         }
     }
 
-    public BeerSuggestRegisterResponse register(Long memberId, BeerSuggestRegisterRequest request) {
+    public BeerSuggestRegisterResponse register(String memberId, BeerSuggestRegisterRequest request) {
         validate(request.getName(), memberId);
 
         var suggest = beerSuggestService.save(

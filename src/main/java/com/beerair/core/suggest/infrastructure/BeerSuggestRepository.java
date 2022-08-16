@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface BeerSuggestRepository extends JpaRepository<BeerSuggest, Long> {
     @Transactional(readOnly = true)
-    Boolean existsByBeerNameAndMemberId(String name, Long memberId);
+    Boolean existsByBeerNameAndMemberId(String name, String memberId);
 
     @Transactional(readOnly = true)
-    Long countByMemberId(Long memberId);
+    Long countByMemberId(String memberId);
 
     @Transactional(readOnly = true)
-    Page<BeerSuggest> findAllById(Pageable pageable, Long memberId);
+    Page<BeerSuggest> findAllById(Pageable pageable, String memberId);
 }

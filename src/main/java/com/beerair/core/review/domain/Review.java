@@ -34,5 +34,5 @@ public class Review extends BaseEntity {
 
     private Long beerId;
 
-    private Long memberId;
+    private String memberId;
 }

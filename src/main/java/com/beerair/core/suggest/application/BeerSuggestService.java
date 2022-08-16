@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class BeerSuggestService {
     private final BeerSuggestRepository beerSuggestRepository;
 
-    public Boolean existsByNameAndMemberId(String name, Long memberId) {
+    public Boolean existsByNameAndMemberId(String name, String memberId) {
         return beerSuggestRepository.existsByBeerNameAndMemberId(name, memberId);
     }
 
@@ -22,13 +22,13 @@ public class BeerSuggestService {
         return beerSuggestRepository.save(beerSuggest);
     }
 
-    public BeerSuggestCountResponse count(Long memberId) {
+    public BeerSuggestCountResponse count(String memberId) {
         var count = beerSuggestRepository.countByMemberId(memberId);
 
         return new BeerSuggestCountResponse(memberId, count);
     }
 
-    public Page<BeerSuggestResponse> getAll(Pageable pageable, Long memberId) {
+    public Page<BeerSuggestResponse> getAll(Pageable pageable, String memberId) {
         return beerSuggestRepository.findAllById(pageable, memberId)
                 .map(BeerSuggestResponse::new);
     }
