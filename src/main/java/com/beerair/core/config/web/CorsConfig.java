@@ -1,4 +1,4 @@
-package com.beerair.core.config;
+package com.beerair.core.config.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
