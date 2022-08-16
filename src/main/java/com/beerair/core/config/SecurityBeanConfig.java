@@ -1,9 +1,9 @@
 package com.beerair.core.config;
 
 import com.beerair.core.auth.application.RefreshTokenService;
-import com.beerair.core.auth.domain.AuthTokenEncoder;
+import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.TokenType;
-import com.beerair.core.auth.infrastructure.jwt.JJwtEncoder;
+import com.beerair.core.auth.infrastructure.jwt.JJwtCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 import com.beerair.core.auth.presentation.AuthTokenSuccessHandler;
@@ -40,34 +40,34 @@ public class SecurityBeanConfig {
 
     @Primary
     @Bean(name = TokenType.ACCESS)
-    public AuthTokenEncoder jjwtAccessEncoder() {
-        return new JJwtEncoder(
-                accessSignatureAlgorithm,
-                accessSignatureKey,
-                accessExpiration
-        );
+    public AuthTokenCrypto accessTokenCrypto() {
+        return JJwtCrypto.builder()
+                .signatureAlgorithm(accessSignatureAlgorithm)
+                .signatureKey(accessSignatureKey)
+                .expiration(accessExpiration)
+                .build();
     }
 
     @Bean(name = TokenType.REFRESH)
-    public AuthTokenEncoder jjwtRefreshEncoder() {
-        return new JJwtEncoder(
-                refreshSignatureAlgorithm,
-                refreshSignatureKey,
-                refreshExpiration
-        );
+    public AuthTokenCrypto refreshTokenCrypto() {
+        return JJwtCrypto.builder()
+                .signatureAlgorithm(refreshSignatureAlgorithm)
+                .signatureKey(refreshSignatureKey)
+                .expiration(refreshExpiration)
+                .build();
     }
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler(
             @Value("${auth.success_redirect_uri}") String successRedirectUri,
-            @Qualifier(TokenType.ACCESS) AuthTokenEncoder accessTokenEncoder,
-            @Qualifier(TokenType.REFRESH) AuthTokenEncoder refreshTokenEncoder,
+            @Qualifier(TokenType.ACCESS) AuthTokenCrypto accessTokenCrypto,
+            @Qualifier(TokenType.REFRESH) AuthTokenCrypto refreshTokenCrypto,
             RefreshTokenService refreshTokenService
     ) {
         return AuthTokenSuccessHandler.builder()
                 .successRedirectUri(successRedirectUri)
-                .accessTokenEncoder(accessTokenEncoder)
-                .refreshTokenEncoder(refreshTokenEncoder)
+                .accessTokenCrypto(accessTokenCrypto)
+                .refreshTokenCrypto(refreshTokenCrypto)
                 .refreshTokenService(refreshTokenService)
                 .build();
     }

@@ -2,7 +2,7 @@ package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.application.RefreshTokenService;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
-import com.beerair.core.auth.domain.AuthTokenEncoder;
+import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.error.exception.auth.InvalidAuthException;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,20 +17,20 @@ import java.io.IOException;
 
 public final class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final String successRedirectUri;
-    private final AuthTokenEncoder accessTokenEncoder;
-    private final AuthTokenEncoder refreshTokenEncoder;
+    private final AuthTokenCrypto accessTokenCrypto;
+    private final AuthTokenCrypto refreshTokenCrypto;
     private final RefreshTokenService refreshTokenService;
 
     @Builder
     private AuthTokenSuccessHandler(
             @Value("${auth.success_redirect_uri}") String successRedirectUri,
-            AuthTokenEncoder accessTokenEncoder,
-            AuthTokenEncoder refreshTokenEncoder,
+            AuthTokenCrypto accessTokenCrypto,
+            AuthTokenCrypto refreshTokenCrypto,
             RefreshTokenService refreshTokenService
     ) {
         this.successRedirectUri = successRedirectUri;
-        this.accessTokenEncoder = accessTokenEncoder;
-        this.refreshTokenEncoder = refreshTokenEncoder;
+        this.accessTokenCrypto = accessTokenCrypto;
+        this.refreshTokenCrypto = refreshTokenCrypto;
         this.refreshTokenService = refreshTokenService;
     }
 
@@ -43,9 +43,11 @@ public final class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSucces
         if (!(authentication instanceof OAuth2AuthenticationToken)) {
             throw new InvalidAuthException();
         }
-        var authTokenAuthentication = (OAuth2AuthenticationToken) authentication;
-        String access = accessTokenEncoder.encode(authTokenAuthentication);
-        String refresh = refreshTokenEncoder.encode(authTokenAuthentication);
+        var authTokenAuthentication = AuthTokenAuthentication.from(
+                (OAuth2AuthenticationToken) authentication
+        );
+        String access = accessTokenCrypto.encrypt(authTokenAuthentication);
+        String refresh = refreshTokenCrypto.encrypt(authTokenAuthentication);
 
         refreshTokenService.create(refresh);
 

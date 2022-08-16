@@ -1,10 +1,8 @@
 package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
-import com.beerair.core.auth.domain.AuthTokenEncoder;
-import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.auth.domain.AuthTokenCrypto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,7 +19,7 @@ import java.util.Optional;
 @Component
 public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     public static final String TOKEN_TYPE = "Bearer";
-    private final AuthTokenEncoder authTokenEncoder;
+    private final AuthTokenCrypto accessTokenCrypto;
 
     @Override
     protected void doFilterInternal(
@@ -45,13 +43,8 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
                 .map(t -> t.split(" ")[1]);
     }
 
-    private Authentication convert(String token) {
-        AuthTokenAuthentication authentication = AuthTokenAuthentication
-                .builder()
-                .token(token)
-                .loggedInUser(authTokenEncoder.getLoggedInUser(token))
-                .authorities(authTokenEncoder.getAuthorities(token))
-                .build();
+    private AuthTokenAuthentication convert(String token) {
+        AuthTokenAuthentication authentication = accessTokenCrypto.decrypt(token);
         authentication.setAuthenticated(true);
         return authentication;
     }

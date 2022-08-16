@@ -1,9 +1,9 @@
 package com.beerair.core.acceptance.config;
 
-import com.beerair.core.auth.domain.AuthTokenEncoder;
+import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.TokenType;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
-import com.beerair.core.fixture.fake.FakeAuthTokenEncoder;
+import com.beerair.core.fixture.fake.FakeAuthTokenCrypto;
 import com.beerair.core.fixture.fake.FakeAuthenticationSuccessHandler;
 import com.beerair.core.fixture.fake.FakeClientRegistrationRepository;
 import com.beerair.core.fixture.fake.FakeDelegateOAuth2AttributesLoader;
@@ -22,8 +22,8 @@ public class TestSecurityBeanConfig {
     }
 
     @Bean({ TokenType.ACCESS, TokenType.REFRESH })
-    public AuthTokenEncoder accessTokenEncoder() {
-        return new FakeAuthTokenEncoder();
+    public AuthTokenCrypto tokenCrypto() {
+        return new FakeAuthTokenCrypto();
     }
 
     @Bean
