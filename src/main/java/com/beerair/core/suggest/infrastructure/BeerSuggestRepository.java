@@ -16,5 +16,5 @@ public interface BeerSuggestRepository extends JpaRepository<BeerSuggest, Long> 
     Long countByMemberId(String memberId);
 
     @Transactional(readOnly = true)
-    Page<BeerSuggest> findAllById(Pageable pageable, String memberId);
+    Page<BeerSuggest> findAllByMemberId(Pageable pageable, String memberId);
 }

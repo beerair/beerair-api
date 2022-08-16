@@ -29,7 +29,7 @@ public class BeerSuggestService {
     }
 
     public Page<BeerSuggestResponse> getAll(Pageable pageable, String memberId) {
-        return beerSuggestRepository.findAllById(pageable, memberId)
+        return beerSuggestRepository.findAllByMemberId(pageable, memberId)
                 .map(BeerSuggestResponse::new);
     }
 }
