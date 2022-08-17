@@ -1,6 +1,7 @@
 package com.beerair.core.member.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
+import com.beerair.core.common.domain.StringFieldCryptConverter;
 import com.beerair.core.common.util.IdGenerator;
 import com.beerair.core.member.domain.vo.MemberDetails;
 import com.beerair.core.member.domain.vo.Role;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -43,6 +45,7 @@ public class Member extends BaseEntity {
     @Column(length = UUID_LENGTH)
     private String id;
 
+    @Convert(converter = StringFieldCryptConverter.class)
     @Comment("이메일")
     @Column(length = 50, nullable = false, unique = true)
     private String email;
@@ -55,6 +58,7 @@ public class Member extends BaseEntity {
     @Column(length = 20, nullable = false)
     private Role role;
 
+    @Convert(converter = StringFieldCryptConverter.class)
     @Comment("소셜 계정 ID")
     @Column(length = 100, nullable = false)
     private String socialId;
