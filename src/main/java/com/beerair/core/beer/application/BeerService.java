@@ -12,6 +12,11 @@ public class BeerService {
     private final BeerRepository beerRepository;
 
     public BeerResponse get(Long beerId) {
+        return BeerResponse.from(beerRepository.findById(beerId)
+                .orElseThrow(BeerNotFoundException::new));
+    }
+
+    public BeerResponse getWithRegion(Long beerId) {
         var memberId = getLoginMemberId();
 
         if (memberId == null) {

@@ -35,4 +35,20 @@ public class Review extends BaseEntity {
     private Long beerId;
 
     private String memberId;
+
+    private Review(String content, Long departuresCountryId, Long arrivalsCountryId, Integer feel, String imageUrl, Boolean isPublic, String flavorIds, Long beerId, String memberId) {
+        this.content = content;
+        this.departuresCountryId = departuresCountryId;
+        this.arrivalsCountryId = arrivalsCountryId;
+        this.feel = feel;
+        this.imageUrl = imageUrl;
+        this.isPublic = isPublic;
+        this.flavorIds = flavorIds;
+        this.beerId = beerId;
+        this.memberId = memberId;
+    }
+
+    public static Review of(String content, Long departuresCountryId, Long arrivalsCountryId, Integer feel, String imageUrl, Boolean isPublic, String flavorIds, Long beerId, String memberId) {
+        return new Review(content, departuresCountryId, arrivalsCountryId, feel, imageUrl, isPublic, flavorIds, beerId, memberId);
+    }
 }
