@@ -33,6 +33,7 @@ public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesL
                 .socialId(attributes.get("id"))
                 .profile(attributes.get("profile_image"))
                 .email(attributes.get("email"))
+                .phoneNumber(attributes.get("mobile"))
                 .attributes(rawAttributes)
                 .build();
     }

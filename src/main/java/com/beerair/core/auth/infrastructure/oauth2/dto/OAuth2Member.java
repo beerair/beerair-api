@@ -36,7 +36,7 @@ public class OAuth2Member extends LoggedInUser implements OAuth2User {
 
         return new OAuth2Member(
                 member.getId(),
-                member.getEmail(),
+                member.getSocial().getEmail(),
                 nickname,
                 createAuthorities(member),
                 attributes

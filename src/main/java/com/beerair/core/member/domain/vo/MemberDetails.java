@@ -17,11 +17,6 @@ public class MemberDetails {
     @Column(length = 50, unique = true)
     private String nickname;
 
-    @Convert(converter = StringFieldCryptConverter.class)
-    @Comment("핸드폰 번호")
-    @Column(length = 15, unique = true)
-    private String phoneNumber;
-
     @Comment("레벨 Id")
     private Long leverId;
 
@@ -32,9 +27,8 @@ public class MemberDetails {
     }
 
     @Builder
-    private MemberDetails(String nickname, String phoneNumber, Long leverId, Integer exp) {
+    private MemberDetails(String nickname, Long leverId, Integer exp) {
         this.nickname = nickname;
-        this.phoneNumber = phoneNumber;
         this.leverId = leverId;
         this.exp = exp;
     }

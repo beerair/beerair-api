@@ -1,23 +1,23 @@
 package com.beerair.core.member.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
-import com.beerair.core.common.domain.StringFieldCryptConverter;
 import com.beerair.core.common.util.IdGenerator;
 import com.beerair.core.member.domain.vo.MemberDetails;
+import com.beerair.core.member.domain.vo.MemberSocial;
 import com.beerair.core.member.domain.vo.Role;
-import com.beerair.core.member.domain.vo.SocialType;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.util.Objects;
 
 import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
 
@@ -45,43 +45,44 @@ public class Member extends BaseEntity {
     @Column(length = UUID_LENGTH)
     private String id;
 
-    @Convert(converter = StringFieldCryptConverter.class)
-    @Comment("이메일")
-    @Column(length = 50, nullable = false, unique = true)
-    private String email;
+    @Embedded
+    private MemberSocial social;
 
-    @Comment("프로필 이미지")
-    @Column(length = 500)
-    private String profileUrl;
+    @Embedded
+    private MemberDetails details;
 
     @Comment("권한 정보")
     @Column(length = 20, nullable = false)
     private Role role;
 
-    @Convert(converter = StringFieldCryptConverter.class)
-    @Comment("소셜 계정 ID")
-    @Column(length = 100, nullable = false)
-    private String socialId;
-
-    @Comment("소셜 계정 종류")
-    @Column(length = 100, nullable = false)
-    private SocialType socialType;
-
-    @Embedded
-    private MemberDetails details;
-
     protected Member() {
     }
 
-    @Builder(builderMethodName = "socialBuilder")
-    private Member(String email, String profileUrl, String socialId, SocialType socialType) {
+    @Builder(access = AccessLevel.PRIVATE)
+    private Member(MemberSocial social, MemberDetails details, Role role) {
         this.id = IdGenerator.createUUID();
-        this.email = email;
-        this.profileUrl = profileUrl;
-        this.socialId = socialId;
-        this.socialType = socialType;
+        this.social = social;
+        this.details = details;
+        this.role = role;
+    }
 
-        this.role = Role.USER;
-        this.details = null;
+    public static Member ofSocial(MemberSocial social) {
+        return Member.builder()
+                .social(social)
+                .role(Role.USER)
+                .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(id, member.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
