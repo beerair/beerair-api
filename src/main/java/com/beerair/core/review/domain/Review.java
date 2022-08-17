@@ -1,6 +1,7 @@
 package com.beerair.core.review.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
+import com.beerair.core.review.domain.vo.FeelStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class Review extends BaseEntity {
 
     private Long arrivalsCountryId;
 
-    private Integer feel;
+    private FeelStatus feelStatus;
 
     private String imageUrl;
 
