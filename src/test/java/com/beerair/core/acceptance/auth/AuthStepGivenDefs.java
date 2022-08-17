@@ -21,7 +21,7 @@ public class AuthStepGivenDefs {
     @Transactional
     @Given("memberId: {string}, access: {string}, refresh: {string} 토큰이 발급 되어있다.")
     public void registerRefreshToken(String memberId, String access, String refresh) {
-        var member = MemberFixture.createMemberFixture()
+        var member = MemberFixture.createSocialMemberFixture()
                 .set("id", memberId)
                 .get();
         FakeOAuth2UserService.setNextMember(member);

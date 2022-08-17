@@ -3,6 +3,7 @@ package com.beerair.core.fixture.fake;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
+import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.error.TestDebugException;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.dto.LoggedInUser;
@@ -10,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -49,11 +51,8 @@ public class FakeAuthTokenCrypto implements AuthTokenCrypto {
     @Override
     public AuthTokenAuthentication decrypt(String token) {
         var member = get(token);
-        var loggedInUser = LoggedInUser.builder()
-                .id(member.getId())
-                .nickname(member.getNickname())
-                .email(member.getEmail())
-                .build();
+        var loggedInUser = OAuth2Member.of(member, Collections.emptyMap());
+
         var authorities = member.getRole()
                 .getAuthorities()
                 .stream()

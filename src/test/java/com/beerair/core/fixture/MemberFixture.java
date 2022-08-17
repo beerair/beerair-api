@@ -8,18 +8,13 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class MemberFixture {
-    public static Fixture<Member> createMemberFixture() {
-        var instance = Member.builder()
-            .email("username")
-            .exp(0)
-            .leverId(0L)
-            .nickname("nickname")
-            .phoneNumber("010-1234-5678")
-            .profileUrl("https://img.com")
-            .sociaiId("KAKAO")
-            .socialType(SocialType.KAKAO)
-            .role(Role.MEMBER)
-            .build();
+    public static Fixture<Member> createSocialMemberFixture() {
+        var instance = Member.socialBuilder()
+                .email("username")
+                .profileUrl("https://img.com")
+                .socialId("1234")
+                .socialType(SocialType.KAKAO)
+                .build();
         return new Fixture<>(instance);
     }
 }

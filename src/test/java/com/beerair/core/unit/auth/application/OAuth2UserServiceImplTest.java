@@ -1,5 +1,6 @@
 package com.beerair.core.unit.auth.application;
 
+import static com.beerair.core.fixture.MemberFixture.createSocialMemberFixture;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -46,7 +47,7 @@ public class OAuth2UserServiceImplTest {
     void loadUserWithSign() {
         stubbingGetMember(null);
         when(memberRepository.save(any()))
-            .thenReturn(Member.builder().role(Role.USER).build());
+            .thenReturn(createSocialMemberFixture().get());
 
         oAuth2UserService.loadUser(request);
 
@@ -57,13 +58,13 @@ public class OAuth2UserServiceImplTest {
     @DisplayName("OAuth2로 등록된 유저가 있다면 해당 유저 정보를 사용한다.")
     @Test
     void loadUserWithLogin() {
-        Member member = Member.builder().role(Role.MEMBER).nickname("nickname").build();
+        Member member = createSocialMemberFixture().get();
         stubbingGetMember(member);
 
         OAuth2Member oAuth2Member = (OAuth2Member) oAuth2UserService.loadUser(request);
 
-        assertThat(oAuth2Member.getNickname())
-            .isEqualTo(member.getNickname());
+        assertThat(oAuth2Member.getId())
+            .isEqualTo(member.getId());
     }
 
     private void stubbingGetMember(Member member) {

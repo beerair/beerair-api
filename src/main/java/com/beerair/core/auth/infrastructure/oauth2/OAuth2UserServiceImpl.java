@@ -37,12 +37,11 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
     }
 
     private Member signByOAuth2(OAuth2Attributes attributes) {
-        Member member = Member.builder()
-                .role(Role.USER)
-                .sociaiId(attributes.getSocialId())
-                .socialType(attributes.getSocialType())
-                .profileUrl(attributes.getProfile())
+        Member member = Member.socialBuilder()
                 .email(attributes.getEmail())
+                .profileUrl(attributes.getProfile())
+                .socialId(attributes.getSocialId())
+                .socialType(attributes.getSocialType())
                 .build();
         return memberRepository.save(member);
     }

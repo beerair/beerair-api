@@ -2,64 +2,82 @@ package com.beerair.core.member.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
 import com.beerair.core.common.util.IdGenerator;
+import com.beerair.core.member.domain.vo.MemberDetails;
 import com.beerair.core.member.domain.vo.Role;
 import com.beerair.core.member.domain.vo.SocialType;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
+
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "UNIQUE_SOCIAL",
+                        columnNames = {
+                                "socialId", "socialType"
+                        })
+        },
+        indexes = {
+                @Index(
+                        name = "INDEX_EMAIL",
+                        columnList = "email"
+                )
+        }
+
+)
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
+    @Comment("Id")
     @Id
+    @Column(length = UUID_LENGTH)
     private String id;
 
-    @Comment("사용자 이메일 (아이디)")
+    @Comment("이메일")
+    @Column(length = 50, nullable = false, unique = true)
     private String email;
 
-    private String nickname;
-
-    private String phoneNumber;
-
+    @Comment("프로필 이미지")
+    @Column(length = 500)
     private String profileUrl;
 
+    @Comment("권한 정보")
+    @Column(length = 20, nullable = false)
     private Role role;
 
-    private String sociaiId;
+    @Comment("소셜 계정 ID")
+    @Column(length = 100, nullable = false)
+    private String socialId;
 
+    @Comment("소셜 계정 종류")
+    @Column(length = 100, nullable = false)
     private SocialType socialType;
 
-    private Integer exp;
+    @Embedded
+    private MemberDetails details;
 
-    private Long leverId;
+    protected Member() {
+    }
 
-    @Builder
-    private Member(
-            String email,
-            String nickname,
-            String phoneNumber,
-            String profileUrl,
-            Role role,
-            String sociaiId,
-            SocialType socialType,
-            Integer exp,
-            Long leverId
-    ) {
+    @Builder(builderMethodName = "socialBuilder")
+    private Member(String email, String profileUrl, String socialId, SocialType socialType) {
         this.id = IdGenerator.createUUID();
         this.email = email;
-        this.nickname = nickname;
-        this.phoneNumber = phoneNumber;
         this.profileUrl = profileUrl;
-        this.role = role;
-        this.sociaiId = sociaiId;
+        this.socialId = socialId;
         this.socialType = socialType;
-        this.exp = exp;
-        this.leverId = leverId;
+
+        this.role = Role.USER;
+        this.details = null;
     }
 }

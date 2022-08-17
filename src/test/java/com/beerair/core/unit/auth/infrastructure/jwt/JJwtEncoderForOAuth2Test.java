@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -40,7 +39,7 @@ class JJwtEncoderForOAuth2Test {
                 new CustomGrantedAuthority("ROLE_MEMBER")
         );
         this.oAuth2Member = OAuth2Member.of(
-                MemberFixture.createMemberFixture().get(),
+                MemberFixture.createSocialMemberFixture().get(),
                 Collections.emptyMap()
         );
         this.authentication = new AuthTokenAuthentication(

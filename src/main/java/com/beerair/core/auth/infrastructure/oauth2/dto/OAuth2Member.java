@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,10 +28,16 @@ public class OAuth2Member extends LoggedInUser implements OAuth2User {
     }
 
     public static OAuth2Member of(Member member, Map<String, Object> attributes) {
+        var memberDetails = member.getDetails();
+        String nickname = null;
+        if (Objects.nonNull(memberDetails)) {
+            nickname = memberDetails.getNickname();
+        }
+
         return new OAuth2Member(
                 member.getId(),
                 member.getEmail(),
-                member.getNickname(),
+                nickname,
                 createAuthorities(member),
                 attributes
         );
