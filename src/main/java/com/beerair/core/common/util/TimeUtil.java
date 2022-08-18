@@ -1,6 +1,8 @@
 package com.beerair.core.common.util;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -27,5 +29,9 @@ public class TimeUtil {
      **/
     public static LocalDateTime now() {
         return LocalDateTime.now();
+    }
+
+    public static LocalDateTime from(Instant instant) {
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 }

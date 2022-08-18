@@ -4,6 +4,7 @@ import com.beerair.core.auth.application.RefreshTokenService;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.dto.request.RefreshTokenRequest;
+import com.beerair.core.auth.dto.response.AuthMeResponse;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.error.exception.auth.NoAuthException;
 import io.swagger.annotations.Api;
@@ -35,7 +36,9 @@ public class AuthController {
         var token = authTokenAuthenticationFilter.getToken(httpServletRequest)
                 .orElseThrow(NoAuthException::new);
         AuthTokenAuthentication authentication = authTokenCrypto.decrypt(token);
-        return ResponseDto.ok(authentication);
+
+        var response = AuthMeResponse.from(authentication);
+        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "Refresh Token 사용한 Access Token 발급 요청 api")
