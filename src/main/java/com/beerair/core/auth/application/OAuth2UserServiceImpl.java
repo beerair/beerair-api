@@ -9,18 +9,15 @@ import com.beerair.core.member.domain.vo.MemberSocial;
 import com.beerair.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
 
-@Slf4j
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -47,17 +44,10 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         try {
             ValidateUtil.validate(attributes);
         } catch (ConstraintViolationException e) {
-            log.error("[ERROR] ConstraintViolationException -> {}", e.getMessage());
-
             var firstViolationMessage = e.getConstraintViolations()
                     .iterator().next()
                     .getMessage();
-            var oAuth2Error = new OAuth2Error(
-                    HttpStatus.BAD_REQUEST.value() + "",
-                    firstViolationMessage,
-                    null
-            );
-            throw new OAuth2AuthenticationException(oAuth2Error);
+            throw new OAuth2AuthenticationException(firstViolationMessage);
         }
     }
 
