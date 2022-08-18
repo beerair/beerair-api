@@ -71,7 +71,7 @@ public class JJwtCrypto implements AuthTokenCrypto {
                 body.get(ClaimKey.AUTHORITIES, String.class),
                 TypeRef.AUTHORITIES
         );
-        return new AuthTokenAuthentication(loggedInUser, authorities);
+        return AuthTokenAuthentication.from(loggedInUser, authorities, body.getExpiration());
     }
 
     @UtilityClass

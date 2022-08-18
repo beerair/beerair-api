@@ -1,5 +1,9 @@
 package com.beerair.core.config;
 
+import com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter;
+import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,12 +16,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter;
-
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -45,7 +44,6 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and();
-        // TODO
     }
 
     private void configureOAuth2(HttpSecurity http) throws Exception {

@@ -4,6 +4,7 @@ import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.common.util.ValidateUtil;
+import com.beerair.core.error.exception.auth.BadLoginRequestException;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.MemberSocial;
 import com.beerair.core.member.infrastructure.MemberRepository;
@@ -47,7 +48,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
             var firstViolationMessage = e.getConstraintViolations()
                     .iterator().next()
                     .getMessage();
-            throw new OAuth2AuthenticationException(firstViolationMessage);
+            throw new BadLoginRequestException(firstViolationMessage);
         }
     }
 

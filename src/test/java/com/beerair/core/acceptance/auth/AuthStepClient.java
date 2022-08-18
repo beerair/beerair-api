@@ -5,29 +5,16 @@ import static com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter.T
 import static io.cucumber.spring.CucumberTestContext.*;
 
 import com.beerair.core.auth.dto.request.RefreshTokenRequest;
-import com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter;
-import com.beerair.core.common.util.MapperUtil;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.client.BufferingClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.beerair.core.acceptance.CucumberHttpResponseContext;
-import com.beerair.core.acceptance.member.MemberStepDefs;
 import com.beerair.core.common.dto.ResponseDto;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
 
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component
@@ -55,12 +42,12 @@ public class AuthStepClient {
         CucumberHttpResponseContext.set(response);
     }
 
-    public void testTokenDetail(String access) {
+    public void getAuthMe(String access) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("authorization", TOKEN_TYPE + " " + access);
 
         var response = this.restTemplate.exchange(
-                authEndpoint(),
+                authEndpoint() + "/me",
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 ResponseDto.class

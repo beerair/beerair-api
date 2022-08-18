@@ -8,7 +8,6 @@ import lombok.Builder;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,6 +22,7 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     private final AuthTokenCrypto accessTokenCrypto;
     private final AuthTokenCrypto refreshTokenCrypto;
     private final RefreshTokenService refreshTokenService;
+    private final AuthTokenFailureHandler failureHandler;
 
     @Builder
     private AuthTokenSuccessHandler(
@@ -30,13 +30,15 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
             String successRedirectUri,
             AuthTokenCrypto accessTokenCrypto,
             AuthTokenCrypto refreshTokenCrypto,
-            RefreshTokenService refreshTokenService
+            RefreshTokenService refreshTokenService,
+            AuthTokenFailureHandler failureHandler
     ) {
         this.redisTemplate = redisTemplate;
         this.successRedirectUri = successRedirectUri;
         this.accessTokenCrypto = accessTokenCrypto;
         this.refreshTokenCrypto = refreshTokenCrypto;
         this.refreshTokenService = refreshTokenService;
+        this.failureHandler = failureHandler;
     }
 
     @Transactional
@@ -47,9 +49,10 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
             Authentication authentication
     ) throws IOException {
         if (!(authentication instanceof OAuth2AuthenticationToken)) {
-            throw new BadLoginRequestException();
+            failureHandler.onAuthenticationFailure(request, response, new BadLoginRequestException());
+            return;
         }
-        var authTokenAuthentication = AuthTokenAuthentication.from(
+        var authTokenAuthentication = AuthTokenAuthentication.create(
                 (OAuth2AuthenticationToken) authentication
         );
         String access = accessTokenCrypto.encrypt(authTokenAuthentication);

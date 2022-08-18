@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -25,12 +26,6 @@ public class FakeAuthTokenCrypto implements AuthTokenCrypto {
 
     public static void register(String token, Member member) {
         memberEachToken.put(token, member);
-    }
-
-    private static Member get(String token) {
-        return Optional
-                .ofNullable(memberEachToken.get(token))
-                .orElseThrow(() -> new TestDebugException("사전에 등록된 token이 없습니다."));
     }
 
     private String findTokenByMemberId(String memberId) {
@@ -50,7 +45,7 @@ public class FakeAuthTokenCrypto implements AuthTokenCrypto {
 
     @Override
     public AuthTokenAuthentication decrypt(String token) {
-        var member = get(token);
+        var member = memberEachToken.get(token);
         var loggedInUser = OAuth2Member.of(member, Collections.emptyMap());
 
         var authorities = member.getRole()
@@ -58,6 +53,6 @@ public class FakeAuthTokenCrypto implements AuthTokenCrypto {
                 .stream()
                 .map(CustomGrantedAuthority::new)
                 .collect(Collectors.toSet());
-        return new AuthTokenAuthentication(loggedInUser, authorities);
+        return AuthTokenAuthentication.from(loggedInUser, authorities, new Date(new Date().getTime() + 100000000));
     }
 }

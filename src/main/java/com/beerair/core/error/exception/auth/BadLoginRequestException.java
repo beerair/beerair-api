@@ -1,12 +1,11 @@
 package com.beerair.core.error.exception.auth;
 
 import com.beerair.core.error.dto.ErrorMessage;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.core.AuthenticationException;
 
-public class BadLoginRequestException extends OAuth2AuthenticationException {
+public class BadLoginRequestException extends AuthenticationException {
     public BadLoginRequestException(String message) {
-        super(new OAuth2Error(null, message, null));
+        super(message);
     }
 
     public BadLoginRequestException() {

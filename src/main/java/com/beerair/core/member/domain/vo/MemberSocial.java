@@ -8,6 +8,8 @@ import org.hibernate.annotations.Comment;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Objects;
 
 @Getter
@@ -18,6 +20,7 @@ public class MemberSocial {
     @Column(nullable = false)
     private String socialId;
 
+    @Enumerated(EnumType.STRING)
     @Comment("소셜 계정 종류")
     @Column(length = 100, nullable = false)
     private SocialType socialType;

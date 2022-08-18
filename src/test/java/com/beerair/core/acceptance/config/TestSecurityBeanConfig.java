@@ -3,6 +3,7 @@ package com.beerair.core.acceptance.config;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
+import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
 import com.beerair.core.fixture.fake.FakeAuthTokenCrypto;
 import com.beerair.core.fixture.fake.FakeAuthenticationSuccessHandler;
 import com.beerair.core.fixture.fake.FakeClientRegistrationRepository;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Profile("test")
@@ -34,5 +36,10 @@ public class TestSecurityBeanConfig {
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
         return new FakeClientRegistrationRepository();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new AuthTokenFailureHandler("/");
     }
 }

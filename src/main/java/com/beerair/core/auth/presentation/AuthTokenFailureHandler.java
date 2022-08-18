@@ -1,14 +1,11 @@
 package com.beerair.core.auth.presentation;
 
+import com.beerair.core.error.dto.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,7 +13,6 @@ import java.io.PrintWriter;
 import java.util.Objects;
 
 @Slf4j
-@Component
 public class AuthTokenFailureHandler implements AuthenticationFailureHandler {
     private static final String WRITER_CONTENT_TYPE = "text/html; charset=UTF-8;";
     private static final String WARING_TEMPLATE =
@@ -27,7 +23,7 @@ public class AuthTokenFailureHandler implements AuthenticationFailureHandler {
 
     private final String redirectUrl;
 
-    public AuthTokenFailureHandler(@Value("${auth.fail_redirect_uri}") String redirectUrl) {
+    public AuthTokenFailureHandler(String redirectUrl) {
         this.redirectUrl = redirectUrl;
     }
 
@@ -42,7 +38,14 @@ public class AuthTokenFailureHandler implements AuthenticationFailureHandler {
         response.setContentType(WRITER_CONTENT_TYPE);
 
         PrintWriter out = response.getWriter();
-        out.println(String.format(WARING_TEMPLATE, message, redirectUrl));
+        out.println(String.format(WARING_TEMPLATE, printableMessage(message), redirectUrl));
         out.flush();
+    }
+
+    private String printableMessage(String message) {
+        if (Objects.isNull(message)) {
+            return ErrorMessage.BAD_LOGIN_REQUEST.getDescription();
+        }
+        return message;
     }
 }

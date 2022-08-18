@@ -47,7 +47,7 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private Optional<String> getToken(HttpServletRequest request) {
+    public Optional<String> getToken(HttpServletRequest request) {
         String token = request.getHeader("authorization");
         if (Objects.isNull(token) || !token.startsWith(TOKEN_TYPE)) {
             return Optional.empty();

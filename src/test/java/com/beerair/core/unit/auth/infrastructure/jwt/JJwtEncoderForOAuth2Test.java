@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,8 +43,8 @@ class JJwtEncoderForOAuth2Test {
                 MemberFixture.createSocialMemberFixture().get(),
                 Collections.emptyMap()
         );
-        this.authentication = new AuthTokenAuthentication(
-                oAuth2Member, authorities
+        this.authentication = AuthTokenAuthentication.from(
+                oAuth2Member, authorities, new Date(new Date().getTime() + 1000000000)
         );
     }
 

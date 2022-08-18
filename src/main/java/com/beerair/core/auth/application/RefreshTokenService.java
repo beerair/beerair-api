@@ -4,7 +4,7 @@ import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.RefreshToken;
 import com.beerair.core.auth.domain.TokenPurpose;
-import com.beerair.core.auth.dto.response.TokenResponse;
+import com.beerair.core.auth.dto.response.TokenRefreshResponse;
 import com.beerair.core.auth.infrastructure.RefreshTokenRepository;
 import com.beerair.core.error.exception.auth.TokenNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,13 +34,13 @@ public class RefreshTokenService {
         refreshTokenRepository.save(new RefreshToken(memberId, token));
     }
 
-    public TokenResponse issueByRefreshToken(String token) {
+    public TokenRefreshResponse issueByRefreshToken(String token) {
         get(token).use();
 
         AuthTokenAuthentication authentication = refreshTokenCrypto.decrypt(token);
         var newAccess = accessTokenCrypto.encrypt(authentication);
         var newRefresh = refreshTokenCrypto.encrypt(authentication);
-        return new TokenResponse(
+        return new TokenRefreshResponse(
                 newAccess, newRefresh
         );
     }

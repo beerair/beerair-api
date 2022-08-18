@@ -1,4 +1,4 @@
-package com.beerair.core.config;
+package com.beerair.core.config.bean;
 
 import com.beerair.core.auth.application.RefreshTokenService;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
@@ -6,6 +6,7 @@ import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.infrastructure.jwt.JJwtCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
+import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
 import com.beerair.core.auth.presentation.AuthTokenSuccessHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Profile({ "local", "prod", "staging" })
@@ -73,5 +75,10 @@ public class SecurityBeanConfig {
                 .refreshTokenCrypto(refreshTokenCrypto)
                 .refreshTokenService(refreshTokenService)
                 .build();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler(@Value("${auth.fail_redirect_uri}") String redirectUrl) {
+        return new AuthTokenFailureHandler(redirectUrl);
     }
 }

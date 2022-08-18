@@ -1,7 +1,6 @@
 package com.beerair.core.common.domain;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -10,7 +9,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Converter
 public class StringFieldCryptConverter implements AttributeConverter<String, String> {
-    private final FieldCrypto crypto;
+    private final Crypto crypto;
 
     @Override
     public String convertToDatabaseColumn(String attribute) {

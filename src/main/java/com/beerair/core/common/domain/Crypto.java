@@ -1,6 +1,6 @@
 package com.beerair.core.common.domain;
 
-public interface FieldCrypto {
+public interface Crypto {
     String encrypt(String str);
 
     String decrypt(String str);

@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Objects;
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,8 +34,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorDto> handleException(final Exception e) {
-        log.error("[ERROR] Exception -> {}", e.getCause().toString());
-
         var errorMessage = ErrorMessage.CONFLICT_ERROR;
 
         return ResponseEntity.status(errorMessage.getStatus())
