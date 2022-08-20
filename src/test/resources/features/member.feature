@@ -1,5 +1,5 @@
 Feature: Member
-    Scenario: 로그인 후 회원가입 하고 중복된 회원 가입 요청
+    Scenario:   로그인 후 회원가입 하고 중복된 회원 가입 요청
         Given   memberId: 'AAA', access: '1234', refresh: '5678' 토큰이 발급 되어있다.
         And     Access Token 사용 : '1234'
 

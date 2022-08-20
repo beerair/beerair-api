@@ -2,16 +2,20 @@ package com.beerair.core.acceptance;
 
 import com.beerair.core.acceptance.auth.AccessTokenHolder;
 import com.beerair.core.common.dto.ResponseDto;
-import lombok.Builder;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.DefaultResponseErrorHandler;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import static com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter.TOKEN_TYPE;
+import java.io.IOException;
 
+import static com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter.TOKEN_TYPE;
 
 public abstract class StepClient {
     private static final String SERVER_URL = "http://localhost";
@@ -23,7 +27,9 @@ public abstract class StepClient {
     private final String endpoint;
 
     public StepClient(String endpoint) {
-        this.restTemplate = new RestTemplate();
+        this.restTemplate = new RestTemplateBuilder()
+                .errorHandler(new NothingErrorHandler())
+                .build();
         this.endpoint = endpoint;
     }
 
@@ -46,5 +52,18 @@ public abstract class StepClient {
         HttpHeaders headers = new HttpHeaders();
         headers.add("authorization", TOKEN_TYPE + " " + AccessTokenHolder.access);
         return headers;
+    }
+
+    private static class NothingErrorHandler implements ResponseErrorHandler {
+
+        @Override
+        public boolean hasError(ClientHttpResponse response) throws IOException {
+            return false;
+        }
+
+        @Override
+        public void handleError(ClientHttpResponse response) throws IOException {
+
+        }
     }
 }

@@ -26,10 +26,11 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 public class MemberController {
     private final MemberService memberService;
 
-    @ApiOperation(value = "회원가입 API", notes = "MOCK UP API")
+    @ApiOperation(value = "회원가입 API")
     @PostMapping
     public ResponseEntity<?> sign(@AuthUser LoggedInUser user, @RequestBody MemberSignRequest request) {
-        return ResponseDto.created("ok");
+        memberService.sign(user, request);
+        return ResponseDto.noContent();
     }
 
     @ApiOperation(value = "탈퇴 API", notes = "MOCK UP API")

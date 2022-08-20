@@ -5,6 +5,7 @@ import com.beerair.core.auth.infrastructure.RefreshTokenRepository;
 import com.beerair.core.fixture.MemberFixture;
 import com.beerair.core.fixture.fake.FakeAuthTokenCrypto;
 import com.beerair.core.fixture.fake.FakeOAuth2UserService;
+import com.beerair.core.member.infrastructure.MemberRepository;
 import io.cucumber.java.en.Given;
 import io.cucumber.spring.ScenarioScope;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class AuthStepGivenDefs {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
     @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     @Transactional
@@ -25,6 +28,7 @@ public class AuthStepGivenDefs {
                 .set("id", memberId)
                 .get();
         FakeOAuth2UserService.setNextMember(member);
+        memberRepository.save(member);
 
         FakeAuthTokenCrypto.register(access, member);
         FakeAuthTokenCrypto.register(refresh, member);

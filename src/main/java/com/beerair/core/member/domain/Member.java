@@ -98,6 +98,7 @@ public class Member extends BaseEntity {
             throw new MemberUnableSignException(MEMBER_UNABLE_SIGN_BY_SIGNED);
         }
         this.nickname = nickname;
+        this.role = Role.MEMBER;
     }
 
     @Override
