@@ -67,7 +67,7 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
     private void persist(String memberId, String access, String refresh) {
         redisTemplate.opsForValue().set("authToken:" + memberId, access);
-        refreshTokenService.renew(memberId, refresh);
+        refreshTokenService.issue(memberId, refresh);
     }
 
     private String location(HttpServletRequest request, String access, String refresh) {

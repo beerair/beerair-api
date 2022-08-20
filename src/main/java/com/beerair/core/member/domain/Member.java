@@ -3,6 +3,7 @@ package com.beerair.core.member.domain;
 import com.beerair.core.common.domain.BaseEntity;
 import com.beerair.core.common.domain.StringFieldCryptConverter;
 import com.beerair.core.common.util.IdGenerator;
+import com.beerair.core.error.exception.member.MemberUnableSignException;
 import com.beerair.core.member.domain.vo.MemberSocial;
 import com.beerair.core.member.domain.vo.Role;
 import lombok.Builder;
@@ -20,6 +21,7 @@ import javax.persistence.UniqueConstraint;
 import java.util.Objects;
 
 import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
+import static com.beerair.core.error.dto.ErrorMessage.MEMBER_UNABLE_SIGN_BY_SIGNED;
 
 @Table(
         uniqueConstraints = {
@@ -89,6 +91,13 @@ public class Member extends BaseEntity {
         this.profileUrl = profileUrl;
         this.phoneNumber = phoneNumber;
         this.role = Role.USER;
+    }
+
+    public void sign(String nickname) {
+        if (role == Role.MEMBER) {
+            throw new MemberUnableSignException(MEMBER_UNABLE_SIGN_BY_SIGNED);
+        }
+        this.nickname = nickname;
     }
 
     @Override

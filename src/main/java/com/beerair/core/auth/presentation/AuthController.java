@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,9 +43,9 @@ public class AuthController {
     }
 
     @ApiOperation(value = "Refresh Token 사용한 Access Token 발급 요청 api")
-    @PostMapping("refresh")
-    public ResponseEntity<?> issueAccessToken(@RequestBody RefreshTokenRequest request) {
-        var response = refreshTokenService.issueByRefreshToken(request.getRefreshToken());
+    @PostMapping("{refreshToken}/access-token")
+    public ResponseEntity<?> issueAccessToken(@PathVariable("refreshToken") String refreshToken) {
+        var response = refreshTokenService.issueByRefreshToken(refreshToken);
         return ResponseDto.ok(response);
     }
 }
