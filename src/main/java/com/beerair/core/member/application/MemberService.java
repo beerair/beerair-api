@@ -23,4 +23,12 @@ public class MemberService {
     public void sign(LoggedInUser user, MemberSignRequest request) {
         get(user).sign(request.getNickname());
     }
+
+    public void resign(LoggedInUser user) {
+        get(user).resign();
+    }
+
+    public void changeNickname(LoggedInUser user, String nickname) {
+        get(user).changeNickname(nickname);
+    }
 }

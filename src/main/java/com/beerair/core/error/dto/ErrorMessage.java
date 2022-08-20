@@ -15,6 +15,7 @@ public enum ErrorMessage {
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 유저 정보가 없습니다."),
     MEMBER_UNABLE_SIGN_BY_SIGNED(HttpStatus.CONFLICT, "이미 회원가입이 완료된 유저 입니다."),
+    MEMBER_NICKNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 존재하는 닉네임 입니다."),
 
     CONFLICT_ERROR(HttpStatus.BAD_REQUEST, "예기치 못한 에러가 발생했습니다."),
 

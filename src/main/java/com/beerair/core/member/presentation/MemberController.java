@@ -3,6 +3,7 @@ package com.beerair.core.member.presentation;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.application.MemberService;
 import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.dto.request.MemberChangeNicknameRequest;
 import com.beerair.core.member.dto.request.MemberSignRequest;
 import com.beerair.core.member.presentation.annotation.AuthUser;
 import io.swagger.annotations.Api;
@@ -30,20 +31,28 @@ public class MemberController {
 
     @ApiOperation(value = "회원가입 API")
     @PostMapping
-    public ResponseEntity<?> sign(@AuthUser LoggedInUser user, @Valid @RequestBody MemberSignRequest request) {
+    public ResponseEntity<?> sign(
+            @AuthUser LoggedInUser user,
+            @Valid @RequestBody MemberSignRequest request
+    ) {
         memberService.sign(user, request);
         return ResponseDto.noContent();
     }
 
-    @ApiOperation(value = "탈퇴 API", notes = "MOCK UP API")
-    @DeleteMapping("/resign")
-    public ResponseEntity<?> resign() {
-        return ResponseDto.ok("ok");
+    @ApiOperation(value = "탈퇴 API")
+    @DeleteMapping
+    public ResponseEntity<?> resign(@AuthUser LoggedInUser user) {
+        memberService.resign(user);
+        return ResponseDto.noContent();
     }
 
-    @ApiOperation(value = "닉네임 변경 API", notes = "MOCK UP API")
+    @ApiOperation(value = "닉네임 변경 API")
     @PatchMapping("/nickname")
-    public ResponseEntity<?> modifiedNickname() {
+    public ResponseEntity<?> modifiedNickname(
+            @AuthUser LoggedInUser user,
+            @Valid @RequestBody MemberChangeNicknameRequest request
+    ) {
+        memberService.changeNickname(user, request.getNickname());
         return ResponseDto.ok("ok");
     }
 

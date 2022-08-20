@@ -26,7 +26,7 @@ public class AuthStepClient extends StepClient {
     public void getAuthMe() {
         this.exchange(
                 HttpMethod.GET,
-                "me",
+                "/me",
                 new HttpEntity<>(authed())
         );
     }
