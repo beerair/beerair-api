@@ -4,6 +4,8 @@ import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
 import lombok.Setter;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 
+import java.util.Objects;
+
 public abstract class OAuth2AttributesLoader {
     @Setter
     private OAuth2AttributesLoader next;

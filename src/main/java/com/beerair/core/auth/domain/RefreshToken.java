@@ -8,6 +8,7 @@ import lombok.Getter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
 
@@ -21,7 +22,8 @@ public class RefreshToken extends BaseEntity {
     @Column(nullable = false, length = UUID_LENGTH)
     private String memberId;
 
-    @Column(nullable = false, length = 1000)
+    @Lob
+    @Column(nullable = false)
     private String token;
 
     @Column(nullable = false)

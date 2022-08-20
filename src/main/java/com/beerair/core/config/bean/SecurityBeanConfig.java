@@ -4,6 +4,7 @@ import com.beerair.core.auth.application.RefreshTokenService;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.infrastructure.jwt.JJwtCrypto;
+import com.beerair.core.auth.infrastructure.oauth2.KakaoOAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
@@ -17,6 +18,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import java.util.List;
 
 @Profile({ "local", "prod", "staging" })
 @Configuration
@@ -38,7 +41,10 @@ public class SecurityBeanConfig {
 
     @Bean
     public OAuth2AttributesLoader oAuth2AttributesLoader() {
-        return new NaverOAuth2AttributesLoader();
+        var naver = new NaverOAuth2AttributesLoader();
+        var kakao = new KakaoOAuth2AttributesLoader();
+        naver.setNext(kakao);
+        return naver;
     }
 
     @Primary

@@ -37,7 +37,7 @@ public class MemberSocial {
 
     @Convert(converter = StringFieldCryptConverter.class)
     @Comment("핸드폰 번호")
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String phoneNumber;
 
     protected MemberSocial() {

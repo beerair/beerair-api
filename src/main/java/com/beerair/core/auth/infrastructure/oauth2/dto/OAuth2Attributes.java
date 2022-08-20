@@ -21,7 +21,6 @@ public class OAuth2Attributes {
 
     private final String profile;
 
-    @NotNull(message = "휴대폰 번호 정보 제공에 동의 해주세요.")
     private final String phoneNumber;
 
     @NotNull
