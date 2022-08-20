@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "[2] 멤버 API")
@@ -28,7 +30,7 @@ public class MemberController {
 
     @ApiOperation(value = "회원가입 API")
     @PostMapping
-    public ResponseEntity<?> sign(@AuthUser LoggedInUser user, @RequestBody MemberSignRequest request) {
+    public ResponseEntity<?> sign(@AuthUser LoggedInUser user, @Valid @RequestBody MemberSignRequest request) {
         memberService.sign(user, request);
         return ResponseDto.noContent();
     }

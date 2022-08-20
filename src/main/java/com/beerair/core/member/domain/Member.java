@@ -97,8 +97,15 @@ public class Member extends BaseEntity {
         if (role == Role.MEMBER) {
             throw new MemberUnableSignException(MEMBER_UNABLE_SIGN_BY_SIGNED);
         }
-        this.nickname = nickname;
         this.role = Role.MEMBER;
+    }
+
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void resign() {
+        this.delete();
     }
 
     @Override
