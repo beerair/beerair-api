@@ -2,6 +2,9 @@ package com.beerair.core.member.presentation;
 
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.application.MemberService;
+import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.dto.request.MemberSignRequest;
+import com.beerair.core.member.presentation.annotation.AuthUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +28,7 @@ public class MemberController {
 
     @ApiOperation(value = "회원가입 API", notes = "MOCK UP API")
     @PostMapping
-    public ResponseEntity<?> sign() {
+    public ResponseEntity<?> sign(@AuthUser LoggedInUser user, @RequestBody MemberSignRequest request) {
         return ResponseDto.created("ok");
     }
 

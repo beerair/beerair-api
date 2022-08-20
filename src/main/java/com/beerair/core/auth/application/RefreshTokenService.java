@@ -28,7 +28,7 @@ public class RefreshTokenService {
         this.refreshTokenCrypto = refreshTokenCrypto;
     }
 
-    public void renew(String memberId, String token) {
+    public void issue(String memberId, String token) {
         refreshTokenRepository.findAllByMemberId(memberId)
                 .forEach(RefreshToken::delete);
         refreshTokenRepository.save(new RefreshToken(memberId, token));

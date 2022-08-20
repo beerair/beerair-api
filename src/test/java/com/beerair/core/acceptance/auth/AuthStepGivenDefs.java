@@ -32,4 +32,9 @@ public class AuthStepGivenDefs {
         redisTemplate.opsForValue().set("authToken:" + memberId, access);
         refreshTokenRepository.save(new RefreshToken(memberId, refresh));
     }
+
+    @Given("Access Token 사용 : {string}")
+    public void setAccessToken(String access) {
+        AccessTokenHolder.access = access;
+    }
 }

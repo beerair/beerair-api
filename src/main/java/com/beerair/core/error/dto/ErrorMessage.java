@@ -13,6 +13,9 @@ public enum ErrorMessage {
     NO_AUTH(HttpStatus.FORBIDDEN, "로그인이 필요합니다."),
     BAD_LOGIN_REQUEST(HttpStatus.BAD_REQUEST, "올바르지 않은 로그인 입니다."),
 
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 유저 정보가 없습니다."),
+    MEMBER_UNABLE_SIGN_BY_SIGNED(HttpStatus.CONFLICT, "이미 회원가입이 완료된 유저 입니다."),
+
     CONFLICT_ERROR(HttpStatus.BAD_REQUEST, "예기치 못한 에러가 발생했습니다."),
 
     INTERNAL_SERVER_ERROR_BY_MAPPER(HttpStatus.BAD_REQUEST, "예기치 못한 에러가 발생했습니다."),
