@@ -21,4 +21,10 @@ public class ErrorDto implements Serializable {
         this.message = message.getDescription();
         this.reason = "";
     }
+
+    public ErrorDto(String name, String message) {
+        this.name = name;
+        this.message = message;
+        this.reason = "";
+    }
 }

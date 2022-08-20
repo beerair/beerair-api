@@ -8,8 +8,8 @@ import lombok.Getter;
 @Getter
 public class LoggedInUser {
     private String id;
-    private String email;
     private String nickname;
+    private String email;
 
     protected LoggedInUser() {
     }

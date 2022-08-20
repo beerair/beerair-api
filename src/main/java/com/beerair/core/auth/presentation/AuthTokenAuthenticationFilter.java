@@ -1,10 +1,11 @@
 package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
-import com.beerair.core.auth.domain.AuthTokenEncoder;
-import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.auth.domain.AuthTokenCrypto;
+import com.beerair.core.error.exception.BusinessException;
+import com.beerair.core.error.exception.auth.TokenNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,7 +22,8 @@ import java.util.Optional;
 @Component
 public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     public static final String TOKEN_TYPE = "Bearer";
-    private final AuthTokenEncoder authTokenEncoder;
+    private final AuthTokenCrypto accessTokenCrypto;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     protected void doFilterInternal(
@@ -29,14 +31,24 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        Optional<String> token = getToken(request);
+        Optional<String> optionalToken = getToken(request);
+        if (optionalToken.isEmpty()) {
+            return;
+        }
+        try {
+            String token = optionalToken.get();
+            var authentication = convert(token);
+            String memberId = authentication.getLoggedInUser().getId();
 
-        token.map(this::convert)
-                .ifPresent(SecurityContextHolder.getContext()::setAuthentication);
-        filterChain.doFilter(request, response);
+            verify(memberId, token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (BusinessException ignored) {
+        } finally {
+            filterChain.doFilter(request, response);
+        }
     }
 
-    private Optional<String> getToken(HttpServletRequest request) {
+    public Optional<String> getToken(HttpServletRequest request) {
         String token = request.getHeader("authorization");
         if (Objects.isNull(token) || !token.startsWith(TOKEN_TYPE)) {
             return Optional.empty();
@@ -45,13 +57,16 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
                 .map(t -> t.split(" ")[1]);
     }
 
-    private Authentication convert(String token) {
-        AuthTokenAuthentication authentication = AuthTokenAuthentication
-                .builder()
-                .token(token)
-                .loggedInUser(authTokenEncoder.getLoggedInUser(token))
-                .authorities(authTokenEncoder.getAuthorities(token))
-                .build();
+    private void verify(String memberId, String token) {
+        Object raw = redisTemplate.opsForValue().get("authToken:" + memberId);
+        var saved = Optional.ofNullable(raw).map(t -> (String) t);
+        if (saved.isEmpty() || !token.equals(saved.get())) {
+            throw new TokenNotFoundException();
+        }
+    }
+
+    private AuthTokenAuthentication convert(String token) {
+        AuthTokenAuthentication authentication = accessTokenCrypto.decrypt(token);
         authentication.setAuthenticated(true);
         return authentication;
     }

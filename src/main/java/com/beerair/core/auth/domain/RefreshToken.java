@@ -2,14 +2,13 @@ package com.beerair.core.auth.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
 import com.beerair.core.common.util.IdGenerator;
-import com.beerair.core.error.exception.auth.RefreshTokenAlreadyUsedException;
+import com.beerair.core.error.exception.auth.ExpiredAuthTokenException;
 import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
+import javax.persistence.Lob;
 
 import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
 
@@ -20,6 +19,10 @@ public class RefreshToken extends BaseEntity {
     @Column(nullable = false, length = UUID_LENGTH)
     private String id;
 
+    @Column(nullable = false, length = UUID_LENGTH)
+    private String memberId;
+
+    @Lob
     @Column(nullable = false, length = 1000)
     private String token;
 
@@ -29,15 +32,16 @@ public class RefreshToken extends BaseEntity {
     protected RefreshToken() {
     }
 
-    public RefreshToken(String token) {
+    public RefreshToken(String memberId, String token) {
         this.id = IdGenerator.createUUID();
+        this.memberId = memberId;
         this.token = token;
         this.used = false;
     }
 
     public void use() {
         if (this.used) {
-            throw new RefreshTokenAlreadyUsedException();
+            throw new ExpiredAuthTokenException();
         }
         this.used = true;
     }
