@@ -28,6 +28,10 @@ public class FakeAuthTokenCrypto implements AuthTokenCrypto {
         memberEachToken.put(token, member);
     }
 
+    public static void cleanUp() {
+        memberEachToken.clear();
+    }
+
     private String findTokenByMemberId(String memberId) {
         return memberEachToken
                 .entrySet()

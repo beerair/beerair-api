@@ -45,4 +45,8 @@ public class RefreshToken extends BaseEntity {
         }
         this.used = true;
     }
+
+    public void delete() {
+        super.delete();
+    }
 }

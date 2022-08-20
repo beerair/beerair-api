@@ -18,7 +18,7 @@ public class AuthStepClient extends StepClient {
     public void issueAccessToken(String refresh) {
         this.exchange(
                 HttpMethod.POST,
-                refresh + "/access-token",
+                "/" + refresh + "/access-token",
                 new HttpEntity<>(authed())
         );
     }
@@ -26,7 +26,7 @@ public class AuthStepClient extends StepClient {
     public void getAuthMe() {
         this.exchange(
                 HttpMethod.GET,
-                "me",
+                "/me",
                 new HttpEntity<>(authed())
         );
     }

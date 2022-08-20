@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
-@Api(tags = "[?] 사용자 Auth API")
+@Api(tags = "[0] Auth API")
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/auths", produces = APPLICATION_JSON_UTF_8)
 @RestController

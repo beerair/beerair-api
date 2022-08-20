@@ -14,6 +14,8 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -76,6 +78,7 @@ public class Member extends BaseEntity {
     @Comment("경험치")
     private Integer exp;
 
+    @Enumerated(EnumType.STRING)
     @Comment("권한 정보")
     @Column(length = 20, nullable = false)
     private Role role;
@@ -97,7 +100,16 @@ public class Member extends BaseEntity {
         if (role == Role.MEMBER) {
             throw new MemberUnableSignException(MEMBER_UNABLE_SIGN_BY_SIGNED);
         }
+        this.role = Role.MEMBER;
+        changeNickname(nickname);
+    }
+
+    public void changeNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void resign() {
+        this.delete();
     }
 
     @Override

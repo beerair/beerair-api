@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberSignRequest {
+public class MemberChangeNicknameRequest {
     @Length(min = 3, max = 15)
     private String nickname;
 }

@@ -15,12 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    private Member get(String userId) {
-        return memberRepository.findById(userId)
+    private Member get(LoggedInUser user) {
+        return memberRepository.findById(user.getId())
                 .orElseThrow(MemberNotFoundException::new);
     }
 
     public void sign(LoggedInUser user, MemberSignRequest request) {
-        get(user.getId()).sign(request.getNickname());
+        get(user).sign(request.getNickname());
+    }
+
+    public void resign(LoggedInUser user) {
+        get(user).resign();
+    }
+
+    public void changeNickname(LoggedInUser user, String nickname) {
+        get(user).changeNickname(nickname);
     }
 }
