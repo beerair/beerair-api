@@ -31,11 +31,11 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        Optional<String> optionalToken = getToken(request);
-        if (optionalToken.isEmpty()) {
-            return;
-        }
         try {
+            Optional<String> optionalToken = getToken(request);
+            if (optionalToken.isEmpty()) {
+                return;
+            }
             String token = optionalToken.get();
             var authentication = convert(token);
             String memberId = authentication.getLoggedInUser().getId();
