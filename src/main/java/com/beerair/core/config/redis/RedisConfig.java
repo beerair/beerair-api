@@ -1,4 +1,4 @@
-package com.beerair.core.config;
+package com.beerair.core.config.redis;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

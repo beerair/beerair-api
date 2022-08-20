@@ -1,5 +1,6 @@
 package com.beerair.core.suggest.application;
 
+import com.beerair.core.member.dto.LoggedInUser;
 import com.beerair.core.suggest.domain.BeerSuggest;
 import com.beerair.core.suggest.dto.response.BeerSuggestCountResponse;
 import com.beerair.core.suggest.dto.response.BeerSuggestResponse;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class BeerSuggestService {
     private final BeerSuggestRepository beerSuggestRepository;
 
-    public Boolean existsByNameAndMemberId(String name, Long memberId) {
+    public Boolean existsByNameAndMemberId(String name, String memberId) {
         return beerSuggestRepository.existsByBeerNameAndMemberId(name, memberId);
     }
 
@@ -22,14 +23,14 @@ public class BeerSuggestService {
         return beerSuggestRepository.save(beerSuggest);
     }
 
-    public BeerSuggestCountResponse count(Long memberId) {
-        var count = beerSuggestRepository.countByMemberId(memberId);
+    public BeerSuggestCountResponse count(LoggedInUser user) {
+        var count = beerSuggestRepository.countByMemberId(user.getId());
 
-        return new BeerSuggestCountResponse(memberId, count);
+        return new BeerSuggestCountResponse(user.getId(), count);
     }
 
-    public Page<BeerSuggestResponse> getAll(Pageable pageable, Long memberId) {
-        return beerSuggestRepository.findAllById(pageable, memberId)
+    public Page<BeerSuggestResponse> getAll(Pageable pageable, LoggedInUser user) {
+        return beerSuggestRepository.findAllByMemberId(pageable, user.getId())
                 .map(BeerSuggestResponse::new);
     }
 }

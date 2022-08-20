@@ -1,4 +1,4 @@
-package com.beerair.core.config;
+package com.beerair.core.config.security;
 
 import com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter;
 import com.beerair.core.auth.presentation.AuthTokenFailureHandler;

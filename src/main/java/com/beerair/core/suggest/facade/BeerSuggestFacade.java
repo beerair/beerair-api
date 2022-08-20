@@ -4,6 +4,7 @@ import com.beerair.core.beer.application.BeerService;
 import com.beerair.core.common.util.MapperUtil;
 import com.beerair.core.error.exception.suggest.BeerAlreadyExistsException;
 import com.beerair.core.error.exception.suggest.BeerSuggestAlreadyExistsException;
+import com.beerair.core.member.dto.LoggedInUser;
 import com.beerair.core.suggest.application.BeerSuggestService;
 import com.beerair.core.suggest.domain.BeerSuggest;
 import com.beerair.core.suggest.dto.request.BeerSuggestRegisterRequest;
@@ -17,23 +18,23 @@ public class BeerSuggestFacade {
     private final BeerSuggestService beerSuggestService;
     private final BeerService beerService;
 
-    public void validate(String name, Long memberId) {
+    public void validate(String name, LoggedInUser user) {
         if (beerService.existsByKorNameOrEngName(name)) {
             throw new BeerAlreadyExistsException();
         }
-        if (beerSuggestService.existsByNameAndMemberId(name, memberId)) {
+        if (beerSuggestService.existsByNameAndMemberId(name, user.getId())) {
             throw new BeerSuggestAlreadyExistsException();
         }
     }
 
-    public BeerSuggestRegisterResponse register(Long memberId, BeerSuggestRegisterRequest request) {
-        validate(request.getName(), memberId);
+    public BeerSuggestRegisterResponse register(BeerSuggestRegisterRequest request, LoggedInUser user) {
+        validate(request.getName(), user);
 
         var suggest = beerSuggestService.save(
                 new BeerSuggest(
                         MapperUtil.writeValueAsString(request.getImages()),
                         request.getName(),
-                        memberId
+                        user.getId()
                 )
         );
 
