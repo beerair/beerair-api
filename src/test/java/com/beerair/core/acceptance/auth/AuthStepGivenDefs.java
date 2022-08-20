@@ -41,4 +41,9 @@ public class AuthStepGivenDefs {
     public void setAccessToken(String access) {
         AccessTokenHolder.access = access;
     }
+
+    @Given("Access Token 미사용")
+    public void setNullAccessToken(String access) {
+        AccessTokenHolder.access = null;
+    }
 }

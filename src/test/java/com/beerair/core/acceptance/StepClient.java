@@ -13,6 +13,7 @@ import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter.TOKEN_TYPE;
 
@@ -47,19 +48,21 @@ public abstract class StepClient {
 
     protected HttpHeaders authed() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("authorization", TOKEN_TYPE + " " + AccessTokenHolder.access);
+        if (Objects.nonNull(AccessTokenHolder.access)) {
+            headers.add("authorization", TOKEN_TYPE + " " + AccessTokenHolder.access);
+        }
         return headers;
     }
 
     private static class NothingErrorHandler implements ResponseErrorHandler {
 
         @Override
-        public boolean hasError(ClientHttpResponse response) throws IOException {
+        public boolean hasError(ClientHttpResponse response) {
             return false;
         }
 
         @Override
-        public void handleError(ClientHttpResponse response) throws IOException {
+        public void handleError(ClientHttpResponse response) {
 
         }
     }
