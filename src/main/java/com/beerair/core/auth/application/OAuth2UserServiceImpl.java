@@ -35,10 +35,12 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
     private Member member(OAuth2Attributes attributes) {
         verify(attributes);
 
-        MemberSocial social = createSocial(attributes);
+        MemberSocial social = new MemberSocial(
+                attributes.getSocialId(), attributes.getSocialType()
+        );
         return memberRepository
                 .findBySocial(social)
-                .orElseGet(() -> signByOAuth2(social));
+                .orElseGet(() -> signByOAuth2(attributes, social));
     }
 
     private void verify(OAuth2Attributes attributes) {
@@ -52,19 +54,13 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         }
     }
 
-    private MemberSocial createSocial(OAuth2Attributes attributes) {
-        return MemberSocial.builder()
+    private Member signByOAuth2(OAuth2Attributes attributes, MemberSocial social) {
+        Member member = Member.socialBuilder()
                 .email(attributes.getEmail())
                 .phoneNumber(attributes.getPhoneNumber())
                 .profileUrl(attributes.getProfile())
-                .socialId(attributes.getSocialId())
-                .socialType(attributes.getSocialType())
+                .social(social)
                 .build();
-    }
-
-    private Member signByOAuth2(MemberSocial social) {
-        return memberRepository.save(
-                Member.ofSocial(social)
-        );
+        return memberRepository.save(member);
     }
 }

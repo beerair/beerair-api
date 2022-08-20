@@ -10,15 +10,12 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class MemberFixture {
     public static Fixture<Member> createSocialMemberFixture() {
-        var social = MemberSocial.builder()
+        var member = Member.socialBuilder()
                 .email("username")
                 .phoneNumber("01012345678")
                 .profileUrl("https://img.com")
-                .socialId("1234")
-                .socialType(SocialType.KAKAO)
+                .social(new MemberSocial("1234", SocialType.KAKAO))
                 .build();
-        return new Fixture<>(
-                Member.ofSocial(social)
-        );
+        return new Fixture<>(member);
     }
 }

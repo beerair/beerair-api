@@ -1,16 +1,16 @@
 package com.beerair.core.member.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
+import com.beerair.core.common.domain.StringFieldCryptConverter;
 import com.beerair.core.common.util.IdGenerator;
-import com.beerair.core.member.domain.vo.MemberDetails;
 import com.beerair.core.member.domain.vo.MemberSocial;
 import com.beerair.core.member.domain.vo.Role;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -48,8 +48,31 @@ public class Member extends BaseEntity {
     @Embedded
     private MemberSocial social;
 
-    @Embedded
-    private MemberDetails details;
+    @Convert(converter = StringFieldCryptConverter.class)
+    @Comment("이메일")
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Convert(converter = StringFieldCryptConverter.class)
+    @Comment("프로필 이미지")
+    @Column(length = 500)
+    private String profileUrl;
+
+    @Convert(converter = StringFieldCryptConverter.class)
+    @Comment("핸드폰 번호")
+    @Column(unique = true)
+    private String phoneNumber;
+
+    @Convert(converter = StringFieldCryptConverter.class)
+    @Comment("닉네임")
+    @Column(length = 50, unique = true)
+    private String nickname;
+
+    @Comment("레벨 Id")
+    private Long leverId;
+
+    @Comment("경험치")
+    private Integer exp;
 
     @Comment("권한 정보")
     @Column(length = 20, nullable = false)
@@ -58,19 +81,14 @@ public class Member extends BaseEntity {
     protected Member() {
     }
 
-    @Builder(access = AccessLevel.PRIVATE)
-    private Member(MemberSocial social, MemberDetails details, Role role) {
+    @Builder(builderMethodName = "socialBuilder")
+    private Member(MemberSocial social, String email, String profileUrl, String phoneNumber) {
         this.id = IdGenerator.createUUID();
         this.social = social;
-        this.details = details;
-        this.role = role;
-    }
-
-    public static Member ofSocial(MemberSocial social) {
-        return Member.builder()
-                .social(social)
-                .role(Role.USER)
-                .build();
+        this.email = email;
+        this.profileUrl = profileUrl;
+        this.phoneNumber = phoneNumber;
+        this.role = Role.USER;
     }
 
     @Override
