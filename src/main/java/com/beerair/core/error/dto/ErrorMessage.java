@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum ErrorMessage {
+    INVALID_AUTH_TOKEN(HttpStatus.FORBIDDEN, "유효하지 않은 인증 토큰 입니다."),
     EXPIRED_AUTH_TOKEN(HttpStatus.FORBIDDEN, "만료되어 사용할 수 없는 인증 토큰 입니다."),
     AUTH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 토큰이 없습니다."),
     NO_AUTH(HttpStatus.FORBIDDEN, "로그인이 필요합니다."),

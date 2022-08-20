@@ -23,7 +23,7 @@ public class RefreshToken extends BaseEntity {
     private String memberId;
 
     @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String token;
 
     @Column(nullable = false)

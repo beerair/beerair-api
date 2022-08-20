@@ -19,8 +19,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import java.util.List;
-
 @Profile({ "local", "prod", "staging" })
 @Configuration
 public class SecurityBeanConfig {
@@ -51,6 +49,7 @@ public class SecurityBeanConfig {
     @Bean(name = TokenPurpose.ACCESS)
     public AuthTokenCrypto accessTokenCrypto() {
         return JJwtCrypto.builder()
+                .tokenPurpose(TokenPurpose.ACCESS)
                 .signatureAlgorithm(accessSignatureAlgorithm)
                 .signatureKey(accessSignatureKey)
                 .expiration(accessExpiration)
@@ -58,8 +57,9 @@ public class SecurityBeanConfig {
     }
 
     @Bean(name = TokenPurpose.REFRESH)
-    public AuthTokenCrypto refreshTokenCrypto(RedisTemplate<String, Object> redisTemplate) {
+    public AuthTokenCrypto refreshTokenCrypto() {
         return JJwtCrypto.builder()
+                .tokenPurpose(TokenPurpose.REFRESH)
                 .signatureAlgorithm(refreshSignatureAlgorithm)
                 .signatureKey(refreshSignatureKey)
                 .expiration(refreshExpiration)

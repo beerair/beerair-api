@@ -2,6 +2,7 @@ package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
+import com.beerair.core.error.exception.BusinessException;
 import com.beerair.core.error.exception.auth.TokenNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,18 +31,18 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
+        Optional<String> optionalToken = getToken(request);
+        if (optionalToken.isEmpty()) {
+            return;
+        }
         try {
-            Optional<String> optionalToken = getToken(request);
-            if (optionalToken.isEmpty()) {
-                return;
-            }
-
             String token = optionalToken.get();
             var authentication = convert(token);
             String memberId = authentication.getLoggedInUser().getId();
 
             verify(memberId, token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (BusinessException ignored) {
         } finally {
             filterChain.doFilter(request, response);
         }

@@ -17,7 +17,7 @@ public class AuthStepWhenDefs {
         authStepClient.issueAccessToken(request);
     }
 
-    @When("{string} Access Token 으로 나의 토큰 정보 조회를 요청 하면")
+    @When("{string} Token 으로 나의 토큰 정보 조회를 요청 하면")
     public void 토큰_정보_조회_요청(String access) {
         authStepClient.getAuthMe(access);
     }
