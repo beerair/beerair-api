@@ -73,7 +73,10 @@ public class Member extends BaseEntity {
     private String nickname;
 
     @Comment("레벨 Id")
-    private String leverId;
+    private Integer leverId;
+
+    @Comment("경험치")
+    private Integer exp;
 
     @Enumerated(EnumType.STRING)
     @Comment("권한 정보")
@@ -93,12 +96,13 @@ public class Member extends BaseEntity {
         this.role = Role.USER;
     }
 
-    public void sign(Level level, String nickname) {
+    public void sign(String nickname, int levelId) {
         if (role == Role.MEMBER) {
             throw new MemberUnableSignException(MEMBER_UNABLE_SIGN_BY_SIGNED);
         }
-        this.leverId = level.getId();
         this.role = Role.MEMBER;
+        this.leverId = levelId;
+        this.exp = 0;
         changeNickname(nickname);
     }
 

@@ -20,13 +20,13 @@ public class MemberTest {
     @BeforeEach
     void setUp() {
         memberFixture = createSocialMemberFixture();
-        memberFixture.get().sign(Level.ofDefault(), "NICKNAME");
+        memberFixture.get().sign("NICKNAME", 0);
     }
 
     @DisplayName("Role : User 일때만 회원 가입 할 수 있다.")
     @Test
     void 회원가입_실패() {
-        assertThatThrownBy(() -> memberFixture.get().sign(Level.ofDefault(), "NICKNAME"))
+        assertThatThrownBy(() -> memberFixture.get().sign("NICKNAME", 0))
                 .isInstanceOf(MemberUnableSignException.class);
     }
 

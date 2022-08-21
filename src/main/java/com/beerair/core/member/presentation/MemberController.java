@@ -6,6 +6,7 @@ import com.beerair.core.member.dto.LoggedInUser;
 import com.beerair.core.member.dto.request.MemberChangeNicknameRequest;
 import com.beerair.core.member.dto.request.MemberSignRequest;
 import com.beerair.core.member.dto.response.MemberMeResponse;
+import com.beerair.core.member.facade.MemberSignFacade;
 import com.beerair.core.member.presentation.annotation.AuthUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +30,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final MemberSignFacade memberSignFacade;
 
     @ApiOperation(value = "회원가입 API")
     @PostMapping
@@ -36,7 +38,7 @@ public class MemberController {
             @AuthUser LoggedInUser user,
             @Valid @RequestBody MemberSignRequest request
     ) {
-        memberService.sign(user, request);
+        memberSignFacade.sign(user, request);
         return ResponseDto.noContent();
     }
 
