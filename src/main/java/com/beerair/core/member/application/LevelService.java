@@ -1,6 +1,6 @@
 package com.beerair.core.member.application;
 
-import com.beerair.core.member.dto.LevelResponse;
+import com.beerair.core.member.dto.response.LevelResponse;
 import com.beerair.core.member.infrastructure.LevelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class LevelService {
     @Transactional(readOnly = true)
     public LevelResponse getIdByExp(int exp) {
         return LevelResponse.from(
-                levelRepository.findTop1ByExpGreaterThanOrderByTierDesc(exp)
+                levelRepository.findTop1ByExpGreaterThanOrderByTierAsc(exp)
         );
     }
 }

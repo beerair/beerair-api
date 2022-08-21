@@ -9,12 +9,18 @@ public class MemberMeResponse {
     private String email;
     private String profileUrl;
     private String nickname;
-    private Integer tier;
 
-    public MemberMeResponse(Member member, Integer tier) {
+    private Integer tier;
+    private String levelImage;
+
+    protected MemberMeResponse() {
+    }
+
+    public MemberMeResponse(Member member, Level level) {
         this.email = member.getEmail();
         this.profileUrl = member.getProfileUrl();
         this.nickname = member.getNickname();
-        this.tier = tier;
+        this.tier = level.getTier();
+        this.levelImage = level.getImageUrl();
     }
 }

@@ -4,7 +4,7 @@ package com.beerair.core.member.facade;
 import com.beerair.core.member.application.LevelService;
 import com.beerair.core.member.application.MemberService;
 import com.beerair.core.member.domain.Member;
-import com.beerair.core.member.dto.LevelResponse;
+import com.beerair.core.member.dto.response.LevelResponse;
 import com.beerair.core.member.dto.LoggedInUser;
 import com.beerair.core.member.dto.request.MemberSignRequest;
 import lombok.RequiredArgsConstructor;

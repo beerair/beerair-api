@@ -1,4 +1,4 @@
-package com.beerair.core.member.dto;
+package com.beerair.core.member.dto.response;
 
 import com.beerair.core.member.domain.Level;
 import lombok.AllArgsConstructor;

@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface LevelRepository extends JpaRepository<Level, String> {
-    Level findTop1ByExpGreaterThanOrderByTierDesc(@Param("exp") int exp);
+    Level findTop1ByExpGreaterThanOrderByTierAsc(int exp);
 }
