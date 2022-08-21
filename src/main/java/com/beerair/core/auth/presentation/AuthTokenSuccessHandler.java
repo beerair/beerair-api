@@ -3,10 +3,13 @@ package com.beerair.core.auth.presentation;
 import com.beerair.core.auth.application.RefreshTokenService;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
+import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
 import com.beerair.core.error.exception.auth.BadLoginRequestException;
+import com.beerair.core.member.domain.vo.Role;
 import lombok.Builder;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +18,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+    private static final Collection<? extends GrantedAuthority> MEMBER_AUTHORITIES;
+
+    static {
+        MEMBER_AUTHORITIES = Role.MEMBER
+                .getAuthorities()
+                .stream()
+                .map(CustomGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
     private final RedisTemplate<String, Object> redisTemplate;
     private final String successRedirectUri;
     private final AuthTokenCrypto accessTokenCrypto;
@@ -55,8 +72,8 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         var authTokenAuthentication = AuthTokenAuthentication.create(
                 (OAuth2AuthenticationToken) authentication
         );
-        String access = accessTokenCrypto.encrypt(authTokenAuthentication);
-        String refresh = refreshTokenCrypto.encrypt(authTokenAuthentication);
+        String access = accessToken(authTokenAuthentication);
+        String refresh = refreshToken(authTokenAuthentication);
 
         String memberId = authTokenAuthentication.getLoggedInUser().getId();
         persist(memberId, access, refresh);
@@ -65,16 +82,29 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         response.sendRedirect(location);
     }
 
+    private String accessToken(AuthTokenAuthentication authTokenAuthentication) {
+        return accessTokenCrypto.encrypt(authTokenAuthentication);
+    }
+
+    private String refreshToken(AuthTokenAuthentication authTokenAuthentication) {
+        if (authTokenAuthentication.getAuthorities().containsAll(MEMBER_AUTHORITIES)) {
+            return accessTokenCrypto.encrypt(authTokenAuthentication);
+        }
+        return null;
+    }
+
     private void persist(String memberId, String access, String refresh) {
         redisTemplate.opsForValue().set("authToken:" + memberId, access);
-        refreshTokenService.issue(memberId, refresh);
+        if (Objects.nonNull(refresh)) {
+            refreshTokenService.issue(memberId, refresh);
+        }
     }
 
     private String location(HttpServletRequest request, String access, String refresh) {
         return UriComponentsBuilder.fromUriString(successRedirectUri)
                 .query(request.getQueryString())
                 .queryParam("accessToken", access)
-                .queryParam("refreshToken", refresh)
+                .queryParamIfPresent("refreshToken", Optional.ofNullable(refresh))
                 .build()
                 .toUriString();
     }
