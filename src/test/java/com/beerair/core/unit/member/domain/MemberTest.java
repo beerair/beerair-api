@@ -1,4 +1,4 @@
-package com.beerair.core.unit.member;
+package com.beerair.core.unit.member.domain;
 
 import com.beerair.core.error.exception.member.MemberUnableSignException;
 import com.beerair.core.fixture.Fixture;

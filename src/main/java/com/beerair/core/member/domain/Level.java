@@ -2,6 +2,7 @@ package com.beerair.core.member.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
 import com.beerair.core.common.util.IdGenerator;
+import com.beerair.core.member.domain.tier.TierJudgement;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,6 +41,12 @@ public class Level extends BaseEntity {
                 .exp(0)
                 .imageUrl("??")
                 .build();
+    }
+
+    public void addExp(int exp, TierJudgement judgement) {
+        // TODO :: Domain Event 로 받기
+        this.exp += exp;
+        this.tier = judgement.judge(this);
     }
 
     public void delete() {
