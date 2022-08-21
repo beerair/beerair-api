@@ -29,4 +29,9 @@ public class MemberStepWhenDefs {
     public void resign() {
         memberStepClient.resign();
     }
+
+    @When("나의 정보를 요청 하면")
+    public void 나의_정보_조회_요청() {
+        memberStepClient.getMemberMe();
+    }
 }

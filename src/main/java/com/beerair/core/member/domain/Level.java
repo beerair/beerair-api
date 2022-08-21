@@ -1,9 +1,10 @@
 package com.beerair.core.member.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
+import com.beerair.core.common.util.IdGenerator;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,15 +13,36 @@ import javax.persistence.Id;
 
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Level extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String imageUrl;
 
     private Integer exp;
 
     private Integer tier;
+
+    protected Level() {
+    }
+
+    @Builder(access = AccessLevel.PRIVATE)
+    private Level(String imageUrl, Integer exp, Integer tier) {
+        this.id = IdGenerator.createUUID();
+        this.imageUrl = imageUrl;
+        this.exp = exp;
+        this.tier = tier;
+    }
+
+    public static Level ofDefault() {
+        return Level.builder()
+                .tier(1)
+                .exp(0)
+                .imageUrl("??")
+                .build();
+    }
+
+    public void delete() {
+        super.delete();
+    }
 }

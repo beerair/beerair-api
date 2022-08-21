@@ -2,6 +2,7 @@ package com.beerair.core.unit.member;
 
 import com.beerair.core.error.exception.member.MemberUnableSignException;
 import com.beerair.core.fixture.Fixture;
+import com.beerair.core.member.domain.Level;
 import com.beerair.core.member.domain.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,13 +20,13 @@ public class MemberTest {
     @BeforeEach
     void setUp() {
         memberFixture = createSocialMemberFixture();
-        memberFixture.get().sign("NICKNAME");
+        memberFixture.get().sign(Level.ofDefault(), "NICKNAME");
     }
 
     @DisplayName("Role : User 일때만 회원 가입 할 수 있다.")
     @Test
     void 회원가입_실패() {
-        assertThatThrownBy(() -> memberFixture.get().sign("NICKNAME"))
+        assertThatThrownBy(() -> memberFixture.get().sign(Level.ofDefault(), "NICKNAME"))
                 .isInstanceOf(MemberUnableSignException.class);
     }
 
