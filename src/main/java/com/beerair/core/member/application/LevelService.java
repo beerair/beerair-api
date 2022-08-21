@@ -26,7 +26,7 @@ public class LevelService {
     @Transactional(readOnly = true)
     public LevelResponse getIdByExp(int exp) {
         return LevelResponse.from(
-                levelRepository.findTop1ByExpGreaterThanOrderByTierAsc(exp)
+                levelRepository.findTop1ByExpGreaterThanEqualOrderByTierAsc(exp)
         );
     }
 }

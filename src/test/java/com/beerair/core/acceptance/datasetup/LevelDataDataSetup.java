@@ -25,7 +25,7 @@ public class LevelDataDataSetup extends DataSetup {
                 Level.builder()
                         .imageUrl("https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/2.png")
                         .exp(1)
-                        .tier(1)
+                        .tier(2)
                         .build(),
                 Level.builder()
                         .imageUrl("https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/3.png")
