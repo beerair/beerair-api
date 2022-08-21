@@ -66,7 +66,6 @@ public class AuthMockController {
     private LoggedInUser loggedInUser(Member member) {
         return LoggedInUser.builder()
                 .id(member.getId())
-                .nickname(member.getNickname())
                 .email(member.getEmail())
                 .build();
     }

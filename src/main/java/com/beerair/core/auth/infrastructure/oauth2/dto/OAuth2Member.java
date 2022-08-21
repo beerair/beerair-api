@@ -21,8 +21,8 @@ public class OAuth2Member extends LoggedInUser implements OAuth2User {
     private final Map<String, Object> attributes;
     private final Set<GrantedAuthority> authorities;
 
-    private OAuth2Member(String id, String email, String nickname, Set<GrantedAuthority> authorities, Map<String, Object> attributes) {
-        super(id, email, nickname);
+    private OAuth2Member(String id, String email, Set<GrantedAuthority> authorities, Map<String, Object> attributes) {
+        super(id, email);
         this.attributes = attributes;
         this.authorities = authorities;
     }
@@ -31,7 +31,6 @@ public class OAuth2Member extends LoggedInUser implements OAuth2User {
         return new OAuth2Member(
                 member.getId(),
                 member.getEmail(),
-                member.getNickname(),
                 createAuthorities(member),
                 attributes
         );

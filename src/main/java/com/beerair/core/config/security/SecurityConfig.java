@@ -2,10 +2,12 @@ package com.beerair.core.config.security;
 
 import com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter;
 import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
+import com.beerair.core.member.domain.vo.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +19,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -56,9 +62,20 @@ public class SecurityConfig {
     }
 
     private void configureAuthorizeRequests(HttpSecurity http) throws Exception {
+        final String ONLY_USER = createAccess(Role.USER.getAuthorities());
+        final String ONLY_MEMBER = createAccess(Role.MEMBER.getAuthorities());
         http.authorizeRequests()
+                //.antMatchers(HttpMethod.POST, "/api/v1/members").access(ONLY_USER)
+                //.antMatchers("/api/v1/members").access(ONLY_MEMBER)
                 .anyRequest().permitAll()
                 .and();
+    }
+
+    private String createAccess(Collection<String> authorities) {
+        var joined = authorities.stream()
+                .map(each -> "'" + each + "'")
+                .collect(Collectors.joining());
+        return "hasAnyAuthority(" + joined + ")";
     }
 
     private void configureFilters(HttpSecurity http) {

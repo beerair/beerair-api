@@ -22,19 +22,30 @@ public class AuthStepGivenDefs {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Transactional
-    @Given("memberId: {string}, access: {string}, refresh: {string} 토큰이 발급 되어있다.")
-    public void registerRefreshToken(String memberId, String access, String refresh) {
-        var member = MemberFixture.createSocialMemberFixture()
-                .set("id", memberId)
-                .get();
+    @Given("access: {string} 토큰이 발급 되어있다.")
+    public void 소셜_유저의_토큰이_발급_되어있다(String access) {
+        var member = MemberFixture.createSocialMemberFixture().get();
+        FakeOAuth2UserService.setNextMember(member);
+        memberRepository.save(member);
+
+        FakeAuthTokenCrypto.register(access, member);
+
+        redisTemplate.opsForValue().set("authToken:" + member.getId(), access);
+    }
+
+    @Transactional
+    @Given("access: {string}, refresh: {string} 회원가입된 유저의 토큰이 발급 되어있다.")
+    public void 회원가입된_유저의_토큰이_발급_되어있다(String access, String refresh) {
+        var member = MemberFixture.createSocialMemberFixture().get();
+        member.sign("안녕", 1);
         FakeOAuth2UserService.setNextMember(member);
         memberRepository.save(member);
 
         FakeAuthTokenCrypto.register(access, member);
         FakeAuthTokenCrypto.register(refresh, member);
 
-        redisTemplate.opsForValue().set("authToken:" + memberId, access);
-        refreshTokenRepository.save(new RefreshToken(memberId, refresh));
+        redisTemplate.opsForValue().set("authToken:" + member.getId(), access);
+        refreshTokenRepository.save(new RefreshToken(member.getId(), refresh));
     }
 
     @Given("Access Token 사용 : {string}")

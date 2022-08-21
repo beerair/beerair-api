@@ -1,4 +1,4 @@
-package com.beerair.core.acceptance.cleanup;
+package com.beerair.core.acceptance.datasetup;
 
 import com.beerair.core.member.domain.Level;
 import com.beerair.core.member.infrastructure.LevelRepository;
@@ -9,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component
-public class LevelCleanUp implements CleanUp {
+public class LevelDataDataSetup extends DataSetup {
     @Autowired
     private LevelRepository levelRepository;
 
     @Transactional
     @Override
-    public void exec() {
+    protected void execute() {
         List<Level> levels = List.of(
                 Level.builder()
                         .imageUrl("https://beerair-service.s3.ap-northeast-2.amazonaws.com/MEMBER/LEVEL/1.png")
