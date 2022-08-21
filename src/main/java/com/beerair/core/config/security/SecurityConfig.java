@@ -48,8 +48,8 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable()
                 .httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and();
+                .formLogin().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     private void configureOAuth2(HttpSecurity http) throws Exception {
@@ -65,10 +65,9 @@ public class SecurityConfig {
         final String ONLY_USER = createAccess(Role.USER.getAuthorities());
         final String ONLY_MEMBER = createAccess(Role.MEMBER.getAuthorities());
         http.authorizeRequests()
-                //.antMatchers(HttpMethod.POST, "/api/v1/members").access(ONLY_USER)
-                //.antMatchers("/api/v1/members").access(ONLY_MEMBER)
-                .anyRequest().permitAll()
-                .and();
+                .antMatchers(HttpMethod.POST, "/api/v1/members").access(ONLY_USER)
+                .antMatchers("/api/v1/members").access(ONLY_MEMBER)
+                .anyRequest().permitAll();
     }
 
     private String createAccess(Collection<String> authorities) {
