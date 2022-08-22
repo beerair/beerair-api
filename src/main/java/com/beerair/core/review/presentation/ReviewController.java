@@ -1,7 +1,7 @@
 package com.beerair.core.review.presentation;
 
 import com.beerair.core.common.dto.ResponseDto;
-import com.beerair.core.review.dto.request.ReviewRequest;
+import com.beerair.core.review.dto.request. ReviewRequest;
 import com.beerair.core.review.facade.ReviewFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

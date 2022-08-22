@@ -33,7 +33,7 @@ public class BeerService {
     }
 
     // TODO: 로그인 구현 전 임시
-    private Long getLoginMemberId() {
-        return 1L;
+    private String getLoginMemberId() {
+        return "";
     }
 }
