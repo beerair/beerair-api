@@ -35,6 +35,14 @@ public class MemberStepClient extends StepClient {
         );
     }
 
+    public void getMemberMe() {
+        this.exchange(
+                HttpMethod.GET,
+                "/me",
+                new HttpEntity<>(authed())
+        );
+    }
+
     public void changeNickname(MemberChangeNicknameRequest request) {
         this.exchange(
                 HttpMethod.PATCH,

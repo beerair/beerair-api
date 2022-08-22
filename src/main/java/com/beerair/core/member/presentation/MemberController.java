@@ -5,6 +5,8 @@ import com.beerair.core.member.application.MemberService;
 import com.beerair.core.member.dto.LoggedInUser;
 import com.beerair.core.member.dto.request.MemberChangeNicknameRequest;
 import com.beerair.core.member.dto.request.MemberSignRequest;
+import com.beerair.core.member.dto.response.MemberMeResponse;
+import com.beerair.core.member.facade.MemberSignFacade;
 import com.beerair.core.member.presentation.annotation.AuthUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +30,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final MemberSignFacade memberSignFacade;
 
     @ApiOperation(value = "회원가입 API")
     @PostMapping
@@ -35,7 +38,7 @@ public class MemberController {
             @AuthUser LoggedInUser user,
             @Valid @RequestBody MemberSignRequest request
     ) {
-        memberService.sign(user, request);
+        memberSignFacade.sign(user, request);
         return ResponseDto.noContent();
     }
 
@@ -53,12 +56,13 @@ public class MemberController {
             @Valid @RequestBody MemberChangeNicknameRequest request
     ) {
         memberService.changeNickname(user, request.getNickname());
-        return ResponseDto.ok("ok");
+        return ResponseDto.noContent();
     }
 
-    @ApiOperation(value = "사용자 정보 조회 API", notes = "MOCK UP API")
-    @GetMapping
-    public ResponseEntity<?> get() {
-        return ResponseDto.ok("ok");
+    @ApiOperation(value = "사용자 정보 조회 API")
+    @GetMapping("me")
+    public ResponseEntity<?> get(@AuthUser LoggedInUser user) {
+        MemberMeResponse response = memberService.getMe(user);
+        return ResponseDto.ok(response);
     }
 }

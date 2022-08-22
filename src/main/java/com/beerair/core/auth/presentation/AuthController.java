@@ -7,6 +7,7 @@ import com.beerair.core.auth.dto.request.RefreshTokenRequest;
 import com.beerair.core.auth.dto.response.AuthMeResponse;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.error.exception.auth.NoAuthException;
+import com.beerair.core.member.infrastructure.MemberRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
