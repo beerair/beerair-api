@@ -2,6 +2,8 @@ package com.beerair.core.suggest.presentation;
 
 import com.beerair.core.common.dto.PageDto;
 import com.beerair.core.common.dto.ResponseDto;
+import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.presentation.annotation.AuthUser;
 import com.beerair.core.suggest.application.BeerSuggestService;
 import com.beerair.core.suggest.dto.request.BeerSuggestRegisterRequest;
 import com.beerair.core.suggest.facade.BeerSuggestFacade;
@@ -31,37 +33,41 @@ public class BeerSuggestController {
     @ApiOperation(value = "맥주 등록 요청시 validation api")
     @GetMapping("/validate")
     public ResponseEntity<?> validate(
-            @RequestParam("name") String name
+            @RequestParam("name") String name,
+            @AuthUser LoggedInUser user
     ) {
-        // TODO : 인증, 인가 로직 붙이기
-        beerSuggestFacade.validate(name, "1L");
+        beerSuggestFacade.validate(name, user);
         return ResponseDto.noContent();
     }
 
     @ApiOperation(value = "맥주 등록 요청 api")
     @PostMapping
     public ResponseEntity<?> register(
-            @RequestBody BeerSuggestRegisterRequest request
+            @RequestBody BeerSuggestRegisterRequest request,
+            @AuthUser LoggedInUser user
     ) {
         // TODO : 인증, 인가 로직 붙이기
-        var response = beerSuggestFacade.register("1L", request);
+        var response = beerSuggestFacade.register(request, user);
         return ResponseDto.created(response);
     }
 
     @ApiOperation(value = "요청한 맥주 목록 조회 api")
     @GetMapping
     public ResponseEntity<?> getAll(
-            @PageableDefault Pageable pageable
+            @PageableDefault Pageable pageable,
+            @AuthUser LoggedInUser user
     ) {
-        var response = beerSuggestService.getAll(pageable, "1L");
+        var response = beerSuggestService.getAll(pageable, user);
         return PageDto.ok(response);
     }
 
     @ApiOperation(value = "요청한 맥주 목록 count api")
     @GetMapping("/count")
-    public ResponseEntity<?> count() {
+    public ResponseEntity<?> count(
+            @AuthUser LoggedInUser user
+    ) {
         // TODO : 인증, 인가 로직 붙이기
-        var response = beerSuggestService.count("1L");
+        var response = beerSuggestService.count(user);
         return ResponseDto.ok(response);
     }
 }

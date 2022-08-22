@@ -2,6 +2,7 @@ package com.beerair.core.review.dto.request;
 
 import com.beerair.core.review.domain.FlavorIds;
 import com.beerair.core.review.domain.Review;
+import com.beerair.core.review.domain.vo.FeelStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ public class ReviewRequest {
     private final String content;
 
     @JsonProperty
-    private final Integer feel;
+    private final FeelStatus feelStatus;
 
     @JsonProperty
     private final String imageUrl;
@@ -29,7 +30,7 @@ public class ReviewRequest {
     private final Long beerId;
 
     public Review entity(Long departuresCountryId, Long arrivalsCountryId, String memberId) {
-        return Review.of(content, departuresCountryId, arrivalsCountryId, feel,
+        return Review.of(content, departuresCountryId, arrivalsCountryId, feelStatus,
                 imageUrl, isPublic, FlavorIds.from(flavorIds) ,beerId, memberId);
     }
 }

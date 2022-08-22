@@ -1,17 +1,20 @@
 package com.beerair.core.unit.auth.infrastructure.jwt;
 
+import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
-import com.beerair.core.auth.infrastructure.jwt.JJwtEncoder;
+import com.beerair.core.auth.infrastructure.jwt.JJwtCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
+import com.beerair.core.error.exception.auth.ExpiredAuthTokenException;
+import com.beerair.core.fixture.Fixture;
 import com.beerair.core.fixture.MemberFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,49 +24,55 @@ class JJwtEncoderForOAuth2Test {
     private static final String ALGORITHM = "HS256";
     private static final String KEY = "8L49ndmVcjq6zOnWpGyQW7NoeEpAE9pP7csj1kWCnC4KOcrK";
 
-    private OAuth2AuthenticationToken authentication;
+    private Fixture<JJwtCrypto> crypto;
+    private AuthTokenAuthentication authentication;
     private Collection<GrantedAuthority> authorities;
     private OAuth2Member oAuth2Member;
 
     @BeforeEach
     void setUp() {
+        var crypto = JJwtCrypto.builder()
+                .signatureAlgorithm(ALGORITHM)
+                .signatureKey(KEY)
+                .build();
+        this.crypto = new Fixture<>(crypto);
         this.authorities = Set.of(
                 new CustomGrantedAuthority("ROLE_MEMBER")
         );
         this.oAuth2Member = OAuth2Member.of(
-                MemberFixture.createMemberFixture().get(),
+                MemberFixture.createSocialMemberFixture().get(),
                 Collections.emptyMap()
         );
-        this.authentication = new OAuth2AuthenticationToken(
-                oAuth2Member, authorities, "naver"
+        this.authentication = AuthTokenAuthentication.from(
+                oAuth2Member, authorities, new Date(new Date().getTime() + 1000000000)
         );
     }
 
     @DisplayName("암/복호화")
     @Test
-    void crypto() {
-        var encoder = new JJwtEncoder(
-            ALGORITHM, KEY, 10000
-        );
+    void crypt() {
+        var crypto = this.crypto.set("expiration", 10000).get();
 
         // When
-        String token = encoder.encode(authentication);
+        String token = crypto.encrypt(authentication);
 
         // Then
-        assertThat(encoder.getLoggedInUser(token))
+        var authentication = crypto.decrypt(token);
+        assertThat(authentication.getPrincipal())
             .isEqualTo(oAuth2Member);
-        //noinspection unchecked
-        assertThat((Set<GrantedAuthority>) encoder.getAuthorities(token))
+        //noinspection
+        assertThat(authentication.getAuthorities())
             .containsExactly(authorities.toArray(new GrantedAuthority[0]));
     }
 
     @DisplayName("토큰 만료")
     @Test
     void verify() {
-        var provider = new JJwtEncoder(ALGORITHM, KEY, 0);
+        var crypto = this.crypto.set("expiration", 0).get();
 
-        String token = provider.encode(authentication);
-        assertThatThrownBy(() -> provider.getLoggedInUser(token))
-            .isInstanceOf(Exception.class); // TODO Excpetion
+        String token = crypto.encrypt(authentication);
+
+        assertThatThrownBy(() -> crypto.decrypt(token))
+            .isInstanceOf(ExpiredAuthTokenException.class);
     }
 }

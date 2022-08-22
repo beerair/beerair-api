@@ -1,18 +1,18 @@
 package com.beerair.core.review.domain;
 
-import com.beerair.core.common.LongArrayToStringConverter;
 import com.beerair.core.common.domain.BaseEntity;
+import com.beerair.core.review.domain.vo.FeelStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +36,8 @@ public class Review extends BaseEntity {
     private Long arrivalsCountryId;
 
     @Comment("맥주 평점")
-    private Integer feel;
+    @Enumerated(value = EnumType.STRING)
+    private FeelStatus feelStatus;
 
     @Comment("사진 URL")
     private String imageUrl;
@@ -55,11 +56,11 @@ public class Review extends BaseEntity {
     @Comment("멤버 Id")
     private String memberId;
 
-    private Review(String content, Long departuresCountryId, Long arrivalsCountryId, Integer feel, String imageUrl, Boolean isPublic, FlavorIds flavorIds, Long beerId, String memberId) {
+    private Review(String content, Long departuresCountryId, Long arrivalsCountryId, FeelStatus feelStatus, String imageUrl, Boolean isPublic, FlavorIds flavorIds, Long beerId, String memberId) {
         this.content = content;
         this.departuresCountryId = departuresCountryId;
         this.arrivalsCountryId = arrivalsCountryId;
-        this.feel = feel;
+        this.feelStatus = feelStatus;
         this.imageUrl = imageUrl;
         this.isPublic = isPublic;
         this.flavorIds = flavorIds;
@@ -67,7 +68,7 @@ public class Review extends BaseEntity {
         this.memberId = memberId;
     }
 
-    public static Review of(String content, Long departuresCountryId, Long arrivalsCountryId, Integer feel, String imageUrl, Boolean isPublic, FlavorIds flavorIds, Long beerId, String memberId) {
-        return new Review(content, departuresCountryId, arrivalsCountryId, feel, imageUrl, isPublic, flavorIds, beerId, memberId);
+    public static Review of(String content, Long departuresCountryId, Long arrivalsCountryId, FeelStatus feelStatus, String imageUrl, Boolean isPublic, FlavorIds flavorIds, Long beerId, String memberId) {
+        return new Review(content, departuresCountryId, arrivalsCountryId, feelStatus, imageUrl, isPublic, flavorIds, beerId, memberId);
     }
 }

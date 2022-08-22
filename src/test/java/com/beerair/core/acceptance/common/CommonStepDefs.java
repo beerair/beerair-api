@@ -17,7 +17,7 @@ public class CommonStepDefs {
 
     @Then("요청이 실패한다.")
     public void fail() {
-        assertThat(CucumberHttpResponseContext.is4XX()).isTrue();
+        assertThat(CucumberHttpResponseContext.is3XX() || CucumberHttpResponseContext.is4XX()).isTrue();
     }
 
     @Then("{string}가 반환된다.")

@@ -1,28 +1,53 @@
 package com.beerair.core.acceptance.member;
 
-import static io.cucumber.spring.CucumberTestContext.*;
-
-import org.springframework.boot.test.web.server.LocalServerPort;
+import com.beerair.core.acceptance.CucumberHttpResponseContext;
+import com.beerair.core.acceptance.StepClient;
+import com.beerair.core.common.dto.ResponseDto;
+import com.beerair.core.member.dto.request.MemberChangeNicknameRequest;
+import com.beerair.core.member.dto.request.MemberSignRequest;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+
+import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component
-public class MemberStepClient {
-    private static final String SERVER_URL = "http://localhost";
-    private static final String ENDPOINT = "/api/v1/members";
-
-    @LocalServerPort
-    private int port;
-
-    private final RestTemplate restTemplate;
-
+public class MemberStepClient extends StepClient {
     public MemberStepClient() {
-        this.restTemplate = new RestTemplate();
+        super("/api/v1/members");
     }
 
-    private String memberEndpoint() {
-        return SERVER_URL + ":" + port + ENDPOINT;
+    public void sign(MemberSignRequest request) {
+        this.exchange(
+                HttpMethod.POST,
+                "",
+                new HttpEntity<>(request, authed())
+        );
+    }
+
+    public void resign() {
+        this.exchange(
+                HttpMethod.DELETE,
+                "",
+                new HttpEntity<>(authed())
+        );
+    }
+
+    public void getMemberMe() {
+        this.exchange(
+                HttpMethod.GET,
+                "/me",
+                new HttpEntity<>(authed())
+        );
+    }
+
+    public void changeNickname(MemberChangeNicknameRequest request) {
+        this.exchange(
+                HttpMethod.PATCH,
+                "/nickname",
+                new HttpEntity<>(request, authed())
+        );
     }
 }

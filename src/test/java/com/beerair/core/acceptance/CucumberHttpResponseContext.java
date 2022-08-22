@@ -45,6 +45,10 @@ public class CucumberHttpResponseContext {
         return getStatusCodeRange() == 2;
     }
 
+    public static boolean is3XX() {
+        return getStatusCodeRange() == 3;
+    }
+
     public static boolean is4XX() {
         return getStatusCodeRange() == 4;
     }

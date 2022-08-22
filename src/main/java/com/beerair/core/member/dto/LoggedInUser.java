@@ -9,15 +9,13 @@ import lombok.Getter;
 public class LoggedInUser {
     private String id;
     private String email;
-    private String nickname;
 
     protected LoggedInUser() {
     }
 
     @Builder
-    protected LoggedInUser(String id, String email, String nickname) {
+    protected LoggedInUser(String id, String email) {
         this.id = id;
         this.email = email;
-        this.nickname = nickname;
     }
 }
