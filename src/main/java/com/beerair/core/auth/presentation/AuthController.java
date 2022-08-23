@@ -49,4 +49,10 @@ public class AuthController {
         var response = refreshTokenService.issueByRefreshToken(refreshToken);
         return ResponseDto.ok(response);
     }
+
+    @ApiOperation(value = "로그아웃", notes = "MOCK UP API")
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout() {
+        return ResponseDto.ok("ok");
+    }
 }
