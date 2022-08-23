@@ -18,4 +18,9 @@ public class AuthStepWhenDefs {
     public void 토큰_정보_조회_요청() {
         authStepClient.getAuthMe();
     }
+
+    @When("로그아웃 요청을 하면")
+    public void 로그아웃_요청() {
+        authStepClient.logout();
+    }
 }

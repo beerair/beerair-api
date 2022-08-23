@@ -1,6 +1,6 @@
 package com.beerair.core.auth.presentation;
 
-import com.beerair.core.auth.application.RefreshTokenService;
+import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
@@ -38,7 +38,7 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     private final String successRedirectUri;
     private final AuthTokenCrypto accessTokenCrypto;
     private final AuthTokenCrypto refreshTokenCrypto;
-    private final RefreshTokenService refreshTokenService;
+    private final AuthTokenService refreshTokenService;
     private final AuthTokenFailureHandler failureHandler;
 
     @Builder
@@ -47,7 +47,7 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
             String successRedirectUri,
             AuthTokenCrypto accessTokenCrypto,
             AuthTokenCrypto refreshTokenCrypto,
-            RefreshTokenService refreshTokenService,
+            AuthTokenService refreshTokenService,
             AuthTokenFailureHandler failureHandler
     ) {
         this.redisTemplate = redisTemplate;
@@ -94,10 +94,10 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     }
 
     private void persist(String memberId, String access, String refresh) {
-        redisTemplate.opsForValue().set("authToken:" + memberId, access);
         if (Objects.nonNull(refresh)) {
             refreshTokenService.issue(memberId, refresh);
         }
+        redisTemplate.opsForValue().set("authToken:" + memberId, access);
     }
 
     private String location(HttpServletRequest request, String access, String refresh) {

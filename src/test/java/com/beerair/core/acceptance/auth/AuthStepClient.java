@@ -30,4 +30,12 @@ public class AuthStepClient extends StepClient {
                 new HttpEntity<>(authed())
         );
     }
+
+    public void logout() {
+        this.exchange(
+                HttpMethod.POST,
+                "logout",
+                new HttpEntity<>(authed())
+        );
+    }
 }
