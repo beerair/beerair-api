@@ -6,34 +6,28 @@ import com.beerair.core.error.exception.beer.BeerNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class BeerService {
     private final BeerRepository beerRepository;
 
-    public BeerResponse get(Long beerId) {
-        return BeerResponse.from(beerRepository.findById(beerId)
-                .orElseThrow(BeerNotFoundException::new));
-    }
-
-    public BeerResponse getWithRegion(Long beerId) {
-        var memberId = getLoginMemberId();
-
-        if (memberId == null) {
+    public BeerResponse getWithRegion(String memberId, Long beerId) {
+        if (Objects.isNull(memberId)) {
             return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId)
                     .orElseThrow(BeerNotFoundException::new));
         }
-
         return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId, memberId)
                 .orElseThrow(BeerNotFoundException::new));
     }
 
-    public Boolean existsByKorNameOrEngName(String name) {
-        return beerRepository.findByKorNameOrEngName(name, name);
+    public BeerResponse getWithRegion(Long beerId) {
+        return getWithRegion(null, beerId);
     }
 
-    // TODO: 로그인 구현 전 임시
-    private String getLoginMemberId() {
-        return "";
+    public Boolean existsByKorNameOrEngName(String name) {
+        return beerRepository.findByKorNameOrEngName(name, name);
     }
 }

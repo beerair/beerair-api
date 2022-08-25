@@ -1,8 +1,10 @@
 package com.beerair.core.review.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
+import com.beerair.core.common.util.IdGenerator;
 import com.beerair.core.review.domain.vo.FeelStatus;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
@@ -17,14 +19,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
+
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review extends BaseEntity {
     @Comment("Id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(length = UUID_LENGTH)
+    private String id;
 
     @Comment("리뷰 내용")
     private String content;
@@ -56,7 +60,9 @@ public class Review extends BaseEntity {
     @Comment("멤버 Id")
     private String memberId;
 
+    @Builder
     private Review(String content, Long departuresCountryId, Long arrivalsCountryId, FeelStatus feelStatus, String imageUrl, Boolean isPublic, FlavorIds flavorIds, Long beerId, String memberId) {
+        this.id = IdGenerator.createUUID();
         this.content = content;
         this.departuresCountryId = departuresCountryId;
         this.arrivalsCountryId = arrivalsCountryId;
@@ -66,9 +72,5 @@ public class Review extends BaseEntity {
         this.flavorIds = flavorIds;
         this.beerId = beerId;
         this.memberId = memberId;
-    }
-
-    public static Review of(String content, Long departuresCountryId, Long arrivalsCountryId, FeelStatus feelStatus, String imageUrl, Boolean isPublic, FlavorIds flavorIds, Long beerId, String memberId) {
-        return new Review(content, departuresCountryId, arrivalsCountryId, feelStatus, imageUrl, isPublic, flavorIds, beerId, memberId);
     }
 }

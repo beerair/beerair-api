@@ -7,16 +7,16 @@ import com.beerair.core.review.dto.request.ReviewRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewFacade {
     private final ReviewService reviewService;
     private final BeerService beerService;
 
-    public void create(ReviewRequest request) {
-        var memberId = SecurityUtil.getMemberId();
-
-        var arrivalsCountryId = beerService.getWithRegion(request.getBeerId())
+    public void create(String memberId, ReviewRequest request) {
+        var arrivalsCountryId = beerService.getWithRegion(memberId, request.getBeerId())
                 .getCountry().getId();
 
         reviewService.create(request, arrivalsCountryId, memberId);

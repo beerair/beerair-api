@@ -6,7 +6,7 @@ import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
 import com.beerair.core.common.util.MapperUtil;
 import com.beerair.core.error.exception.auth.ExpiredAuthTokenException;
 import com.beerair.core.error.exception.auth.InvalidAuthTokenException;
-import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.dto.LoggedInMember;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodecs;
@@ -15,7 +15,6 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.Builder;
 import lombok.experimental.UtilityClass;
 
@@ -84,7 +83,7 @@ public class JJwtCrypto implements AuthTokenCrypto {
     }
 
     public AuthTokenAuthentication convert(Claims body) {
-        LoggedInUser loggedInUser = MapperUtil.readValue(
+        LoggedInMember loggedInUser = MapperUtil.readValue(
                 body.get(ClaimKey.USER, String.class),
                 TypeRef.USER
         );
@@ -106,6 +105,6 @@ public class JJwtCrypto implements AuthTokenCrypto {
     @UtilityClass
     private static class TypeRef {
         private static final TypeReference<Set<CustomGrantedAuthority>> AUTHORITIES = new TypeReference<>() {};
-        private static final TypeReference<LoggedInUser> USER = new TypeReference<>() {};
+        private static final TypeReference<LoggedInMember> USER = new TypeReference<>() {};
     }
 }

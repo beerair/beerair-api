@@ -1,5 +1,7 @@
 package com.beerair.core.beer.dto.query;
 
+import com.beerair.core.review.domain.vo.FeelStatus;
+
 import java.time.LocalDateTime;
 
 public interface BeerDto {
@@ -58,5 +60,11 @@ public interface BeerDto {
 		String getContent();
 
 		String getImageUrl();
+	}
+
+	interface MyReviewInfo {
+		FeelStatus getFeelStatus();
+		String getContent();
+		String getImage();
 	}
 }

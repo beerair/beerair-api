@@ -1,6 +1,6 @@
 package com.beerair.core.suggest.application;
 
-import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.suggest.domain.BeerSuggest;
 import com.beerair.core.suggest.dto.response.BeerSuggestCountResponse;
 import com.beerair.core.suggest.dto.response.BeerSuggestResponse;
@@ -23,13 +23,13 @@ public class BeerSuggestService {
         return beerSuggestRepository.save(beerSuggest);
     }
 
-    public BeerSuggestCountResponse count(LoggedInUser user) {
+    public BeerSuggestCountResponse count(LoggedInMember user) {
         var count = beerSuggestRepository.countByMemberId(user.getId());
 
         return new BeerSuggestCountResponse(user.getId(), count);
     }
 
-    public Page<BeerSuggestResponse> getAll(Pageable pageable, LoggedInUser user) {
+    public Page<BeerSuggestResponse> getAll(Pageable pageable, LoggedInMember user) {
         return beerSuggestRepository.findAllByMemberId(pageable, user.getId())
                 .map(BeerSuggestResponse::new);
     }

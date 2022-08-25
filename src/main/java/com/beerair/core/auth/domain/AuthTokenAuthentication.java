@@ -1,7 +1,7 @@
 package com.beerair.core.auth.domain;
 
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
-import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.dto.LoggedInMember;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,10 +12,10 @@ import java.util.Date;
 
 @Getter
 public class AuthTokenAuthentication extends AbstractAuthenticationToken {
-    private final LoggedInUser loggedInUser;
+    private final LoggedInMember loggedInUser;
     private final Date expired;
 
-    private AuthTokenAuthentication(LoggedInUser loggedInUser, Collection<? extends GrantedAuthority> authorities, Date expired) {
+    private AuthTokenAuthentication(LoggedInMember loggedInUser, Collection<? extends GrantedAuthority> authorities, Date expired) {
         super(authorities);
         this.loggedInUser = loggedInUser;
         this.expired = expired;
@@ -26,7 +26,7 @@ public class AuthTokenAuthentication extends AbstractAuthenticationToken {
         return new AuthTokenAuthentication(oAuth2Member, authentication.getAuthorities(), null);
     }
 
-    public static AuthTokenAuthentication from(LoggedInUser loggedInUser, Collection<? extends GrantedAuthority> authorities, Date expired) {
+    public static AuthTokenAuthentication from(LoggedInMember loggedInUser, Collection<? extends GrantedAuthority> authorities, Date expired) {
         return new AuthTokenAuthentication(loggedInUser, authorities, expired);
     }
 
@@ -36,7 +36,7 @@ public class AuthTokenAuthentication extends AbstractAuthenticationToken {
     }
 
     @Override
-    public LoggedInUser getPrincipal() {
+    public LoggedInMember getPrincipal() {
         return loggedInUser;
     }
 }

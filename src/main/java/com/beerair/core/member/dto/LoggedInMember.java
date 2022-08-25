@@ -6,15 +6,15 @@ import lombok.Getter;
 
 @EqualsAndHashCode
 @Getter
-public class LoggedInUser {
+public class LoggedInMember {
     private String id;
     private String email;
 
-    protected LoggedInUser() {
+    protected LoggedInMember() {
     }
 
     @Builder
-    protected LoggedInUser(String id, String email) {
+    protected LoggedInMember(String id, String email) {
         this.id = id;
         this.email = email;
     }

@@ -7,7 +7,7 @@ import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.MemberSocial;
 import com.beerair.core.member.domain.vo.SocialType;
-import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.infrastructure.MemberRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -89,8 +89,8 @@ public class AuthMockController {
         return memberRepository.save(member);
     }
 
-    private LoggedInUser loggedInUser(Member member) {
-        return LoggedInUser.builder()
+    private LoggedInMember loggedInUser(Member member) {
+        return LoggedInMember.builder()
                 .id(member.getId())
                 .email(member.getEmail())
                 .build();
