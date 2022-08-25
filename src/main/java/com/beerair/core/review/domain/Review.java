@@ -49,19 +49,19 @@ public class Review extends BaseEntity {
     @Comment("리뷰 공개 여부")
     private Boolean isPublic;
 
-    @Comment("맥주 맛 Id (최대 3개)")
+    @Comment("맥주 맛 Id 최대 3개")
     @Embedded
-    @AttributeOverride(name = "values", column = @Column(name = "flavor_ids", columnDefinition = "맥주 맛 Id (최대 3개)"))
+    @AttributeOverride(name = "values", column = @Column(name = "flavor_ids"))
     private FlavorIds flavorIds;
 
     @Comment("맥주 Id")
-    private Long beerId;
+    private String beerId;
 
     @Comment("멤버 Id")
     private String memberId;
 
     @Builder
-    private Review(String content, Long departuresCountryId, Long arrivalsCountryId, FeelStatus feelStatus, String imageUrl, Boolean isPublic, FlavorIds flavorIds, Long beerId, String memberId) {
+    private Review(String content, Long departuresCountryId, Long arrivalsCountryId, FeelStatus feelStatus, String imageUrl, Boolean isPublic, FlavorIds flavorIds, String beerId, String memberId) {
         this.id = IdGenerator.createUUID();
         this.content = content;
         this.departuresCountryId = departuresCountryId;

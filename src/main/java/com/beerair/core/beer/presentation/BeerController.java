@@ -34,7 +34,7 @@ public class BeerController {
     @GetMapping("/{beerId}")
     public ResponseEntity<?> get(
             @AuthMemberId Optional<String> userId,
-            @PathVariable("beerId") Long beerId
+            @PathVariable("beerId") String beerId
     ) {
         return ResponseDto.ok(beerService.getWithRegion(
                 userId.orElse(null), beerId

@@ -26,6 +26,8 @@ public interface BeerLikeRepository extends JpaRepository<BeerLike, Long> {
             "FROM Beer b " +
             "INNER JOIN BeerLike bl ON b.id = bl.beerId AND bl.memberId = :memberId " +
             "INNER JOIN Country c ON b.countryId = c.id " +
-            "INNER JOIN BeerType bt ON b.typeId = bt.id")
+            "INNER JOIN BeerType bt ON b.typeId = bt.id " +
+            "LEFT OUTER JOIN Review r ON r.beerId = b.id AND r.memberId = :memberId AND r.deletedAt IS NULL " +
+            "WHERE b.deletedAt IS NULL")
     List<BeerDto> findAllByMemberIdWithBeer(@Param("memberId") String memberId);
 }

@@ -1,10 +1,13 @@
 package com.beerair.core.acceptance.beer;
 
 import com.beerair.core.acceptance.CucumberHttpResponseContext;
+import com.beerair.core.beer.dto.response.BeerResponse;
 import com.beerair.core.common.dto.ResponseDto;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.cucumber.java.en.Then;
 import io.cucumber.spring.ScenarioScope;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,5 +17,12 @@ public class BeerLikeStepThenDefs {
     public void 좋아요한_맥주_Count_검증(int expert) {
         ResponseDto<Integer> response = CucumberHttpResponseContext.getBody(new TypeReference<>() {});
         assertThat(response.getData()).isEqualTo(expert);
+    }
+
+    @Then("맥주 목록에서 첫번째 맥주에 리뷰가 존재한다.")
+    public void 맥주_목록에서_리뷰_검증() {
+        ResponseDto<List<BeerResponse>> response = CucumberHttpResponseContext.getBody(new TypeReference<>() {});
+        var first = response.getData().get(0);
+        assertThat(first.getMyReview()).isNotNull();
     }
 }

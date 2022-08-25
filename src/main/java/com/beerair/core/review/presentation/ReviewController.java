@@ -40,7 +40,7 @@ public class ReviewController {
         return ResponseDto.ok("ok");
     }
 
-    @ApiOperation(value = "리뷰 티켓 등록", notes = "MOCK UP API")
+    @ApiOperation(value = "리뷰 티켓 등록")
     @PostMapping
     public ResponseEntity<?> create(@AuthMemberId String memberId, @RequestBody ReviewRequest request) {
         reviewFacade.create(memberId, request);
