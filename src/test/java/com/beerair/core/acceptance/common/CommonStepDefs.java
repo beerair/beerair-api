@@ -1,12 +1,14 @@
 package com.beerair.core.acceptance.common;
 
-import static org.assertj.core.api.Assertions.*;
-
 import com.beerair.core.acceptance.CucumberHttpResponseContext;
+import com.beerair.core.common.dto.ResponseDto;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import io.cucumber.java.en.Then;
 import io.cucumber.spring.ScenarioScope;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ScenarioScope
 public class CommonStepDefs {
@@ -22,9 +24,17 @@ public class CommonStepDefs {
 
     @Then("{string}가 반환된다.")
     public void matchResponseText(String expect) {
-        String response = CucumberHttpResponseContext.getBody(
-            new TypeReference<>() {}
+        ResponseDto<String> response = CucumberHttpResponseContext.getBody(
+                new TypeReference<>() {}
         );
-        assertThat(response).isEqualTo(expect);
+        assertThat(response.getData()).isEqualTo(expect);
+    }
+
+    @Then("{int}개가 조회된다.")
+    public void matchCollectionSize(int expect) {
+        ResponseDto<List<?>> response = CucumberHttpResponseContext.getBody(
+                new TypeReference<>() {}
+        );
+        assertThat(response.getData().size()).isEqualTo(expect);
     }
 }
