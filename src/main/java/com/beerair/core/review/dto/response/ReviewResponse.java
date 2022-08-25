@@ -5,8 +5,10 @@ import com.beerair.core.review.domain.Review;
 import com.beerair.core.review.domain.vo.FeelStatus;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -14,20 +16,21 @@ import java.util.List;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ReviewResponse {
-    private final String id;
-    private final String content;
+    private String id;
+    private String content;
     /* TODO
     private Long departuresCountryId;
     private Long arrivalsCountryId;
 
      */
-    private final List<Long> flavorIds;
-    private final FeelStatus feelStatus;
-    private final String imageUrl;
-    private final LocalDateTime createdAt;
+    private List<Long> flavorIds;
+    private FeelStatus feelStatus;
+    private String imageUrl;
+    private LocalDateTime createdAt;
 
     public static ReviewResponse from(Review review) {
         return ReviewResponse.builder()

@@ -4,25 +4,28 @@ import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.region.domain.Country;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class CountryResponse {
 
-	private final Long id;
+	private Long id;
 
-	private final String korName;
+	private String korName;
 
-	private final String engName;
+	private String engName;
 
-	private final String backgroundImageUrl;
+	private String backgroundImageUrl;
 
-	private final String imageUrl;
+	private String imageUrl;
 
 	public static CountryResponse from(Country country) {
 		return new CountryResponse(

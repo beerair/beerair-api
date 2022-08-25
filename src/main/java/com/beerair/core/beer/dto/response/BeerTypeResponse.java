@@ -5,28 +5,31 @@ import com.beerair.core.beer.dto.query.BeerDto;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Builder(access = AccessLevel.PRIVATE)
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BeerTypeResponse {
 
     @JsonProperty
-    private final Long id;
+    private Long id;
 
     @JsonProperty
-    private final String korName;
+    private String korName;
 
     @JsonProperty
-    private final String engName;
+    private String engName;
 
     @JsonProperty
-    private final String content;
+    private String content;
 
     @JsonProperty
-    private final String imageUrl;
+    private String imageUrl;
 
     public static BeerTypeResponse from(BeerType beerType) {
         return new BeerTypeResponse(beerType.getId(), beerType.getKorName(), beerType.getEngName(), beerType.getContent(), beerType.getImageUrl());

@@ -57,3 +57,4 @@ Feature: Beer Like
         Then    요청이 성공한다.
         When    좋아요한 맥주 목록을 요청하면
         Then    1개가 조회된다.
+        Then    맥주 목록에서 첫번째 맥주에 리뷰가 존재한다.
