@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BeerResponse {
 
-	private final Long id;
+	private final String id;
 
 	private final CountryResponse country;
 

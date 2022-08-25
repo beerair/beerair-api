@@ -8,6 +8,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.cucumber.java.en.Then;
 import io.cucumber.spring.ScenarioScope;
 
+import java.util.Collection;
+
 @ScenarioScope
 public class CommonStepDefs {
     @Then("요청이 성공한다.")
@@ -23,8 +25,16 @@ public class CommonStepDefs {
     @Then("{string}가 반환된다.")
     public void matchResponseText(String expect) {
         String response = CucumberHttpResponseContext.getBody(
-            new TypeReference<>() {}
+                new TypeReference<>() {}
         );
         assertThat(response).isEqualTo(expect);
+    }
+
+    @Then("{int}개가 조회된다.")
+    public void matchCollectionSize(int expect) {
+        Collection<?> response = CucumberHttpResponseContext.getBody(
+                new TypeReference<>() {}
+        );
+        assertThat(response.size()).isEqualTo(expect);
     }
 }

@@ -29,15 +29,15 @@ public class BeerLikeController {
 
     @ApiOperation(value = "맥주 찜하기(좋아요) api")
     @PostMapping
-    public ResponseEntity<Void> save(
-            @RequestParam("beerId") Long beerId
+    public ResponseEntity<Void> toggle(
+            @RequestParam("beerId") String beerId
     ) {
         return ResponseDto.noContent();
     }
 
     @ApiOperation(value = "찜한(좋아요) 맥주 count api")
     @GetMapping("/count")
-    public ResponseEntity<Void> count() {
+    public ResponseEntity<Void> getCount() {
         return ResponseDto.noContent();
     }
 

@@ -40,5 +40,4 @@ public class BeerController {
     public ResponseEntity<Void> getRecommends() {
         return ResponseDto.noContent();
     }
-
 }
