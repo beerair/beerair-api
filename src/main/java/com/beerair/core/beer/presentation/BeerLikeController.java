@@ -27,37 +27,37 @@ public class BeerLikeController {
 
     @ApiOperation(value = "맥주 찜(좋아요) 목록 조회 api")
     @GetMapping
-    public ResponseEntity<?> getAll(@AuthMemberId String user) {
+    public ResponseEntity<?> getAll(@AuthMemberId String memberId) {
         return ResponseDto.ok(
-                beerLikeService.getAll(user)
+                beerLikeService.getAll(memberId)
         );
     }
 
     @ApiOperation(value = "맥주 찜하기(좋아요) api")
     @PostMapping
     public ResponseEntity<Void> like(
-            @AuthMemberId String user,
+            @AuthMemberId String memberId,
             @RequestParam("beerId") String beerId
     ) {
-        beerLikeService.like(user, beerId);
+        beerLikeService.like(memberId, beerId);
         return ResponseDto.noContent();
     }
 
     @ApiOperation(value = "맥주 찜하기(좋아요) 해제 api")
     @DeleteMapping
     public ResponseEntity<Void> unlike(
-            @AuthMemberId String user,
+            @AuthMemberId String memberId,
             @RequestParam("beerId") String beerId
     ) {
-        beerLikeService.unlike(user, beerId);
+        beerLikeService.unlike(memberId, beerId);
         return ResponseDto.noContent();
     }
 
     @ApiOperation(value = "찜한(좋아요) 맥주 count api")
     @GetMapping("/count")
-    public ResponseEntity<?> getCount(@AuthMemberId String user) {
+    public ResponseEntity<?> getCount(@AuthMemberId String memberId) {
         return ResponseDto.ok(
-                beerLikeService.getCount(user)
+                beerLikeService.getCount(memberId)
         );
     }
 

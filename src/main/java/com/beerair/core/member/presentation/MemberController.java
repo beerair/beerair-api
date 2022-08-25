@@ -35,34 +35,34 @@ public class MemberController {
     @ApiOperation(value = "회원가입 API")
     @PostMapping
     public ResponseEntity<?> sign(
-            @AuthMember LoggedInMember user,
+            @AuthMember LoggedInMember member,
             @Valid @RequestBody MemberSignRequest request
     ) {
-        memberSignFacade.sign(user, request);
+        memberSignFacade.sign(member, request);
         return ResponseDto.noContent();
     }
 
     @ApiOperation(value = "탈퇴 API")
     @DeleteMapping
-    public ResponseEntity<?> resign(@AuthMember LoggedInMember user) {
-        memberService.resign(user);
+    public ResponseEntity<?> resign(@AuthMember LoggedInMember member) {
+        memberService.resign(member);
         return ResponseDto.noContent();
     }
 
     @ApiOperation(value = "닉네임 변경 API")
     @PatchMapping("/nickname")
     public ResponseEntity<?> modifiedNickname(
-            @AuthMember LoggedInMember user,
+            @AuthMember LoggedInMember member,
             @Valid @RequestBody MemberChangeNicknameRequest request
     ) {
-        memberService.changeNickname(user, request.getNickname());
+        memberService.changeNickname(member, request.getNickname());
         return ResponseDto.noContent();
     }
 
     @ApiOperation(value = "사용자 정보 조회 API")
     @GetMapping("me")
-    public ResponseEntity<?> get(@AuthMember LoggedInMember user) {
-        MemberMeResponse response = memberService.getMe(user);
+    public ResponseEntity<?> get(@AuthMember LoggedInMember member) {
+        MemberMeResponse response = memberService.getMe(member);
         return ResponseDto.ok(response);
     }
 }
