@@ -11,13 +11,13 @@ public class BeerLikeStepWhenDefs {
     @Autowired
     private BeerLikeStepClient beerLikeStepClient;
 
-    @When("맥주 좋아요를 요청하면")
-    public void 맥주_좋아요_요청() {
-        beerLikeStepClient.like(BEER_ID);
+    @When("{string} 맥주 좋아요를 요청하면")
+    public void 맥주_좋아요_요청(String id) {
+        beerLikeStepClient.like(id);
     }
-    @When("맥주 좋아요 해제를 요청하면")
-    public void 맥주_좋아요_해제_요청() {
-        beerLikeStepClient.unlike(BEER_ID);
+    @When("{string} 맥주 좋아요 해제를 요청하면")
+    public void 맥주_좋아요_해제_요청(String id) {
+        beerLikeStepClient.unlike(id);
     }
 
     @When("좋아요한 맥주 목록을 요청하면")

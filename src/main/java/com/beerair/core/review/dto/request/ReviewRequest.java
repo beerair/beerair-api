@@ -4,10 +4,12 @@ import com.beerair.core.review.domain.FlavorIds;
 import com.beerair.core.review.domain.Review;
 import com.beerair.core.review.domain.vo.FeelStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
+@Builder
 @Data
 public class ReviewRequest {
 

@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class BeerDataSetup extends DataSetup {
-    public static final String BEER_ID = "1234";
-
     @Autowired
     private BeerRepository beerRepository;
 
@@ -25,7 +23,7 @@ public class BeerDataSetup extends DataSetup {
                 .countryId(1L)
                 .typeId(1L)
                 .build();
-        new Fixture<>(beer).set("id", BEER_ID);
+        new Fixture<>(beer).set("id", "A1");
 
         beerRepository.save(beer);
     }

@@ -70,7 +70,7 @@ public interface BeerDto {
 		String getId();
 		FeelStatus getFeelStatus();
 		String getContent();
-		String getImage();
+		String getImageUrl();
 		FlavorIds getFlavorIds();
 		LocalDateTime getCreatedAt();
 	}

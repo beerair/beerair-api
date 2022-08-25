@@ -3,6 +3,7 @@ package com.beerair.core.review.domain;
 import com.beerair.core.common.LongArrayToStringConverter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
@@ -11,6 +12,7 @@ import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 import java.util.List;
 
+@Getter
 @Embeddable
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
