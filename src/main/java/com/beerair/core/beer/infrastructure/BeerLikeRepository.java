@@ -22,7 +22,7 @@ public interface BeerLikeRepository extends JpaRepository<BeerLike, Long> {
     Integer findCountByMemberId(@Param("memberId") String memberId);
 
     @Transactional(readOnly = true)
-    @Query("SELECT b as beer, c as country, bt as beerType, true as liked " +
+    @Query("SELECT b as beer, c as country, bt as beerType, r as myReview, true as liked " +
             "FROM Beer b " +
             "INNER JOIN BeerLike bl ON b.id = bl.beerId AND bl.memberId = :memberId " +
             "INNER JOIN Country c ON b.countryId = c.id " +

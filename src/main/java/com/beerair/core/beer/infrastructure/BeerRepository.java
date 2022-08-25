@@ -25,7 +25,7 @@ public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificat
 
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT b as beer, " +
-	               "c as country, bt as beerType, (bl is not null) as liked " +
+	               "c as country, bt as beerType, (bl is not null) as liked, r as myReview " +
 	               "FROM Beer b " +
 	               "JOIN BeerType bt on b.typeId = bt.id " +
 	               "JOIN Country c on b.countryId = c.id " +

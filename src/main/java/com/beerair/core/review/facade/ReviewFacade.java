@@ -16,7 +16,7 @@ public class ReviewFacade {
     private final BeerService beerService;
 
     public void create(String memberId, ReviewRequest request) {
-        var arrivalsCountryId = beerService.getWithRegion(memberId, request.getBeerId())
+        var arrivalsCountryId = beerService.getWithRegion(null, request.getBeerId())
                 .getCountry().getId();
 
         reviewService.create(request, arrivalsCountryId, memberId);
