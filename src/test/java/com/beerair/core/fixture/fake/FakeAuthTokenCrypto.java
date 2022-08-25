@@ -6,16 +6,11 @@ import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.error.TestDebugException;
 import com.beerair.core.member.domain.Member;
-import com.beerair.core.member.dto.LoggedInUser;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FakeAuthTokenCrypto implements AuthTokenCrypto {

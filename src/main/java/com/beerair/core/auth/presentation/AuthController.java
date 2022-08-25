@@ -6,8 +6,8 @@ import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.dto.response.AuthMeResponse;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.error.exception.auth.NoAuthException;
-import com.beerair.core.member.dto.LoggedInUser;
-import com.beerair.core.member.presentation.annotation.AuthUser;
+import com.beerair.core.member.dto.LoggedInMember;
+import com.beerair.core.member.presentation.annotation.AuthMember;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class AuthController {
 
     @ApiOperation(value = "Access Token 정보 조회")
     @GetMapping("me")
-    public ResponseEntity<?> authMe(HttpServletRequest httpServletRequest, @AuthUser LoggedInUser user) {
+    public ResponseEntity<?> authMe(HttpServletRequest httpServletRequest, @AuthMember LoggedInMember user) {
         var token = authTokenAuthenticationFilter
                 .getToken(httpServletRequest)
                 .orElseThrow(NoAuthException::new);
@@ -52,7 +52,7 @@ public class AuthController {
 
     @ApiOperation(value = "로그아웃")
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@AuthUser LoggedInUser user) {
+    public ResponseEntity<?> logout(@AuthMember LoggedInMember user) {
         refreshTokenService.deleteByMember(user.getId());
         return ResponseDto.noContent();
     }

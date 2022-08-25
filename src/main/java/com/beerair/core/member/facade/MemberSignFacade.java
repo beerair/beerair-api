@@ -4,7 +4,7 @@ package com.beerair.core.member.facade;
 import com.beerair.core.member.application.LevelService;
 import com.beerair.core.member.application.MemberService;
 import com.beerair.core.member.domain.Member;
-import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.dto.request.MemberSignRequest;
 import com.beerair.core.member.dto.response.LevelResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class MemberSignFacade {
     private final LevelService levelService;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public void sign(LoggedInUser user, MemberSignRequest request) {
+    public void sign(LoggedInMember user, MemberSignRequest request) {
         Member member = memberService.get(user);
         LevelResponse level = levelService.getIdByExp(0);
         var levelId = level.getId();

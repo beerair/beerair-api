@@ -2,9 +2,7 @@ package com.beerair.core.member.application;
 
 import com.beerair.core.error.exception.member.MemberNotFoundException;
 import com.beerair.core.member.domain.Member;
-import com.beerair.core.member.facade.MemberSignFacade;
-import com.beerair.core.member.dto.LoggedInUser;
-import com.beerair.core.member.dto.request.MemberSignRequest;
+import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.dto.response.MemberMeResponse;
 import com.beerair.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,23 +15,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public Member get(LoggedInUser user) {
+    public Member get(LoggedInMember user) {
         return memberRepository.findById(user.getId())
                 .orElseThrow(MemberNotFoundException::new);
     }
 
-    public void resign(LoggedInUser user) {
+    public void resign(LoggedInMember user) {
         Member member = get(user);
 
         member.resign();
         // TODO Domain Event
     }
 
-    public void changeNickname(LoggedInUser user, String nickname) {
+    public void changeNickname(LoggedInMember user, String nickname) {
         get(user).changeNickname(nickname);
     }
 
-    public MemberMeResponse getMe(LoggedInUser user) {
+    public MemberMeResponse getMe(LoggedInMember user) {
         return memberRepository.findByIdWithLevel(user.getId())
                 .orElseThrow(MemberNotFoundException::new);
     }

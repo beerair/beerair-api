@@ -2,8 +2,8 @@ package com.beerair.core.suggest.presentation;
 
 import com.beerair.core.common.dto.PageDto;
 import com.beerair.core.common.dto.ResponseDto;
-import com.beerair.core.member.dto.LoggedInUser;
-import com.beerair.core.member.presentation.annotation.AuthUser;
+import com.beerair.core.member.dto.LoggedInMember;
+import com.beerair.core.member.presentation.annotation.AuthMember;
 import com.beerair.core.suggest.application.BeerSuggestService;
 import com.beerair.core.suggest.dto.request.BeerSuggestRegisterRequest;
 import com.beerair.core.suggest.facade.BeerSuggestFacade;
@@ -34,7 +34,7 @@ public class BeerSuggestController {
     @GetMapping("/validate")
     public ResponseEntity<?> validate(
             @RequestParam("name") String name,
-            @AuthUser LoggedInUser user
+            @AuthMember LoggedInMember user
     ) {
         beerSuggestFacade.validate(name, user);
         return ResponseDto.noContent();
@@ -44,7 +44,7 @@ public class BeerSuggestController {
     @PostMapping
     public ResponseEntity<?> register(
             @RequestBody BeerSuggestRegisterRequest request,
-            @AuthUser LoggedInUser user
+            @AuthMember LoggedInMember user
     ) {
         // TODO : 인증, 인가 로직 붙이기
         var response = beerSuggestFacade.register(request, user);
@@ -55,7 +55,7 @@ public class BeerSuggestController {
     @GetMapping
     public ResponseEntity<?> getAll(
             @PageableDefault Pageable pageable,
-            @AuthUser LoggedInUser user
+            @AuthMember LoggedInMember user
     ) {
         var response = beerSuggestService.getAll(pageable, user);
         return PageDto.ok(response);
@@ -64,7 +64,7 @@ public class BeerSuggestController {
     @ApiOperation(value = "요청한 맥주 목록 count api")
     @GetMapping("/count")
     public ResponseEntity<?> count(
-            @AuthUser LoggedInUser user
+            @AuthMember LoggedInMember user
     ) {
         // TODO : 인증, 인가 로직 붙이기
         var response = beerSuggestService.count(user);

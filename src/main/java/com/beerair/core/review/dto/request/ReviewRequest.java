@@ -30,7 +30,16 @@ public class ReviewRequest {
     private final Long beerId;
 
     public Review entity(Long departuresCountryId, Long arrivalsCountryId, String memberId) {
-        return Review.of(content, departuresCountryId, arrivalsCountryId, feelStatus,
-                imageUrl, isPublic, FlavorIds.from(flavorIds) ,beerId, memberId);
+        return Review.builder()
+                .content(content)
+                .departuresCountryId(departuresCountryId)
+                .arrivalsCountryId(arrivalsCountryId)
+                .feelStatus(feelStatus)
+                .imageUrl(imageUrl)
+                .isPublic(isPublic)
+                .flavorIds(FlavorIds.from(flavorIds))
+                .beerId(beerId)
+                .memberId(memberId)
+                .build();
     }
 }

@@ -1,6 +1,7 @@
 package com.beerair.core.review.presentation;
 
 import com.beerair.core.common.dto.ResponseDto;
+import com.beerair.core.member.presentation.annotation.AuthMemberId;
 import com.beerair.core.review.dto.request. ReviewRequest;
 import com.beerair.core.review.facade.ReviewFacade;
 import io.swagger.annotations.Api;
@@ -41,8 +42,8 @@ public class ReviewController {
 
     @ApiOperation(value = "리뷰 티켓 등록", notes = "MOCK UP API")
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody ReviewRequest request) {
-        reviewFacade.create(request);
-        return ResponseDto.ok("ok");
+    public ResponseEntity<?> create(@AuthMemberId String memberId, @RequestBody ReviewRequest request) {
+        reviewFacade.create(memberId, request);
+        return ResponseDto.noContent();
     }
 }

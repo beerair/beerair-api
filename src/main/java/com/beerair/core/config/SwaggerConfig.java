@@ -1,10 +1,9 @@
 package com.beerair.core.config;
 
-import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.dto.LoggedInMember;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpRequest;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -40,7 +39,7 @@ public class SwaggerConfig {
                 .securityContexts(Collections.singletonList(securityContext()))
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .ignoredParameterTypes(
-                        LoggedInUser.class,
+                        LoggedInMember.class,
                         HttpServletRequest.class
                 )
                 .servers(getServer(profile, url, desc))

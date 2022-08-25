@@ -2,8 +2,8 @@ package com.beerair.core.beer.presentation;
 
 import com.beerair.core.beer.application.BeerLikeService;
 import com.beerair.core.common.dto.ResponseDto;
-import com.beerair.core.member.dto.LoggedInUser;
-import com.beerair.core.member.presentation.annotation.AuthUser;
+import com.beerair.core.member.dto.LoggedInMember;
+import com.beerair.core.member.presentation.annotation.AuthMember;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class BeerLikeController {
 
     @ApiOperation(value = "맥주 찜(좋아요) 목록 조회 api")
     @GetMapping
-    public ResponseEntity<?> getAll(@AuthUser LoggedInUser user) {
+    public ResponseEntity<?> getAll(@AuthMember LoggedInMember user) {
         return ResponseDto.ok(
                 beerLikeService.getAll(user.getId())
         );
@@ -35,7 +35,7 @@ public class BeerLikeController {
     @ApiOperation(value = "맥주 찜하기(좋아요) api")
     @PostMapping
     public ResponseEntity<Void> like(
-            @AuthUser LoggedInUser user,
+            @AuthMember LoggedInMember user,
             @RequestParam("beerId") String beerId
     ) {
         beerLikeService.like(user.getId(), beerId);
@@ -45,7 +45,7 @@ public class BeerLikeController {
     @ApiOperation(value = "맥주 찜하기(좋아요) 해제 api")
     @DeleteMapping
     public ResponseEntity<Void> unlike(
-            @AuthUser LoggedInUser user,
+            @AuthMember LoggedInMember user,
             @RequestParam("beerId") String beerId
     ) {
         beerLikeService.unlike(user.getId(), beerId);
@@ -54,7 +54,7 @@ public class BeerLikeController {
 
     @ApiOperation(value = "찜한(좋아요) 맥주 count api")
     @GetMapping("/count")
-    public ResponseEntity<?> getCount(@AuthUser LoggedInUser user) {
+    public ResponseEntity<?> getCount(@AuthMember LoggedInMember user) {
         return ResponseDto.ok(
                 beerLikeService.getCount(user.getId())
         );

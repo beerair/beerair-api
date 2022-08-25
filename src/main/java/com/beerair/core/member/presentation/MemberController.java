@@ -2,12 +2,12 @@ package com.beerair.core.member.presentation;
 
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.application.MemberService;
-import com.beerair.core.member.dto.LoggedInUser;
+import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.dto.request.MemberChangeNicknameRequest;
 import com.beerair.core.member.dto.request.MemberSignRequest;
 import com.beerair.core.member.dto.response.MemberMeResponse;
 import com.beerair.core.member.facade.MemberSignFacade;
-import com.beerair.core.member.presentation.annotation.AuthUser;
+import com.beerair.core.member.presentation.annotation.AuthMember;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class MemberController {
     @ApiOperation(value = "회원가입 API")
     @PostMapping
     public ResponseEntity<?> sign(
-            @AuthUser LoggedInUser user,
+            @AuthMember LoggedInMember user,
             @Valid @RequestBody MemberSignRequest request
     ) {
         memberSignFacade.sign(user, request);
@@ -44,7 +44,7 @@ public class MemberController {
 
     @ApiOperation(value = "탈퇴 API")
     @DeleteMapping
-    public ResponseEntity<?> resign(@AuthUser LoggedInUser user) {
+    public ResponseEntity<?> resign(@AuthMember LoggedInMember user) {
         memberService.resign(user);
         return ResponseDto.noContent();
     }
@@ -52,7 +52,7 @@ public class MemberController {
     @ApiOperation(value = "닉네임 변경 API")
     @PatchMapping("/nickname")
     public ResponseEntity<?> modifiedNickname(
-            @AuthUser LoggedInUser user,
+            @AuthMember LoggedInMember user,
             @Valid @RequestBody MemberChangeNicknameRequest request
     ) {
         memberService.changeNickname(user, request.getNickname());
@@ -61,7 +61,7 @@ public class MemberController {
 
     @ApiOperation(value = "사용자 정보 조회 API")
     @GetMapping("me")
-    public ResponseEntity<?> get(@AuthUser LoggedInUser user) {
+    public ResponseEntity<?> get(@AuthMember LoggedInMember user) {
         MemberMeResponse response = memberService.getMe(user);
         return ResponseDto.ok(response);
     }

@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AuthUser {
+public @interface AuthMemberId {
 }
