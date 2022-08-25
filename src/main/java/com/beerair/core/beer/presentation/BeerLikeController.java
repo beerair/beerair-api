@@ -26,8 +26,10 @@ public class BeerLikeController {
 
     @ApiOperation(value = "맥주 찜(좋아요) 목록 조회 api")
     @GetMapping
-    public ResponseEntity<Void> getAll() {
-        return ResponseDto.noContent();
+    public ResponseEntity<?> getAll(@AuthUser LoggedInUser user) {
+        return ResponseDto.ok(
+                beerLikeService.getAll(user.getId())
+        );
     }
 
     @ApiOperation(value = "맥주 찜하기(좋아요) api")
@@ -52,8 +54,10 @@ public class BeerLikeController {
 
     @ApiOperation(value = "찜한(좋아요) 맥주 count api")
     @GetMapping("/count")
-    public ResponseEntity<Void> getCount() {
-        return ResponseDto.noContent();
+    public ResponseEntity<?> getCount(@AuthUser LoggedInUser user) {
+        return ResponseDto.ok(
+                beerLikeService.getCount(user.getId())
+        );
     }
 
 }

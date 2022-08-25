@@ -4,8 +4,10 @@ import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.region.domain.Country;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
+@Builder(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class CountryResponse {
@@ -36,5 +38,11 @@ public class CountryResponse {
 				countryInfo.getEngName(),
 				countryInfo.getBackgroundImageUrl(),
 				countryInfo.getImageUrl());
+	}
+
+	public static CountryResponse ofListItem(BeerDto.CountryInfo countryInfo) {
+		return CountryResponse.builder()
+				.korName(countryInfo.getKorName())
+				.build();
 	}
 }

@@ -7,14 +7,17 @@ import com.beerair.core.member.domain.vo.SocialType;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.Random;
+
 @UtilityClass
 public class MemberFixture {
     public static Fixture<Member> createSocialMemberFixture() {
+        var random = new Random();
         var member = Member.socialBuilder()
-                .email("username")
-                .phoneNumber("01012345678")
+                .email(random.nextInt() + "")
+                .phoneNumber(random.nextInt() + "")
                 .profileUrl("https://img.com")
-                .social(new MemberSocial("1234", SocialType.KAKAO))
+                .social(new MemberSocial(new Random().nextInt() + "", SocialType.KAKAO))
                 .build();
         return new Fixture<>(member);
     }

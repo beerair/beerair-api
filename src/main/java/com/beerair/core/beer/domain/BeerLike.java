@@ -20,7 +20,7 @@ import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
 
 @Table(
         uniqueConstraints = {
-                @UniqueConstraint(name = "UNIQUE_MEMBER_BEER", columnNames = { "member_id", "beer_id" })
+                @UniqueConstraint(name = "UNIQUE_MEMBER_BEER", columnNames = { "memberId", "beerId" })
         }
 )
 @Getter

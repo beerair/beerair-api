@@ -1,13 +1,15 @@
 package com.beerair.core.beer.application;
 
-import com.beerair.core.beer.domain.Beer;
 import com.beerair.core.beer.domain.BeerLike;
+import com.beerair.core.beer.dto.response.BeerResponse;
 import com.beerair.core.beer.infrastructure.BeerLikeRepository;
 import com.beerair.core.error.exception.beer.BeerLikeNotFoundException;
-import com.beerair.core.member.dto.LoggedInUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -21,9 +23,17 @@ public class BeerLikeService {
     }
 
     public void unlike(String memberId, String beerId) {
-        var unliked = beerLikeRepository.deleteByBeerIdAndMemberId(memberId, beerId);
-        if (unliked < 1) {
-            throw new BeerLikeNotFoundException();
-        }
+        beerLikeRepository.deleteByBeerIdAndMemberId(memberId, beerId);
+    }
+
+    public int getCount(String memberId) {
+        return beerLikeRepository.findCountByMemberId(memberId);
+    }
+
+    public List<BeerResponse> getAll(String memberId) {
+        return beerLikeRepository.findAllByMemberIdAndLiked(memberId)
+                .stream()
+                .map(BeerResponse::ofListItem)
+                .collect(Collectors.toList());
     }
 }

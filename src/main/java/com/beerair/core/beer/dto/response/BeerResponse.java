@@ -7,12 +7,14 @@ import com.beerair.core.region.domain.Country;
 import com.beerair.core.region.domain.vo.rs.CountryResponse;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Builder(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BeerResponse {
@@ -77,5 +79,17 @@ public class BeerResponse {
 				beer.getCreatedAt(),
 				beer.getModifiedAt()
 		);
+	}
+
+	public static BeerResponse ofListItem(BeerDto beerDto) {
+		return BeerResponse.builder()
+				.id(beerDto.getBeer().getId())
+				.alcohol(beerDto.getBeer().getAlcohol())
+				.korName(beerDto.getBeer().getKorName())
+				.country(CountryResponse.ofListItem(beerDto.getCountry()))
+				.type(BeerTypeResponse.ofListItem(beerDto.getBeerType()))
+				.imageUrl(beerDto.getBeer().getImageUrl())
+				.liked(beerDto.getLiked())
+				.build();
 	}
 }
