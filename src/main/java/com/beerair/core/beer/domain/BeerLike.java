@@ -13,9 +13,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
 
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UNIQUE_MEMBER_BEER", columnNames = { "member_id", "beer_id" })
+        }
+)
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,8 +39,7 @@ public class BeerLike extends BaseEntity {
     @Column(nullable = false, length = UUID_LENGTH)
     private String beerId;
 
-    @Builder
-    private BeerLike(String memberId, String beerId) {
+    public BeerLike(String memberId, String beerId) {
         this.id = IdGenerator.createUUID();
         this.memberId = memberId;
         this.beerId = beerId;

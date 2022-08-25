@@ -25,6 +25,7 @@ public enum ErrorMessage {
     BEER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "이미 존재하는 맥주입니다."),
     BEER_SUGGEST_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "이미 제안한 맥주입니다."),
     BEER_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 맥주 정보가 없습니다."),
+    BEER_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "좋아요한 맥주 정보가 없습니다."),
 
     CONTINENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 대륙 정보가 없습니다."),
     ;
