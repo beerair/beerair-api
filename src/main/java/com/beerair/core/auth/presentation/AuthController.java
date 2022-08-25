@@ -8,6 +8,7 @@ import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.error.exception.auth.NoAuthException;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
+import com.beerair.core.member.presentation.annotation.AuthMemberId;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -52,8 +53,8 @@ public class AuthController {
 
     @ApiOperation(value = "로그아웃")
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@AuthMember LoggedInMember user) {
-        refreshTokenService.deleteByMember(user.getId());
+    public ResponseEntity<?> logout(@AuthMemberId String user) {
+        refreshTokenService.deleteByMember(user);
         return ResponseDto.noContent();
     }
 }

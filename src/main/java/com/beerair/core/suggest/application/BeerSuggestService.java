@@ -23,14 +23,14 @@ public class BeerSuggestService {
         return beerSuggestRepository.save(beerSuggest);
     }
 
-    public BeerSuggestCountResponse count(LoggedInMember user) {
-        var count = beerSuggestRepository.countByMemberId(user.getId());
+    public BeerSuggestCountResponse count(String memberId) {
+        var count = beerSuggestRepository.countByMemberId(memberId);
 
-        return new BeerSuggestCountResponse(user.getId(), count);
+        return new BeerSuggestCountResponse(memberId, count);
     }
 
-    public Page<BeerSuggestResponse> getAll(Pageable pageable, LoggedInMember user) {
-        return beerSuggestRepository.findAllByMemberId(pageable, user.getId())
+    public Page<BeerSuggestResponse> getAll(Pageable pageable, String memberId) {
+        return beerSuggestRepository.findAllByMemberId(pageable, memberId)
                 .map(BeerSuggestResponse::new);
     }
 }

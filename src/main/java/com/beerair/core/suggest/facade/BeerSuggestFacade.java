@@ -18,23 +18,23 @@ public class BeerSuggestFacade {
     private final BeerSuggestService beerSuggestService;
     private final BeerService beerService;
 
-    public void validate(String name, LoggedInMember user) {
+    public void validate(String name, String memberId) {
         if (beerService.existsByKorNameOrEngName(name)) {
             throw new BeerAlreadyExistsException();
         }
-        if (beerSuggestService.existsByNameAndMemberId(name, user.getId())) {
+        if (beerSuggestService.existsByNameAndMemberId(name, memberId)) {
             throw new BeerSuggestAlreadyExistsException();
         }
     }
 
-    public BeerSuggestRegisterResponse register(BeerSuggestRegisterRequest request, LoggedInMember user) {
-        validate(request.getName(), user);
+    public BeerSuggestRegisterResponse register(BeerSuggestRegisterRequest request, String memberId) {
+        validate(request.getName(), memberId);
 
         var suggest = beerSuggestService.save(
                 new BeerSuggest(
                         MapperUtil.writeValueAsString(request.getImages()),
                         request.getName(),
-                        user.getId()
+                        memberId
                 )
         );
 
