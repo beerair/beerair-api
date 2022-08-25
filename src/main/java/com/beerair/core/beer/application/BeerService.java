@@ -14,17 +14,13 @@ import java.util.Optional;
 public class BeerService {
     private final BeerRepository beerRepository;
 
-    public BeerResponse getWithRegion(String memberId, Long beerId) {
+    public BeerResponse getWithRegion(String memberId, String beerId) {
         if (Objects.isNull(memberId)) {
             return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId)
                     .orElseThrow(BeerNotFoundException::new));
         }
         return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId, memberId)
                 .orElseThrow(BeerNotFoundException::new));
-    }
-
-    public BeerResponse getWithRegion(Long beerId) {
-        return getWithRegion(null, beerId);
     }
 
     public Boolean existsByKorNameOrEngName(String name) {

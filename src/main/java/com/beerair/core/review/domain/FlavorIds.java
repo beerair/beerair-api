@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class FlavorIds {
 
-    @Comment("맥주 맛 Id (최대 3개)")
+    @Comment("맥주 맛 Id 최대 3개")
     @Convert(converter = LongArrayToStringConverter.class)
     private List<Long> values;
 

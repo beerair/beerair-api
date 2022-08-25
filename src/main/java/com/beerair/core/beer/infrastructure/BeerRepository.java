@@ -20,9 +20,8 @@ public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificat
 	               "FROM Beer b " +
 	               "JOIN BeerType bt on b.typeId = bt.id " +
 	               "JOIN Country c on b.countryId = c.id " +
-	               "LEFT OUTER JOIN BeerLike bl on b.id = bl.beerId " +
 	               "WHERE b.id = :beerId and b.deletedAt is null")
-	Optional<BeerDto> findByIdWithTypeAndCountry(@Param("beerId") Long beerId);
+	Optional<BeerDto> findByIdWithTypeAndCountry(@Param("beerId") String beerId);
 
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT b as beer, " +
@@ -31,8 +30,9 @@ public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificat
 	               "JOIN BeerType bt on b.typeId = bt.id " +
 	               "JOIN Country c on b.countryId = c.id " +
 	               "LEFT OUTER JOIN BeerLike bl on b.id = bl.beerId and bl.memberId = :memberId " +
+				   "LEFT OUTER JOIN Review r ON r.beerId = b.id AND r.memberId = :memberId AND r.deletedAt IS NULL " +
 	               "WHERE b.id = :beerId and b.deletedAt is null")
-	Optional<BeerDto> findByIdWithTypeAndCountry(@Param("beerId") Long beerId, @Param("memberId") String memberId);
+	Optional<BeerDto> findByIdWithTypeAndCountry(@Param("beerId") String beerId, @Param("memberId") String memberId);
 
     @Transactional(readOnly = true)
     Boolean findByKorNameOrEngName(String korName, String engName);

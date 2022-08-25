@@ -27,7 +27,7 @@ public class ReviewRequest {
     private final List<Long> flavorIds;
 
     @JsonProperty
-    private final Long beerId;
+    private final String beerId;
 
     public Review entity(Long departuresCountryId, Long arrivalsCountryId, String memberId) {
         return Review.builder()
