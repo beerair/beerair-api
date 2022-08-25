@@ -5,9 +5,11 @@ import com.beerair.core.region.domain.Country;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 @Getter
+@Builder(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class CountryResponse {
@@ -38,5 +40,11 @@ public class CountryResponse {
 				countryInfo.getEngName(),
 				countryInfo.getBackgroundImageUrl(),
 				countryInfo.getImageUrl());
+	}
+
+	public static CountryResponse ofListItem(BeerDto.CountryInfo countryInfo) {
+		return CountryResponse.builder()
+				.korName(countryInfo.getKorName())
+				.build();
 	}
 }

@@ -69,7 +69,7 @@ public class Member extends BaseEntity {
 
     @Convert(converter = StringFieldCryptConverter.class)
     @Comment("닉네임")
-    @Column(length = 50, unique = true)
+    @Column(length = 50, unique = true, nullable = true)
     private String nickname;
 
     @Comment("레벨 Id")

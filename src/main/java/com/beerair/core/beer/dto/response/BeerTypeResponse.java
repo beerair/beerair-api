@@ -5,8 +5,10 @@ import com.beerair.core.beer.dto.query.BeerDto;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
+@Builder(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BeerTypeResponse {
@@ -34,5 +36,11 @@ public class BeerTypeResponse {
         return new BeerTypeResponse(beerTypeInfo.getId(), beerTypeInfo.getKorName(), beerTypeInfo.getEngName(),
                                     beerTypeInfo.getContent(),
                                     beerTypeInfo.getImageUrl());
+    }
+
+    public static BeerTypeResponse ofListItem(BeerDto.BeerTypeInfo beerTypeInfo) {
+        return BeerTypeResponse.builder()
+                .korName(beerTypeInfo.getKorName())
+                .build();
     }
 }

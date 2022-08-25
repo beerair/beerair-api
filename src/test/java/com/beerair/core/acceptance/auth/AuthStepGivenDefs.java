@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Random;
+
 @ScenarioScope
 public class AuthStepGivenDefs {
     @Autowired
@@ -37,7 +39,7 @@ public class AuthStepGivenDefs {
     @Given("access: {string}, refresh: {string} 회원가입된 유저의 토큰이 발급 되어있다.")
     public void 회원가입된_유저의_토큰이_발급_되어있다(String access, String refresh) {
         var member = MemberFixture.createSocialMemberFixture().get();
-        member.sign("안녕", 1);
+        member.sign(new Random().nextInt() + "", 1);
         FakeOAuth2UserService.setNextMember(member);
         memberRepository.save(member);
 

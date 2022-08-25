@@ -1,7 +1,9 @@
 package com.beerair.core.beer.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
+import com.beerair.core.common.util.IdGenerator;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +27,12 @@ public class BeerType extends BaseEntity {
     private String content;
 
     private String imageUrl;
+
+    @Builder
+    private BeerType(String korName, String engName, String content, String imageUrl) {
+        this.korName = korName;
+        this.engName = engName;
+        this.content = content;
+        this.imageUrl = imageUrl;
+    }
 }
