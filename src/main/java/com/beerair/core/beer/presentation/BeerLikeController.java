@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,15 @@ public class BeerLikeController {
 
     @ApiOperation(value = "맥주 찜하기(좋아요) api")
     @PostMapping
-    public ResponseEntity<Void> toggle(
+    public ResponseEntity<Void> like(
+            @RequestParam("beerId") String beerId
+    ) {
+        return ResponseDto.noContent();
+    }
+
+    @ApiOperation(value = "맥주 찜하기(좋아요) 해제 api")
+    @DeleteMapping
+    public ResponseEntity<Void> unlike(
             @RequestParam("beerId") String beerId
     ) {
         return ResponseDto.noContent();

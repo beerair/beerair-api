@@ -8,4 +8,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BeerLikeService {
     private final BeerLikeRepository beerLikeRepository;
+
+    public void toggle() {
+
+    }
 }
