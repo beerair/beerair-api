@@ -4,6 +4,7 @@ import com.beerair.core.common.dto.PageDto;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
+import com.beerair.core.member.presentation.annotation.AuthMemberId;
 import com.beerair.core.suggest.application.BeerSuggestService;
 import com.beerair.core.suggest.dto.request.BeerSuggestRegisterRequest;
 import com.beerair.core.suggest.facade.BeerSuggestFacade;
@@ -34,9 +35,9 @@ public class BeerSuggestController {
     @GetMapping("/validate")
     public ResponseEntity<?> validate(
             @RequestParam("name") String name,
-            @AuthMember LoggedInMember user
+            @AuthMemberId String memberId
     ) {
-        beerSuggestFacade.validate(name, user);
+        beerSuggestFacade.validate(name, memberId);
         return ResponseDto.noContent();
     }
 
@@ -44,10 +45,10 @@ public class BeerSuggestController {
     @PostMapping
     public ResponseEntity<?> register(
             @RequestBody BeerSuggestRegisterRequest request,
-            @AuthMember LoggedInMember user
+            @AuthMemberId String memberId
     ) {
         // TODO : 인증, 인가 로직 붙이기
-        var response = beerSuggestFacade.register(request, user);
+        var response = beerSuggestFacade.register(request, memberId);
         return ResponseDto.created(response);
     }
 
@@ -55,19 +56,19 @@ public class BeerSuggestController {
     @GetMapping
     public ResponseEntity<?> getAll(
             @PageableDefault Pageable pageable,
-            @AuthMember LoggedInMember user
+            @AuthMemberId String memberId
     ) {
-        var response = beerSuggestService.getAll(pageable, user);
+        var response = beerSuggestService.getAll(pageable, memberId);
         return PageDto.ok(response);
     }
 
     @ApiOperation(value = "요청한 맥주 목록 count api")
     @GetMapping("/count")
     public ResponseEntity<?> count(
-            @AuthMember LoggedInMember user
+            @AuthMemberId String memberId
     ) {
         // TODO : 인증, 인가 로직 붙이기
-        var response = beerSuggestService.count(user);
+        var response = beerSuggestService.count(memberId);
         return ResponseDto.ok(response);
     }
 }
