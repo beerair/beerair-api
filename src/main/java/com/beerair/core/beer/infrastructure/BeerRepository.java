@@ -32,7 +32,7 @@ public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificat
 	               "JOIN Country c on b.countryId = c.id " +
 	               "LEFT OUTER JOIN BeerLike bl on b.id = bl.beerId and bl.memberId = :memberId " +
 	               "WHERE b.id = :beerId and b.deletedAt is null")
-	Optional<BeerDto> findByIdWithTypeAndCountry(@Param("beerId") Long beerId, @Param("memberId") Long memberId);
+	Optional<BeerDto> findByIdWithTypeAndCountry(@Param("beerId") Long beerId, @Param("memberId") String memberId);
 
     @Transactional(readOnly = true)
     Boolean findByKorNameOrEngName(String korName, String engName);

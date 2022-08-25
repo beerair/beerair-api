@@ -28,6 +28,9 @@ public enum ErrorMessage {
     BEER_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "좋아요한 맥주 정보가 없습니다."),
 
     CONTINENT_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 대륙 정보가 없습니다."),
+    COUNTRY_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 국가 정보가 없습니다."),
+
+    REVIEW_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 리뷰 정보가 없습니다."),
     ;
 
     private final HttpStatus status;

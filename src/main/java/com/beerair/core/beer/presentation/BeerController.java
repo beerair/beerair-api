@@ -32,7 +32,7 @@ public class BeerController {
     public ResponseEntity<?> get(
             @PathVariable("beerId") Long beerId
     ) {
-        return ResponseDto.ok(beerService.get(beerId));
+        return ResponseDto.ok(beerService.getWithRegion(beerId));
     }
 
     @ApiOperation(value = "맥주 추천 목록 조회 api")

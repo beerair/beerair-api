@@ -12,6 +12,11 @@ public class BeerService {
     private final BeerRepository beerRepository;
 
     public BeerResponse get(Long beerId) {
+        return BeerResponse.from(beerRepository.findById(beerId)
+                .orElseThrow(BeerNotFoundException::new));
+    }
+
+    public BeerResponse getWithRegion(Long beerId) {
         var memberId = getLoginMemberId();
 
         if (memberId == null) {
@@ -28,7 +33,7 @@ public class BeerService {
     }
 
     // TODO: 로그인 구현 전 임시
-    private Long getLoginMemberId() {
-        return 1L;
+    private String getLoginMemberId() {
+        return "";
     }
 }

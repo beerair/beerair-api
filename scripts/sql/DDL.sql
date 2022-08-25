@@ -44,7 +44,7 @@ CREATE TABLE `review`
     `content`          varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
     `start_country_id` bigint                                  DEFAULT NULL,
     `end_country_id`   bigint                                  DEFAULT NULL,
-    `feel`             int                                     DEFAULT NULL,
+    `feel_status`      varchar(8)                              DEFAULT NULL,
     `image_url`        varchar(128) COLLATE utf8mb4_general_ci DEFAULT NULL,
     `is_public`        bit(1)                                  DEFAULT NULL,
     `flavor_ids`       varchar(16)                             DEFAULT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE `flavor`
 
 CREATE TABLE `member`
 (
-    `id`           bigint NOT NULL AUTO_INCREMENT,
+    `id`           varchar(128) NOT NULL,
     `created_at`   datetime                                DEFAULT CURRENT_TIMESTAMP,
     `deleted_at`   datetime                                DEFAULT NULL,
     `updated_at`   datetime                                DEFAULT CURRENT_TIMESTAMP,
