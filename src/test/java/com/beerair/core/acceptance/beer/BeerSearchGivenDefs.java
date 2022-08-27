@@ -1,7 +1,7 @@
 package com.beerair.core.acceptance.beer;
 
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
-import com.beerair.core.beer.infrastructure.BeerOrderBy;
+import com.beerair.core.beer.infrastructure.search.BeerOrderBy;
 import io.cucumber.java.en.Given;
 import io.cucumber.spring.ScenarioScope;
 

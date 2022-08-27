@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
@@ -16,23 +17,23 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 @Component
 public class BeerStepClient extends StepClient {
     public BeerStepClient() {
-        super("/api/v1/beer-likes");
+        super("/api/v1/beers");
     }
 
     public void search(BeerSearchRequest request) {
-        var uriBuilder = UriComponentsBuilder.fromUriString(endpoint());
-        if (Objects.nonNull(request.getCountry())) {
-            uriBuilder.queryParam("keyword", request.getKeyword());
-        }
-        if (Objects.nonNull(request.getCountry())) {
-            uriBuilder.queryParam("country", request.getCountry());
-        }
-        if (Objects.nonNull(request.getCountry())) {
-            uriBuilder.queryParam("type", request.getType());
-        }
-        if (Objects.nonNull(request.getOrder())) {
-            uriBuilder.queryParam("order", request.getOrder());
-        }
+        var uriBuilder = UriComponentsBuilder.newInstance();
+        uriBuilder.queryParamIfPresent(
+                "keyword", Optional.ofNullable(request.getKeyword())
+        );
+        uriBuilder.queryParamIfPresent(
+                "country", Optional.ofNullable(request.getCountry())
+        );
+        uriBuilder.queryParamIfPresent(
+                "type", Optional.ofNullable(request.getType())
+        );
+        uriBuilder.queryParamIfPresent(
+                "order", Optional.ofNullable(request.getOrder())
+        );
         exchange(HttpMethod.GET, uriBuilder.toUriString(), new HttpEntity<>(authed()));
     }
 }

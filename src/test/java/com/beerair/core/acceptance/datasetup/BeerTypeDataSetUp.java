@@ -31,7 +31,7 @@ public class BeerTypeDataSetUp extends DataSetup {
                 .content("붉은 빛과 맑고 밝은 빛을 띄며, 꽃향기와 같은 풍부한 향이 느껴지는 맥주")
                 .imageUrl("https://beerair-service.s3.ap-northeast-2.amazonaws.com/BEER/TYPE/pale_ale.png")
                 .build();
-        new Fixture<>(beerType2).set("id", 1L);
+        new Fixture<>(beerType2).set("id", 2L);
 
         beerTypeRepository.saveAll(
                 List.of(beerType1, beerType2)

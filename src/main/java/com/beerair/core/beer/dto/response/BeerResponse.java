@@ -3,6 +3,7 @@ package com.beerair.core.beer.dto.response;
 import com.beerair.core.beer.domain.Beer;
 import com.beerair.core.beer.domain.BeerType;
 import com.beerair.core.beer.dto.query.BeerDto;
+import com.beerair.core.beer.dto.query.BeerListItemDto;
 import com.beerair.core.region.domain.Country;
 import com.beerair.core.region.domain.vo.rs.CountryResponse;
 import com.beerair.core.review.domain.Review;
@@ -105,6 +106,28 @@ public class BeerResponse {
 				.type(BeerTypeResponse.ofListItem(beerDto.getBeerType()))
 				.myReview(myReview)
 				.imageUrl(beerDto.getBeer().getImageUrl())
+				.liked(beerDto.getLiked())
+				.build();
+	}
+
+	public static BeerResponse ofListItem(BeerListItemDto beerDto) {
+		var country = CountryResponse.builder()
+				.korName(beerDto.getCountry())
+				.build();
+		var type = BeerTypeResponse.builder()
+				.korName(beerDto.getKorName())
+				.build();
+		var myReview = ReviewResponse.builder()
+				.feelStatus(beerDto.getMyFeelStatus())
+				.build();
+		return BeerResponse.builder()
+				.id(beerDto.getId())
+				.alcohol(beerDto.getAlcohol())
+				.korName(beerDto.getKorName())
+				.imageUrl(beerDto.getImageUrl())
+				.country(country)
+				.type(type)
+				.myReview(myReview)
 				.liked(beerDto.getLiked())
 				.build();
 	}

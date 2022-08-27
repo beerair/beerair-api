@@ -30,7 +30,7 @@ public class BeerDataSetup extends DataSetup {
 
         Beer beer2 = Beer.builder()
                 .alcohol(5.2f)
-                .korName("에일의정석")
+                .korName("에일의 정석")
                 .engName("Standard Of Ale")
                 .imageUrl("https://beerair-service.s3.ap-northeast-2.amazonaws.com/BEER/standard_of_ale.png")
                 .countryId(2L)

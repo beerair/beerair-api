@@ -27,13 +27,11 @@ public class AuthMemberIdArgumentResolver implements HandlerMethodArgumentResolv
             NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory
     ) {
-        var loggedInUser = loggedInUser();
+        var loggedInMemberId = loggedInUser().map(LoggedInMember::getId);
         if (parameter.getParameterType() == Optional.class) {
-            return loggedInUser;
+            return loggedInMemberId;
         }
-        return loggedInUser
-                .map(LoggedInMember::getId)
-                .orElseThrow(NoAuthException::new);
+        return loggedInMemberId.orElseThrow(NoAuthException::new);
     }
 
     private Optional<LoggedInMember> loggedInUser() {

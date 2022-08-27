@@ -1,6 +1,7 @@
 package com.beerair.core.beer.dto.request;
 
-import com.beerair.core.beer.infrastructure.BeerOrderBy;
+import com.beerair.core.beer.infrastructure.search.BeerOrderBy;
+import com.beerair.core.beer.infrastructure.search.BeerSearchCondition;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -22,4 +23,12 @@ public class BeerSearchRequest {
 
     @Schema(description = "offset", defaultValue = "0")
     private int offset;
+
+    public BeerSearchCondition toBeerSearchCondition() {
+        return BeerSearchCondition.builder()
+                .keyword(keyword)
+                .countries(country)
+                .types(type)
+                .build();
+    }
 }
