@@ -1,10 +1,14 @@
 package com.beerair.core.acceptance.beer;
 
 import com.beerair.core.acceptance.StepClient;
+import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Optional;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 

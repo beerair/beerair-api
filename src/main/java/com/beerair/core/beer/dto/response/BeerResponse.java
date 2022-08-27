@@ -9,8 +9,10 @@ import com.beerair.core.review.domain.Review;
 import com.beerair.core.review.dto.response.ReviewResponse;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -18,37 +20,38 @@ import java.util.Objects;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BeerResponse {
 
-	private final String id;
+	private String id;
 
-	private final CountryResponse country;
+	private CountryResponse country;
 
-	private final BeerTypeResponse type;
+	private BeerTypeResponse type;
 
-	private final ReviewResponse myReview;
+	private ReviewResponse myReview;
 
-	private final String korName;
+	private String korName;
 
-	private final String engName;
+	private String engName;
 
-	private final String imageUrl;
+	private String imageUrl;
 
-	private final String content;
+	private String content;
 
-	private final Float alcohol;
+	private Float alcohol;
 
-	private final Integer price;
+	private Integer price;
 
-	private final Integer volume;
+	private Integer volume;
 
-	private final Boolean liked;
+	private Boolean liked;
 
-	private final LocalDateTime createdAt;
+	private LocalDateTime createdAt;
 
-	private final LocalDateTime modifiedAt;
+	private LocalDateTime modifiedAt;
 
 	public static BeerResponse from(BeerDto beerDto) {
 		var myReview = Objects.isNull(beerDto.getMyReview()) ?

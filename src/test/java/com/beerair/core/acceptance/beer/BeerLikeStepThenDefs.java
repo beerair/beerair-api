@@ -1,6 +1,7 @@
 package com.beerair.core.acceptance.beer;
 
 import com.beerair.core.acceptance.CucumberHttpResponseContext;
+import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import com.beerair.core.beer.dto.response.BeerResponse;
 import com.beerair.core.common.dto.ResponseDto;
 import com.fasterxml.jackson.core.type.TypeReference;

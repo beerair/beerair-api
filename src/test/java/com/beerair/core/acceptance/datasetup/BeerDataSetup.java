@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class BeerDataSetup extends DataSetup {
     @Autowired
@@ -15,7 +18,7 @@ public class BeerDataSetup extends DataSetup {
     @Transactional
     @Override
     protected void execute() {
-        Beer beer = Beer.builder()
+        Beer beer1 = Beer.builder()
                 .alcohol(4.1f)
                 .korName("제주 슬라이스")
                 .engName("Jeju Slice")
@@ -23,8 +26,20 @@ public class BeerDataSetup extends DataSetup {
                 .countryId(1L)
                 .typeId(1L)
                 .build();
-        new Fixture<>(beer).set("id", "A1");
+        new Fixture<>(beer1).set("id", "A1");
 
-        beerRepository.save(beer);
+        Beer beer2 = Beer.builder()
+                .alcohol(5.2f)
+                .korName("에일의정석")
+                .engName("Standard Of Ale")
+                .imageUrl("https://beerair-service.s3.ap-northeast-2.amazonaws.com/BEER/standard_of_ale.png")
+                .countryId(2L)
+                .typeId(2L)
+                .build();
+        new Fixture<>(beer1).set("id", "A2");
+
+        beerRepository.saveAll(
+                List.of(beer1, beer2)
+        );
     }
 }
