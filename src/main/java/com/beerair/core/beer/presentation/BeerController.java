@@ -3,7 +3,8 @@ package com.beerair.core.beer.presentation;
 import com.beerair.core.beer.application.BeerService;
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import com.beerair.core.common.dto.ResponseDto;
-import com.beerair.core.member.presentation.annotation.AuthMemberId;
+import com.beerair.core.member.dto.LoggedInMember;
+import com.beerair.core.member.presentation.annotation.AuthMember;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,10 @@ public class BeerController {
     @ApiOperation(value = "맥주 조회 API (필터,정렬,검색)")
     @GetMapping
     public ResponseEntity<?> search(
-            @AuthMemberId Optional<String> memberId,
+            @AuthMember Optional<LoggedInMember> member,
             BeerSearchRequest request) {
         var response = beerService.search(
-                memberId.orElse(null), request
+                member.map(LoggedInMember::getId).orElse(null), request
         );
         return ResponseDto.ok(response);
     }
@@ -38,12 +39,12 @@ public class BeerController {
     @ApiOperation(value = "맥주 상세 조회 API", notes = "MOCK UP API")
     @GetMapping("/{beerId}")
     public ResponseEntity<?> get(
-            @AuthMemberId Optional<String> userId,
+            @AuthMember Optional<LoggedInMember> member,
             @PathVariable("beerId") String beerId
     ) {
         return ResponseDto.ok(
                 beerService.getWithRegion(
-                        userId.orElse(null), beerId
+                        member.map(LoggedInMember::getId).orElse(null), beerId
                 )
         );
     }
