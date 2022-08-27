@@ -36,7 +36,7 @@ public class BeerController {
         return ResponseDto.ok(response);
     }
 
-    @ApiOperation(value = "맥주 상세 조회 API", notes = "MOCK UP API")
+    @ApiOperation(value = "맥주 상세 조회 API")
     @GetMapping("/{beerId}")
     public ResponseEntity<?> get(
             @AuthMember Optional<LoggedInMember> member,
@@ -49,7 +49,7 @@ public class BeerController {
         );
     }
 
-    @ApiOperation(value = "맥주 추천 목록 조회 api")
+    @ApiOperation(value = "맥주 추천 목록 조회 api", notes = "MOCK UP API")
     @GetMapping("/recommends")
     public ResponseEntity<Void> getRecommends() {
         return ResponseDto.noContent();
