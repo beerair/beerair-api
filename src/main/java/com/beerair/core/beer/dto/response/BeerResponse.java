@@ -95,21 +95,6 @@ public class BeerResponse {
 		);
 	}
 
-	public static BeerResponse ofListItem(BeerDto beerDto) {
-		var myReview = Objects.isNull(beerDto.getMyReview()) ?
-				null : ReviewResponse.from(beerDto.getMyReview());
-		return BeerResponse.builder()
-				.id(beerDto.getBeer().getId())
-				.alcohol(beerDto.getBeer().getAlcohol())
-				.korName(beerDto.getBeer().getKorName())
-				.country(CountryResponse.ofListItem(beerDto.getCountry()))
-				.type(BeerTypeResponse.ofListItem(beerDto.getBeerType()))
-				.myReview(myReview)
-				.imageUrl(beerDto.getBeer().getImageUrl())
-				.liked(beerDto.getLiked())
-				.build();
-	}
-
 	public static BeerResponse ofListItem(BeerListItemDto beerDto) {
 		var country = CountryResponse.builder()
 				.korName(beerDto.getCountry())
@@ -117,9 +102,13 @@ public class BeerResponse {
 		var type = BeerTypeResponse.builder()
 				.korName(beerDto.getKorName())
 				.build();
-		var myReview = ReviewResponse.builder()
-				.feelStatus(beerDto.getMyFeelStatus())
-				.build();
+		ReviewResponse myReview = null;
+		if (Objects.nonNull(beerDto.getMyFeelStatus())) {
+			myReview = ReviewResponse.builder()
+					.feelScore(beerDto.getMyFeelStatus().getScore())
+					.feelDescription(beerDto.getMyFeelStatus().getDescription())
+					.build();
+		}
 		return BeerResponse.builder()
 				.id(beerDto.getId())
 				.alcohol(beerDto.getAlcohol())

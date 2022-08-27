@@ -40,10 +40,4 @@ public class BeerTypeResponse {
                                     beerTypeInfo.getContent(),
                                     beerTypeInfo.getImageUrl());
     }
-
-    public static BeerTypeResponse ofListItem(BeerDto.BeerTypeInfo beerTypeInfo) {
-        return BeerTypeResponse.builder()
-                .korName(beerTypeInfo.getKorName())
-                .build();
-    }
 }

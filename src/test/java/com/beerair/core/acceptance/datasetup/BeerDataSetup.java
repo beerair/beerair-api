@@ -26,7 +26,7 @@ public class BeerDataSetup extends DataSetup {
                 .countryId(1L)
                 .typeId(1L)
                 .build();
-        new Fixture<>(beer1).set("id", "A1");
+        new Fixture<>(beer1).set("id", "제주 슬라이스");
 
         Beer beer2 = Beer.builder()
                 .alcohol(5.2f)
@@ -36,7 +36,7 @@ public class BeerDataSetup extends DataSetup {
                 .countryId(2L)
                 .typeId(2L)
                 .build();
-        new Fixture<>(beer1).set("id", "A2");
+        new Fixture<>(beer2).set("id", "에일의 정석");
 
         beerRepository.saveAll(
                 List.of(beer1, beer2)

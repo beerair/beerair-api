@@ -44,10 +44,4 @@ public class CountryResponse {
 				countryInfo.getBackgroundImageUrl(),
 				countryInfo.getImageUrl());
 	}
-
-	public static CountryResponse ofListItem(BeerDto.CountryInfo countryInfo) {
-		return CountryResponse.builder()
-				.korName(countryInfo.getKorName())
-				.build();
-	}
 }
