@@ -1,6 +1,8 @@
 package com.beerair.core.beer.presentation;
 
+import com.beerair.core.beer.application.BeerSearchService;
 import com.beerair.core.beer.application.BeerService;
+import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.presentation.annotation.AuthMemberId;
 import io.swagger.annotations.Api;
@@ -22,11 +24,17 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequiredArgsConstructor
 public class BeerController {
     private final BeerService beerService;
+    private final BeerSearchService beerSearchService;
 
     @ApiOperation(value = "맥주 조회 API (필터,정렬,검색)")
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        return ResponseDto.created("ok");
+    public ResponseEntity<?> search(
+            @AuthMemberId Optional<String> memberId,
+            BeerSearchRequest request) {
+        var response = beerSearchService.search(
+                memberId.orElse(null), request
+        );
+        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "맥주 상세 조회 API", notes = "MOCK UP API")

@@ -15,10 +15,6 @@ import java.util.Optional;
 public class BeerService {
     private final BeerRepository beerRepository;
 
-    public Page<BeerResponse> getAll() {
-        return null;
-    }
-
     public BeerResponse getWithRegion(String memberId, String beerId) {
         if (Objects.isNull(memberId)) {
             return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId)

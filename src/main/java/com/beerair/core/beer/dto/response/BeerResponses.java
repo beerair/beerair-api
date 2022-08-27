@@ -1,18 +1,20 @@
 package com.beerair.core.beer.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BeerResponses {
-    private final List<BeerResponse> values;
-    public static BeerResponses from(List<BeerResponse> beerResponses) {
-        return new BeerResponses(beerResponses);
+    private List<BeerResponse> values;
+    private int size;
+    private long total;
+
+    public static BeerResponses from(List<BeerResponse> beers, long total) {
+        return new BeerResponses(beers, beers.size(), total);
     }
 }
