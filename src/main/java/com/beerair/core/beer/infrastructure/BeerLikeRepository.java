@@ -2,6 +2,7 @@ package com.beerair.core.beer.infrastructure;
 
 import com.beerair.core.beer.domain.BeerLike;
 import com.beerair.core.beer.dto.query.BeerDto;
+import com.beerair.core.beer.dto.query.BeerListItemDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,12 +23,17 @@ public interface BeerLikeRepository extends JpaRepository<BeerLike, Long> {
     Integer findCountByMemberId(@Param("memberId") String memberId);
 
     @Transactional(readOnly = true)
-    @Query("SELECT b as beer, c as country, bt as beerType, r as myReview, true as liked " +
+    @Query("SELECT new com.beerair.core.beer.dto.query.BeerListItemDto(" +
+            "b.id, b.alcohol, b.korName, b.imageUrl, " +
+            "c.korName, " +
+            "bt.korName," +
+            "r.feelStatus, " +
+            "true) " +
             "FROM Beer b " +
             "INNER JOIN BeerLike bl ON b.id = bl.beerId AND bl.memberId = :memberId " +
             "INNER JOIN Country c ON b.countryId = c.id " +
             "INNER JOIN BeerType bt ON b.typeId = bt.id " +
             "LEFT OUTER JOIN Review r ON r.beerId = b.id AND r.memberId = :memberId AND r.deletedAt IS NULL " +
             "WHERE b.deletedAt IS NULL")
-    List<BeerDto> findAllByMemberIdWithBeer(@Param("memberId") String memberId);
+    List<BeerListItemDto> findAllByMemberIdWithBeer(@Param("memberId") String memberId);
 }

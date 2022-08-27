@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@Builder(access = AccessLevel.PRIVATE)
+@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -39,11 +39,5 @@ public class BeerTypeResponse {
         return new BeerTypeResponse(beerTypeInfo.getId(), beerTypeInfo.getKorName(), beerTypeInfo.getEngName(),
                                     beerTypeInfo.getContent(),
                                     beerTypeInfo.getImageUrl());
-    }
-
-    public static BeerTypeResponse ofListItem(BeerDto.BeerTypeInfo beerTypeInfo) {
-        return BeerTypeResponse.builder()
-                .korName(beerTypeInfo.getKorName())
-                .build();
     }
 }

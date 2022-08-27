@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@Builder(access = AccessLevel.PRIVATE)
+@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -28,7 +28,8 @@ public class ReviewResponse {
 
      */
     private List<Long> flavorIds;
-    private FeelStatus feelStatus;
+    private int feelScore;
+    private String feelDescription;
     private String imageUrl;
     private LocalDateTime createdAt;
 
@@ -37,7 +38,8 @@ public class ReviewResponse {
                 .id(review.getId())
                 .content(review.getContent())
                 .imageUrl(review.getImageUrl())
-                .feelStatus(review.getFeelStatus())
+                .feelScore(review.getFeelStatus().getScore())
+                .feelDescription(review.getFeelStatus().getDescription())
                 .flavorIds(review.getFlavorIds().getValues())
                 .createdAt(review.getCreatedAt())
                 .build();
@@ -48,14 +50,9 @@ public class ReviewResponse {
                 .id(review.getId())
                 .content(review.getContent())
                 .imageUrl(review.getImageUrl())
-                .feelStatus(review.getFeelStatus())
+                .feelScore(review.getFeelStatus().getScore())
+                .feelDescription(review.getFeelStatus().getDescription())
                 .createdAt(review.getCreatedAt())
-                .build();
-    }
-
-    public static ReviewResponse ofListItem(BeerDto.ReviewInfo review) {
-        return ReviewResponse.builder()
-                .feelStatus(review.getFeelStatus())
                 .build();
     }
 }

@@ -1,8 +1,10 @@
 package com.beerair.core.beer.presentation;
 
 import com.beerair.core.beer.application.BeerService;
+import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import com.beerair.core.common.dto.ResponseDto;
-import com.beerair.core.member.presentation.annotation.AuthMemberId;
+import com.beerair.core.member.dto.LoggedInMember;
+import com.beerair.core.member.presentation.annotation.AuthMember;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,25 +25,31 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 public class BeerController {
     private final BeerService beerService;
 
-    @ApiOperation(value = "맥주 조회 API" +
-            "\n(필터,정렬,검색)", notes = "MOCK UP API")
+    @ApiOperation(value = "맥주 조회 API (필터,정렬,검색)")
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        return ResponseDto.created("ok");
+    public ResponseEntity<?> search(
+            @AuthMember Optional<LoggedInMember> member,
+            BeerSearchRequest request) {
+        var response = beerService.search(
+                member.map(LoggedInMember::getId).orElse(null), request
+        );
+        return ResponseDto.ok(response);
     }
 
-    @ApiOperation(value = "맥주 상세 조회 API", notes = "MOCK UP API")
+    @ApiOperation(value = "맥주 상세 조회 API")
     @GetMapping("/{beerId}")
     public ResponseEntity<?> get(
-            @AuthMemberId Optional<String> userId,
+            @AuthMember Optional<LoggedInMember> member,
             @PathVariable("beerId") String beerId
     ) {
-        return ResponseDto.ok(beerService.getWithRegion(
-                userId.orElse(null), beerId
-        ));
+        return ResponseDto.ok(
+                beerService.getWithRegion(
+                        member.map(LoggedInMember::getId).orElse(null), beerId
+                )
+        );
     }
 
-    @ApiOperation(value = "맥주 추천 목록 조회 api")
+    @ApiOperation(value = "맥주 추천 목록 조회 api", notes = "MOCK UP API")
     @GetMapping("/recommends")
     public ResponseEntity<Void> getRecommends() {
         return ResponseDto.noContent();

@@ -3,14 +3,17 @@ package com.beerair.core.beer.dto.response;
 import com.beerair.core.beer.domain.Beer;
 import com.beerair.core.beer.domain.BeerType;
 import com.beerair.core.beer.dto.query.BeerDto;
+import com.beerair.core.beer.dto.query.BeerListItemDto;
 import com.beerair.core.region.domain.Country;
 import com.beerair.core.region.domain.vo.rs.CountryResponse;
 import com.beerair.core.review.domain.Review;
 import com.beerair.core.review.dto.response.ReviewResponse;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -18,37 +21,38 @@ import java.util.Objects;
 
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BeerResponse {
 
-	private final String id;
+	private String id;
 
-	private final CountryResponse country;
+	private CountryResponse country;
 
-	private final BeerTypeResponse type;
+	private BeerTypeResponse type;
 
-	private final ReviewResponse myReview;
+	private ReviewResponse myReview;
 
-	private final String korName;
+	private String korName;
 
-	private final String engName;
+	private String engName;
 
-	private final String imageUrl;
+	private String imageUrl;
 
-	private final String content;
+	private String content;
 
-	private final Float alcohol;
+	private Float alcohol;
 
-	private final Integer price;
+	private Integer price;
 
-	private final Integer volume;
+	private Integer volume;
 
-	private final Boolean liked;
+	private Boolean liked;
 
-	private final LocalDateTime createdAt;
+	private LocalDateTime createdAt;
 
-	private final LocalDateTime modifiedAt;
+	private LocalDateTime modifiedAt;
 
 	public static BeerResponse from(BeerDto beerDto) {
 		var myReview = Objects.isNull(beerDto.getMyReview()) ?
@@ -91,17 +95,28 @@ public class BeerResponse {
 		);
 	}
 
-	public static BeerResponse ofListItem(BeerDto beerDto) {
-		var myReview = Objects.isNull(beerDto.getMyReview()) ?
-				null : ReviewResponse.from(beerDto.getMyReview());
+	public static BeerResponse ofListItem(BeerListItemDto beerDto) {
+		var country = CountryResponse.builder()
+				.korName(beerDto.getCountry())
+				.build();
+		var type = BeerTypeResponse.builder()
+				.korName(beerDto.getKorName())
+				.build();
+		ReviewResponse myReview = null;
+		if (Objects.nonNull(beerDto.getMyFeelStatus())) {
+			myReview = ReviewResponse.builder()
+					.feelScore(beerDto.getMyFeelStatus().getScore())
+					.feelDescription(beerDto.getMyFeelStatus().getDescription())
+					.build();
+		}
 		return BeerResponse.builder()
-				.id(beerDto.getBeer().getId())
-				.alcohol(beerDto.getBeer().getAlcohol())
-				.korName(beerDto.getBeer().getKorName())
-				.country(CountryResponse.ofListItem(beerDto.getCountry()))
-				.type(BeerTypeResponse.ofListItem(beerDto.getBeerType()))
+				.id(beerDto.getId())
+				.alcohol(beerDto.getAlcohol())
+				.korName(beerDto.getKorName())
+				.imageUrl(beerDto.getImageUrl())
+				.country(country)
+				.type(type)
 				.myReview(myReview)
-				.imageUrl(beerDto.getBeer().getImageUrl())
 				.liked(beerDto.getLiked())
 				.build();
 	}

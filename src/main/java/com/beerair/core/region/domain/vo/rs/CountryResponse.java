@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@Builder(access = AccessLevel.PRIVATE)
+@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -43,11 +43,5 @@ public class CountryResponse {
 				countryInfo.getEngName(),
 				countryInfo.getBackgroundImageUrl(),
 				countryInfo.getImageUrl());
-	}
-
-	public static CountryResponse ofListItem(BeerDto.CountryInfo countryInfo) {
-		return CountryResponse.builder()
-				.korName(countryInfo.getKorName())
-				.build();
 	}
 }

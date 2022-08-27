@@ -2,6 +2,10 @@ package com.beerair.core.beer.infrastructure;
 
 import com.beerair.core.beer.domain.Beer;
 import com.beerair.core.beer.dto.query.BeerDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -36,4 +40,8 @@ public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificat
 
     @Transactional(readOnly = true)
     Boolean findByKorNameOrEngName(String korName, String engName);
+
+	@Transactional(readOnly = true)
+	@Query("SELECT COUNT(b) FROM Beer b WHERE b.deletedAt IS NULL")
+	Long findCount();
 }
