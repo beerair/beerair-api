@@ -19,8 +19,9 @@ public class BeerLikeStepWhenDefs {
                 .beerId(beerId)
                 .content("안녕")
                 .feelStatus(FeelStatus.GOOD)
-                .flavorIds(List.of(1L, 2L, 3L))
+                .flavorIds(List.of(1L, 2L))
                 .imageUrl("홀롤로롱 이미지")
+                .isPublic(true)
                 .build();
         reviewStepClient.create(request);
     }
