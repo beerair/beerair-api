@@ -1,6 +1,8 @@
 package com.beerair.core.review.dto.response;
 
 import com.beerair.core.beer.dto.query.BeerDto;
+import com.beerair.core.beer.dto.response.BeerResponse;
+import com.beerair.core.region.domain.vo.rs.CountryResponse;
 import com.beerair.core.review.domain.Review;
 import com.beerair.core.review.domain.vo.FeelStatus;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -22,11 +24,9 @@ import java.util.List;
 public class ReviewResponse {
     private String id;
     private String content;
-    /* TODO
-    private Long departuresCountryId;
-    private Long arrivalsCountryId;
-
-     */
+    private BeerResponse beer;
+    private CountryResponse departuresCountry;
+    private CountryResponse arrivalCountry;
     private List<Long> flavorIds;
     private int feelScore;
     private String feelDescription;
