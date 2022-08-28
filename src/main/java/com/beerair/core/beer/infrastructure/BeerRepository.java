@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificationExecutor<Beer> {
+public interface BeerRepository extends JpaRepository<Beer, String>, JpaSpecificationExecutor<Beer> {
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT b.countryId FROM Beer b WHERE b.id = :beerId AND b.deletedAt IS NOT NULL")
+	@Query(value = "SELECT b.countryId FROM Beer b WHERE b.id = :beerId AND b.deletedAt IS NULL")
 	Optional<Long> findCountryIdById(@Param("beerId") String beerId);
 
 	@Transactional(readOnly = true)

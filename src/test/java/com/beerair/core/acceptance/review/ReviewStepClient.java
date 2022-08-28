@@ -16,6 +16,11 @@ public class ReviewStepClient extends StepClient {
         super("/api/v1/reviews");
     }
 
+    public void get(String beerId) {
+        String query = "?beerId=" + beerId;
+        exchange(HttpMethod.GET, query, new HttpEntity<>(authed()));
+    }
+
     public void create(ReviewRequest request) {
         var httpEntity = new HttpEntity<>(request, authed());
         exchange(HttpMethod.POST, "", httpEntity);

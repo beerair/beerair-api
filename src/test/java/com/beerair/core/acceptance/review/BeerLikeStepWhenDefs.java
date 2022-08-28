@@ -24,4 +24,9 @@ public class BeerLikeStepWhenDefs {
                 .build();
         reviewStepClient.create(request);
     }
+
+    @Given("{string} 맥주 리뷰 조회를 요청하면")
+    public void 맥주_리뷰_조회_요청(String beerId) {
+        reviewStepClient.get(beerId);
+    }
 }
