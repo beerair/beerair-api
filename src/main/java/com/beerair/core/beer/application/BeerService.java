@@ -4,6 +4,7 @@ import com.beerair.core.beer.dto.query.BeerListItemDto;
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import com.beerair.core.beer.dto.response.BeerResponse;
 import com.beerair.core.beer.dto.response.BeerSearchResponse;
+import com.beerair.core.beer.infrastructure.BeerRecommendRepository;
 import com.beerair.core.beer.infrastructure.BeerRepository;
 import com.beerair.core.beer.infrastructure.BeerSearchRepository;
 import com.beerair.core.error.exception.beer.BeerNotFoundException;
@@ -17,10 +18,12 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BeerService {
-    private static final int LIMIT = 30;
+    private static final int RECOMMEND_LIMIT = 9;
+    private static final int SEARCH_LIMIT = 30;
 
     private final BeerRepository beerRepository;
     private final BeerSearchRepository beerSearchRepository;
+    private final BeerRecommendRepository beerRecommendRepository;
 
     public BeerResponse getWithRegion(String memberId, String beerId) {
         if (Objects.isNull(memberId)) {
@@ -42,12 +45,19 @@ public class BeerService {
                 request.toBeerSearchCondition(),
                 request.getOrder(),
                 request.getOffset(),
-                LIMIT
+                SEARCH_LIMIT
         );
 
         var contents = searched.stream()
                 .map(BeerResponse::ofListItem)
                 .collect(Collectors.toList());
         return BeerSearchResponse.from(contents, total);
+    }
+
+    public List<BeerResponse> getRecommends(String memberId) {
+        return beerRecommendRepository.findRecommends(memberId, RECOMMEND_LIMIT)
+                .stream()
+                .map(BeerResponse::ofListItem)
+                .collect(Collectors.toList());
     }
 }

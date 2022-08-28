@@ -1,29 +1,20 @@
 package com.beerair.core.beer.dto.query;
 
 import com.beerair.core.review.domain.vo.FeelStatus;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@Builder
+@RequiredArgsConstructor
 public class BeerListItemDto {
-	private String id;
-	private Float alcohol;
-	private String korName;
-	private String imageUrl;
-	private String country;
-	private String type;
-	private FeelStatus myFeelStatus;
-	private Boolean liked;
-
-	public BeerListItemDto(String id, Float alcohol, String korName, String imageUrl, String country, String type) {
-		this.id = id;
-		this.alcohol = alcohol;
-		this.korName = korName;
-		this.imageUrl = imageUrl;
-		this.country = country;
-		this.type = type;
-		this.myFeelStatus = null;
-		this.liked = false;
-	}
+	private final String id;
+	private final Float alcohol;
+	private final String korName;
+	private final String imageUrl;
+	private final String country;
+	private final String type;
+	private final FeelStatus myFeelStatus;
+	private final Boolean liked;
 }

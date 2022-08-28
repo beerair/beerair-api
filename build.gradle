@@ -48,16 +48,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
-    implementation 'org.qlrm:qlrm:3.0.4'
-
     testImplementation 'com.h2database:h2:2.1.214'
     testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
     testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
     testImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
     testImplementation 'org.apache.commons:commons-lang3'
     testImplementation 'org.apache.httpcomponents:httpclient'
-
-
 }
 
 tasks.named('test') {

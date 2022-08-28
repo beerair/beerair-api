@@ -36,4 +36,8 @@ public class BeerStepClient extends StepClient {
         );
         exchange(HttpMethod.GET, uriBuilder.toUriString(), new HttpEntity<>(authed()));
     }
+
+    public void getRecommends() {
+        exchange(HttpMethod.GET, "/recommends", new HttpEntity<>(authed()));
+    }
 }

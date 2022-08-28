@@ -27,9 +27,8 @@ public class BeerLikeController {
     @ApiOperation(value = "맥주 찜(좋아요) 목록 조회 api")
     @GetMapping
     public ResponseEntity<?> getAll(@AuthMember LoggedInMember member) {
-        return ResponseDto.ok(
-                beerLikeService.getAll(member.getId())
-        );
+        var response = beerLikeService.getAll(member.getId());
+        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "맥주 찜하기(좋아요) api")
@@ -55,9 +54,8 @@ public class BeerLikeController {
     @ApiOperation(value = "찜한(좋아요) 맥주 count api")
     @GetMapping("/count")
     public ResponseEntity<?> getCount(@AuthMember LoggedInMember member) {
-        return ResponseDto.ok(
-                beerLikeService.getCount(member.getId())
-        );
+        var response = beerLikeService.getCount(member.getId());
+        return ResponseDto.ok(response);
     }
 
 }
