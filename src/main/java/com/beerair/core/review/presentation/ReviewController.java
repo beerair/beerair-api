@@ -3,6 +3,7 @@ package com.beerair.core.review.presentation;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
+import com.beerair.core.review.application.FlavorService;
 import com.beerair.core.review.application.ReviewService;
 import com.beerair.core.review.dto.request.ReviewRequest;
 import com.beerair.core.review.facade.ReviewCreateFacade;
@@ -11,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,13 +27,15 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewCreateFacade reviewFacade;
+    private final FlavorService flavorService;
 
-    @ApiOperation(value = "특정 맥주의 맛 top3 API", notes = "MOCK UP API")
-    @GetMapping("/beers/{beerId}/flavors-top3/")
+    @ApiOperation(value = "특정 맥주의 맛 top3 API")
+    @GetMapping("flavors-top3")
     public ResponseEntity<?> getFlavorTop3(
-            @PathVariable("beerId") Long beerId
+            @RequestParam("beerId") String beerId
     ) {
-        return ResponseDto.ok("ok");
+        var response = flavorService.getFlavorTop3(beerId);
+        return ResponseDto.ok(response);
     }
 
     @ApiOperation(value = "리뷰 티켓 조회")

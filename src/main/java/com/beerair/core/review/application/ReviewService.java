@@ -2,10 +2,13 @@ package com.beerair.core.review.application;
 
 import com.beerair.core.error.exception.review.ReviewNotFoundException;
 import com.beerair.core.review.dto.query.ReviewDto;
+import com.beerair.core.review.dto.response.FlavorResponse;
 import com.beerair.core.review.dto.response.ReviewResponse;
 import com.beerair.core.review.infrastructure.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
