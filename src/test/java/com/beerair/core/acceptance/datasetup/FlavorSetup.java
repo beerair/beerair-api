@@ -1,8 +1,5 @@
 package com.beerair.core.acceptance.datasetup;
 
-import com.beerair.core.beer.domain.Beer;
-import com.beerair.core.beer.infrastructure.BeerRepository;
-import com.beerair.core.fixture.Fixture;
 import com.beerair.core.review.domain.Flavor;
 import com.beerair.core.review.infrastructure.FlavorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +16,14 @@ public class FlavorSetup extends DataSetup {
     @Transactional
     @Override
     protected void execute() {
-        Flavor flavor1 = new Flavor("시원한 맛");
-        Flavor flavor2 = new Flavor("달달한 맛");
-        Flavor flavor3 = new Flavor("매운 맛");
+        Flavor flavor1 = new Flavor("1 맛");
+        Flavor flavor2 = new Flavor("2 맛");
+        Flavor flavor3 = new Flavor("3 맛");
+        Flavor flavor4 = new Flavor("4 맛");
+        Flavor flavor5 = new Flavor("5 맛");
+        Flavor flavor6 = new Flavor("6 맛");
         flavorRepository.saveAll(
-                List.of(flavor1, flavor2, flavor3)
+                List.of(flavor1, flavor2, flavor3, flavor4, flavor5, flavor6)
         );
     }
 }

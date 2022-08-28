@@ -48,6 +48,7 @@ public class ReviewController {
         return ResponseDto.ok(response);
     }
 
+    // TODO 리뷰 2번 요청시?
     @ApiOperation(value = "리뷰 티켓 등록")
     @PostMapping
     public ResponseEntity<?> create(@AuthMember LoggedInMember member, @RequestBody ReviewRequest request) {

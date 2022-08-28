@@ -18,6 +18,14 @@ public class NativeQueryReader {
         return (Float) row[index];
     }
 
+    public Long getLong(int index) {
+        var value = row[index];
+        if (value instanceof Number) {
+            return ((Number) value).longValue();
+        }
+        throw new ClassCastException();
+    }
+
     public Boolean getBoolean(int index) {
         var value = row[index];
         if (value instanceof Boolean) {

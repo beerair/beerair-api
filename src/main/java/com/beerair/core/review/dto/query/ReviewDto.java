@@ -9,9 +9,9 @@ public interface ReviewDto {
     BeerInfo getBeer();
     CountryInfo getDeparturesCountry();
     CountryInfo getArrivalCountry();
-    FlavorInfo getFlavor1();
-    FlavorInfo getFlavor2();
-    FlavorInfo getFlavor3();
+    FlavorDto getFlavor1();
+    FlavorDto getFlavor2();
+    FlavorDto getFlavor3();
 
     interface ReviewInfo {
         String getId();
@@ -31,9 +31,5 @@ public interface ReviewDto {
     interface CountryInfo {
         String getKorName();
         String getEngName();
-    }
-
-    interface FlavorInfo {
-        String getContent();
     }
 }

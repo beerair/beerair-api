@@ -13,13 +13,13 @@ public class ReviewStepWhenDefs {
     @Autowired
     private ReviewStepClient reviewStepClient;
 
-    @When("{string} 맥주에 리뷰 작성을 요청하면")
-    public void 맥주_좋아요_요청(String beerId) {
+    @When("{string} 맥주에 맛 {int},{int},{int} 리뷰 작성을 요청하면")
+    public void 맥주_좋아요_요청(String beerId, int flavor1, int flavor2, int flavor3) {
         ReviewRequest request = ReviewRequest.builder()
                 .beerId(beerId)
                 .content("안녕")
                 .feelStatus(FeelStatus.GOOD)
-                .flavorIds(List.of(1L, 2L))
+                .flavorIds(List.of((long) flavor1, (long) flavor2, (long) flavor3))
                 .imageUrl("홀롤로롱 이미지")
                 .isPublic(true)
                 .build();
