@@ -31,7 +31,7 @@ public class ReviewRequest {
     @JsonProperty
     private final String beerId;
 
-    public Review entity(Long departuresCountryId, Long arrivalsCountryId, String memberId) {
+    public Review entity(String memberId, Long departuresCountryId, Long arrivalsCountryId) {
         return Review.builder()
                 .content(content)
                 .departuresCountryId(departuresCountryId)

@@ -4,7 +4,7 @@ import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
 import com.beerair.core.review.dto.request. ReviewRequest;
-import com.beerair.core.review.facade.ReviewFacade;
+import com.beerair.core.review.facade.ReviewCreateFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequestMapping(value = "/api/v1/reviews", produces = APPLICATION_JSON_UTF_8)
 @RequiredArgsConstructor
 public class ReviewController {
-    private final ReviewFacade reviewFacade;
+    private final ReviewCreateFacade reviewFacade;
 
     @ApiOperation(value = "특정 맥주의 맛 top3 API", notes = "MOCK UP API")
     @GetMapping("/beers/{beerId}/flavors-top3/")
