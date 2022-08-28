@@ -27,16 +27,6 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewCreateFacade reviewFacade;
-    private final FlavorService flavorService;
-
-    @ApiOperation(value = "특정 맥주의 맛 top3 API")
-    @GetMapping("flavors-top3")
-    public ResponseEntity<?> getFlavorTop3(
-            @RequestParam("beerId") String beerId
-    ) {
-        var response = flavorService.getFlavorTop3(beerId);
-        return ResponseDto.ok(response);
-    }
 
     @ApiOperation(value = "리뷰 티켓 조회")
     @GetMapping

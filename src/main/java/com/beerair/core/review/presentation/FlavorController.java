@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
@@ -25,4 +26,12 @@ public class FlavorController {
         return ResponseDto.noContent();
     }
 
+    @ApiOperation(value = "특정 맥주의 맛 top3 API")
+    @GetMapping("rank")
+    public ResponseEntity<?> getFlavorTop3(
+            @RequestParam("beerId") String beerId
+    ) {
+        var response = flavorService.getFlavorTop3(beerId);
+        return ResponseDto.ok(response);
+    }
 }

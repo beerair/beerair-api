@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class FlavorRankRepositoryImpl implements FlavorRankRepository {
+    // TODO 갯수 같이 반환하는거 뺴먹음!!
     private static final int LIMIT = 3;
     private static final String SQL =
                             "SELECT flavor as id, f.content " +
@@ -31,7 +32,7 @@ public class FlavorRankRepositoryImpl implements FlavorRankRepository {
     private EntityManager em;
 
     @Override
-    public List<FlavorDto> getTop3ByBeerId(String beerId) {
+    public List<FlavorDto> findTop3ByBeerId(String beerId) {
         List<?> result = createQuery(beerId).getResultList();
         return result.stream()
                 .map(this::convert)
