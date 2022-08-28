@@ -34,14 +34,4 @@ public class ReviewStepThenDefs {
                 .getKorName();
         assertThat(arrival).isEqualTo(expert);
     }
-
-    @Then("맛 TOP3는 {int},{int},{int} 이다.")
-    public void 도착지_검증(int f1, int f2, int f3) {
-        Set<Long> experts = Set.of((long) f1, (long) f2, (long) f3);
-        ResponseDto<List<FlavorResponse>> response = CucumberHttpResponseContext.getBody(new TypeReference<>() {});
-
-        for (var each : response.getData()) {
-            assertThat(experts).contains(each.getId());
-        }
-    }
 }

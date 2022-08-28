@@ -11,18 +11,13 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component
-public class ReviewStepClient extends StepClient {
-    public ReviewStepClient() {
-        super("/api/v1/reviews");
+public class FlavorStepClient extends StepClient {
+    public FlavorStepClient() {
+        super("/api/v1/flavors");
     }
 
-    public void get(String beerId) {
-        String query = "?beerId=" + beerId;
-        exchange(HttpMethod.GET, query, new HttpEntity<>(authed()));
-    }
-
-    public void create(ReviewRequest request) {
-        var httpEntity = new HttpEntity<>(request, authed());
-        exchange(HttpMethod.POST, "", httpEntity);
+    public void getFlavorTop3(String beerId) {
+        String url = "/rank?beerId=" + beerId;
+        exchange(HttpMethod.GET, url, new HttpEntity<>(authed()));
     }
 }

@@ -30,9 +30,4 @@ public class ReviewStepWhenDefs {
     public void 맥주_리뷰_조회_요청(String beerId) {
         reviewStepClient.get(beerId);
     }
-
-    @When("{string} 맥주 맛 TOP3를 요청하면")
-    public void 맥주_맛_TOP3_조회_요청(String beerId) {
-        reviewStepClient.getFlavorTop3(beerId);
-    }
 }

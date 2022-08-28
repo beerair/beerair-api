@@ -1,9 +1,7 @@
 package com.beerair.core.review.infrastructure;
 
 import com.beerair.core.common.util.NativeQueryReader;
-import com.beerair.core.review.dto.query.FlavorDto;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import com.beerair.core.review.dto.query.FlavorRankDto;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -17,7 +15,7 @@ public class FlavorRankRepositoryImpl implements FlavorRankRepository {
     // TODO 갯수 같이 반환하는거 뺴먹음!!
     private static final int LIMIT = 3;
     private static final String SQL =
-                            "SELECT flavor as id, f.content " +
+                            "SELECT flavor as id, f.content, COUNT(id) as count " +
                             "FROM (" +
                                 "SELECT beer_id, flavor1 as flavor FROM review " +
                                 "UNION ALL " +
@@ -32,7 +30,7 @@ public class FlavorRankRepositoryImpl implements FlavorRankRepository {
     private EntityManager em;
 
     @Override
-    public List<FlavorDto> findTop3ByBeerId(String beerId) {
+    public List<FlavorRankDto> findTop3ByBeerId(String beerId) {
         List<?> result = createQuery(beerId).getResultList();
         return result.stream()
                 .map(this::convert)
@@ -46,18 +44,12 @@ public class FlavorRankRepositoryImpl implements FlavorRankRepository {
         return query;
     }
 
-    private FlavorDto convert(Object row) {
+    private FlavorRankDto convert(Object row) {
         var reader = new NativeQueryReader(row);
-        return new FlavorDtoImpl(
+        return new FlavorRankDto(
                 reader.getLong(0),
-                reader.getString(1)
+                reader.getString(1),
+                reader.getLong(2)
         );
-    }
-
-    @Getter
-    @RequiredArgsConstructor
-    public static class FlavorDtoImpl implements FlavorDto {
-        private final Long id;
-        private final String content;
     }
 }
