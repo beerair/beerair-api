@@ -2,8 +2,9 @@ package com.beerair.core.beer.infrastructure.search;
 
 import com.beerair.core.beer.dto.query.BeerListItemDto;
 import com.beerair.core.beer.infrastructure.BeerSearchRepository;
+import com.beerair.core.common.util.NativeQueryReader;
+import com.beerair.core.review.domain.vo.FeelStatus;
 import lombok.SneakyThrows;
-import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,21 +16,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Repository
 public class BeerSearchRepositoryImpl implements BeerSearchRepository {
     private static final String CHAR_SET = "UTF-8";
-    private static final JpaResultMapper RESULT_MAPPER = new JpaResultMapper();
     @PersistenceContext
     private EntityManager em;
 
     @Transactional(readOnly = true)
     @Override
     public List<BeerListItemDto> search(String memberId, BeerSearchCondition condition, BeerOrderBy order, int offset, int limit) {
-        return RESULT_MAPPER.list(
-                createQuery(memberId, condition, order, offset, limit),
-                BeerListItemDto.class
-        );
+        List<?> result = createQuery(memberId, condition, order, offset, limit).getResultList();
+        return result.stream()
+                .map(this::convert)
+                .collect(Collectors.toList());
     }
 
     private Query createQuery(String memberId, BeerSearchCondition condition, BeerOrderBy order, int offset, int limit) {
@@ -58,7 +59,7 @@ public class BeerSearchRepositoryImpl implements BeerSearchRepository {
         ));
         if (isMember) {
             sql.add("r.feel_status as myFeelStatus");
-            sql.add("(bl.id IS NOT NULL) as liked");
+            sql.add("bl.id IS NOT NULL as liked");
         }
         return String.join(",", sql);
     }
@@ -128,5 +129,25 @@ public class BeerSearchRepositoryImpl implements BeerSearchRepository {
             return "ORDER BY b.alcohol";
         }
         return "";
+    }
+
+    private BeerListItemDto convert(Object row) {
+        var reader = new NativeQueryReader(row);
+
+        var builder = BeerListItemDto.builder()
+                .id(reader.getString(0))
+                .alcohol(reader.getFloat(1))
+                .korName(reader.getString(2))
+                .imageUrl(reader.getString(3))
+                .country(reader.getString(4))
+                .type(reader.getString(5));
+
+        var isMember = reader.size() > 6;
+        if (isMember) {
+            var feel = reader.getString(6);
+            builder.myFeelStatus(Objects.nonNull(feel) ? FeelStatus.valueOf(feel) : null)
+                    .liked(reader.getBoolean(7));
+        }
+        return builder.build();
     }
 }
