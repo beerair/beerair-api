@@ -19,4 +19,8 @@ public class Flavor extends BaseEntity {
     private Long id;
 
     private String content;
+
+    public Flavor(String content) {
+        this.content = content;
+    }
 }

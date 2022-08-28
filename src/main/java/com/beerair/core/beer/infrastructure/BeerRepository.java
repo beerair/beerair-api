@@ -2,24 +2,21 @@ package com.beerair.core.beer.infrastructure;
 
 import com.beerair.core.beer.domain.Beer;
 import com.beerair.core.beer.dto.query.BeerDto;
-import com.beerair.core.beer.dto.query.BeerListItemDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BeerRepository extends JpaRepository<Beer, Long>, JpaSpecificationExecutor<Beer> {
+public interface BeerRepository extends JpaRepository<Beer, String>, JpaSpecificationExecutor<Beer> {
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT b.countryId FROM Beer b WHERE b.id = :beerId AND b.deletedAt IS NULL")
+	Optional<Long> findCountryIdById(@Param("beerId") String beerId);
+
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT b as beer, " +
 	               "c as country, bt as beerType, false as liked " +

@@ -1,12 +1,9 @@
 package com.beerair.core.beer.dto.response;
 
-import com.beerair.core.beer.domain.Beer;
-import com.beerair.core.beer.domain.BeerType;
 import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.beer.dto.query.BeerListItemDto;
-import com.beerair.core.region.domain.Country;
 import com.beerair.core.region.domain.vo.rs.CountryResponse;
-import com.beerair.core.review.domain.Review;
+import com.beerair.core.review.dto.query.ReviewDto;
 import com.beerair.core.review.dto.response.ReviewResponse;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
@@ -14,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -75,24 +71,12 @@ public class BeerResponse {
 		);
 	}
 
-	public static BeerResponse of(Beer beer, Country country, BeerType type, Review review, Boolean isLiked) {
-		var myReview = Objects.isNull(review) ? null : ReviewResponse.from(review);
-		return new BeerResponse(
-				beer.getId(),
-				CountryResponse.from(country),
-				BeerTypeResponse.from(type),
-				myReview,
-				beer.getKorName(),
-				beer.getEngName(),
-				beer.getImageUrl(),
-				beer.getContent(),
-				beer.getAlcohol(),
-				beer.getPrice(),
-				beer.getVolume(),
-				isLiked,
-				beer.getCreatedAt(),
-				beer.getModifiedAt()
-		);
+	public static BeerResponse from(ReviewDto.BeerInfo beerInfo) {
+		return BeerResponse.builder()
+				.korName(beerInfo.getKorName())
+				.engName(beerInfo.getEngName())
+				.alcohol(beerInfo.getAlcohol())
+				.build();
 	}
 
 	public static BeerResponse ofListItem(BeerListItemDto beerDto) {

@@ -3,13 +3,13 @@ package com.beerair.core.review.domain;
 import com.beerair.core.common.domain.BaseEntity;
 import com.beerair.core.common.util.IdGenerator;
 import com.beerair.core.review.domain.vo.FeelStatus;
+import com.beerair.core.review.domain.vo.ReviewFlavors;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -49,8 +49,7 @@ public class Review extends BaseEntity {
 
     @Comment("맥주 맛 Id 최대 3개")
     @Embedded
-    @AttributeOverride(name = "values", column = @Column(name = "flavor_ids"))
-    private FlavorIds flavorIds;
+    private ReviewFlavors flavorIds;
 
     @Comment("맥주 Id")
     private String beerId;
@@ -59,7 +58,7 @@ public class Review extends BaseEntity {
     private String memberId;
 
     @Builder
-    private Review(String content, Long departuresCountryId, Long arrivalsCountryId, FeelStatus feelStatus, String imageUrl, Boolean isPublic, FlavorIds flavorIds, String beerId, String memberId) {
+    private Review(String content, Long departuresCountryId, Long arrivalsCountryId, FeelStatus feelStatus, String imageUrl, Boolean isPublic, ReviewFlavors flavorIds, String beerId, String memberId) {
         this.id = IdGenerator.createUUID();
         this.content = content;
         this.departuresCountryId = departuresCountryId;

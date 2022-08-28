@@ -2,13 +2,13 @@ package com.beerair.core.region.domain.vo.rs;
 
 import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.region.domain.Country;
+import com.beerair.core.review.dto.query.ReviewDto;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 @Builder
@@ -43,5 +43,12 @@ public class CountryResponse {
 				countryInfo.getEngName(),
 				countryInfo.getBackgroundImageUrl(),
 				countryInfo.getImageUrl());
+	}
+
+	public static CountryResponse from(ReviewDto.CountryInfo countryInfo) {
+		return CountryResponse.builder()
+				.korName(countryInfo.getKorName())
+				.engName(countryInfo.getEngName())
+				.build();
 	}
 }

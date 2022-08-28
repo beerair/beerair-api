@@ -1,6 +1,6 @@
 package com.beerair.core.review.dto.request;
 
-import com.beerair.core.review.domain.FlavorIds;
+import com.beerair.core.review.domain.vo.ReviewFlavors;
 import com.beerair.core.review.domain.Review;
 import com.beerair.core.review.domain.vo.FeelStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,7 +31,7 @@ public class ReviewRequest {
     @JsonProperty
     private final String beerId;
 
-    public Review entity(Long departuresCountryId, Long arrivalsCountryId, String memberId) {
+    public Review entity(String memberId, Long departuresCountryId, Long arrivalsCountryId) {
         return Review.builder()
                 .content(content)
                 .departuresCountryId(departuresCountryId)
@@ -39,7 +39,7 @@ public class ReviewRequest {
                 .feelStatus(feelStatus)
                 .imageUrl(imageUrl)
                 .isPublic(isPublic)
-                .flavorIds(FlavorIds.from(flavorIds))
+                .flavorIds(ReviewFlavors.from(flavorIds))
                 .beerId(beerId)
                 .memberId(memberId)
                 .build();

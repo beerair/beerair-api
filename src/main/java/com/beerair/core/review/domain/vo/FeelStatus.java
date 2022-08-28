@@ -10,8 +10,7 @@ public enum FeelStatus {
     BAD(2, "애매"),
     USUALLY(3, "보통"),
     GOOD(4, "좋음"),
-    VERY_GOOD(5, "최고"),
-    ;
+    VERY_GOOD(5, "최고");
 
     private final int score;
     private final String description;
