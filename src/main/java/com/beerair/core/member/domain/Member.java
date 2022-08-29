@@ -98,7 +98,7 @@ public class Member extends BaseEntity {
 
     public void sign(String nickname, int levelId) {
         if (role == Role.MEMBER) {
-            throw new MemberUnableSignException(MEMBER_UNABLE_SIGN_BY_SIGNED);
+            throw new MemberUnableSignException();
         }
         this.role = Role.MEMBER;
         this.leverId = levelId;
