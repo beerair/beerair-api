@@ -3,12 +3,12 @@ package com.beerair.core.suggest.dto.request;
 import lombok.Data;
 
 @Data
-public class BeerSuggestRegisterRequest {
+public class SuggestRegisterRequest {
     private final String name;
-    private final BeerSuggestImageRegisterRequest images;
+    private final SuggestImageRegisterRequest images;
 
     @Data
-    public static class BeerSuggestImageRegisterRequest {
+    public static class SuggestImageRegisterRequest {
         private final String beerImage1;
         private final String beerImage2;
     }

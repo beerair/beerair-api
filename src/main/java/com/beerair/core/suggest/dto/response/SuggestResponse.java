@@ -1,13 +1,13 @@
 package com.beerair.core.suggest.dto.response;
 
-import com.beerair.core.suggest.domain.BeerSuggest;
+import com.beerair.core.suggest.domain.Suggest;
 import com.beerair.core.suggest.domain.vo.SuggestStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class BeerSuggestResponse {
+public class SuggestResponse {
     private final Long id;
     private final String beerName;
     private final LocalDateTime completedAt;
@@ -15,7 +15,7 @@ public class BeerSuggestResponse {
     private final SuggestStatus status;
     private final String statusDescription;
 
-    public BeerSuggestResponse(BeerSuggest suggest) {
+    public SuggestResponse(Suggest suggest) {
         this.id = suggest.getId();
         this.beerName = suggest.getBeerName();
         this.completedAt = suggest.getCompletedAt();

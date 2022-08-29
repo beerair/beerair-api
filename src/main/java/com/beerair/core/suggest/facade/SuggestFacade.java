@@ -4,34 +4,33 @@ import com.beerair.core.beer.application.BeerService;
 import com.beerair.core.common.util.MapperUtil;
 import com.beerair.core.error.exception.suggest.BeerAlreadyExistsException;
 import com.beerair.core.error.exception.suggest.BeerSuggestAlreadyExistsException;
-import com.beerair.core.member.dto.LoggedInMember;
-import com.beerair.core.suggest.application.BeerSuggestService;
-import com.beerair.core.suggest.domain.BeerSuggest;
-import com.beerair.core.suggest.dto.request.BeerSuggestRegisterRequest;
-import com.beerair.core.suggest.dto.response.BeerSuggestRegisterResponse;
+import com.beerair.core.suggest.application.SuggestService;
+import com.beerair.core.suggest.domain.Suggest;
+import com.beerair.core.suggest.dto.request.SuggestRegisterRequest;
+import com.beerair.core.suggest.dto.response.SuggestRegisterResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class BeerSuggestFacade {
-    private final BeerSuggestService beerSuggestService;
+public class SuggestFacade {
+    private final SuggestService suggestService;
     private final BeerService beerService;
 
-    public void validate(String name, String memberId) {
+    public void validate(String memberId, String name) {
         if (beerService.existsByKorNameOrEngName(name)) {
             throw new BeerAlreadyExistsException();
         }
-        if (beerSuggestService.existsByNameAndMemberId(name, memberId)) {
+        if (suggestService.existsByNameAndMemberId(name, memberId)) {
             throw new BeerSuggestAlreadyExistsException();
         }
     }
 
-    public BeerSuggestRegisterResponse register(BeerSuggestRegisterRequest request, String memberId) {
+    public SuggestRegisterResponse register(String memberId, SuggestRegisterRequest request) {
         validate(request.getName(), memberId);
 
-        var suggest = beerSuggestService.save(
-                new BeerSuggest(
+        var suggest = suggestService.save(
+                new Suggest(
                         MapperUtil.writeValueAsString(request.getImages()),
                         request.getName(),
                         memberId
@@ -40,6 +39,6 @@ public class BeerSuggestFacade {
 
         // TODO : SLACK MONITORING
 
-        return new BeerSuggestRegisterResponse(suggest.getId(), suggest.getBeerName());
+        return new SuggestRegisterResponse(suggest.getId(), suggest.getBeerName());
     }
 }

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BeerSuggest extends BaseEntity {
+public class Suggest extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +32,7 @@ public class BeerSuggest extends BaseEntity {
 
     private String memberId;
 
-    public BeerSuggest(String name, String urls, String memberId) {
+    public Suggest(String name, String urls, String memberId) {
         this.beerName = name;
         this.imageUrls = urls;
         this.status = SuggestStatus.PROCEED;

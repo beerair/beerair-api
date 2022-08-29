@@ -1,6 +1,6 @@
 package com.beerair.core.suggest.infrastructure;
 
-import com.beerair.core.suggest.domain.BeerSuggest;
+import com.beerair.core.suggest.domain.Suggest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface BeerSuggestRepository extends JpaRepository<BeerSuggest, Long> {
+public interface SuggestRepository extends JpaRepository<Suggest, Long> {
     @Transactional(readOnly = true)
     Boolean existsByBeerNameAndMemberId(String name, String memberId);
 
@@ -16,5 +16,5 @@ public interface BeerSuggestRepository extends JpaRepository<BeerSuggest, Long> 
     Long countByMemberId(String memberId);
 
     @Transactional(readOnly = true)
-    Page<BeerSuggest> findAllByMemberId(Pageable pageable, String memberId);
+    Page<Suggest> findAllByMemberId(Pageable pageable, String memberId);
 }
