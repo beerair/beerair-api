@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -29,10 +31,15 @@ public class ReviewCreateFacade {
     }
 
     private Review createReview(String memberId, ReviewRequest request) {
-        var route = createRoute(memberId, request.getBeerId());
+        var latestReview = reviewRepository.findLatestByMemberId(memberId);
+
+        var previousId = latestReview.map(Review::getId).orElse(null);
+        var route = createRoute(latestReview, request.getBeerId());
         var flavorIds = ReviewFlavorIds.from(request.getFlavorIds());
+
         return Review.builder()
                 .memberId(memberId)
+                .previousId(previousId)
                 .route(route)
                 .flavorIds(flavorIds)
                 .beerId(request.getBeerId())
@@ -44,12 +51,11 @@ public class ReviewCreateFacade {
                 .build();
     }
 
-    private Route createRoute(String memberId, String beerId) {
+    private Route createRoute(Optional<Review> latestReview, String beerId) {
+        var latestRoute = latestReview.map(Review::getRoute)
+                .orElseGet(this::defaultRoute);
         Long arrivalCountryId = beerRepository.findCountryIdById(beerId)
                 .orElseThrow(BeerNotFoundException::new);
-        var latestRoute = reviewRepository
-                .findLatestRouteByMemberId(memberId)
-                .orElseGet(this::defaultRoute);
         return Route.next(latestRoute, arrivalCountryId);
     }
 

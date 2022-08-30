@@ -32,4 +32,8 @@ public class Route {
     public static Route next(Route previous, Long arrivalCountryId) {
         return new Route(previous.getArrivalCountryId(), arrivalCountryId);
     }
+
+    public Route join(Route nextRoute) {
+        return null;
+    }
 }

@@ -40,6 +40,10 @@ public class Review extends BaseEntity {
     @Column(length = UUID_LENGTH)
     private String id;
 
+    @Comment("이전 리뷰 Id")
+    @Column(length = UUID_LENGTH)
+    private String previousId;
+
     @Comment("맥주 Id")
     @Column(nullable = false)
     private String beerId;
@@ -71,15 +75,20 @@ public class Review extends BaseEntity {
     private Boolean isPublic;
 
     @Builder
-    private Review(String beerId, String memberId, Route route, String content, FeelStatus feelStatus, String imageUrl, Boolean isPublic, ReviewFlavorIds flavorIds) {
+    private Review(String id, String previousId, String beerId, String memberId, Route route, FeelStatus feelStatus, ReviewFlavorIds flavorIds, String content, String imageUrl, Boolean isPublic) {
         this.id = IdGenerator.createUUID();
+        this.previousId = previousId;
         this.beerId = beerId;
         this.memberId = memberId;
         this.route = route;
-        this.content = content;
         this.feelStatus = feelStatus;
+        this.flavorIds = flavorIds;
+        this.content = content;
         this.imageUrl = imageUrl;
         this.isPublic = isPublic;
-        this.flavorIds = flavorIds;
+    }
+
+    public void delete() {
+        super.delete();
     }
 }
