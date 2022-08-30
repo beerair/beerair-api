@@ -17,8 +17,7 @@ public class ReviewStepClient extends StepClient {
     }
 
     public void get(String beerId) {
-        String query = "?beerId=" + beerId;
-        exchange(HttpMethod.GET, query, new HttpEntity<>(authed()));
+        exchange(HttpMethod.GET, "/" + beerId, new HttpEntity<>(authed()));
     }
 
     public void create(ReviewRequest request) {
@@ -27,7 +26,6 @@ public class ReviewStepClient extends StepClient {
     }
 
     public void delete(String beerId) {
-        String query = "?beerId=" + beerId;
-        exchange(HttpMethod.DELETE, query, new HttpEntity<>(authed()));
+        exchange(HttpMethod.DELETE, "/" + beerId, new HttpEntity<>(authed()));
     }
 }

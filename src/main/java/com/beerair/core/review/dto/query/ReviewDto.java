@@ -16,6 +16,7 @@ public interface ReviewDto {
 
     interface ReviewInfo {
         String getId();
+        String getPreviousId();
         String getContent();
         FeelStatus getFeelStatus();
         String getImageUrl();

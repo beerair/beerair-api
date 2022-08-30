@@ -29,27 +29,18 @@ public interface ReviewRepository extends JpaRepository<Review, String> {
         return Optional.of(result.get(0));
     }
 
-    @Query("SELECT r FROM Review r " +
-            "WHERE r.memberId = :memberId " +
-            "AND r.id = :reviewId " +
-            "AND r.previousId = :reviewId " +
-            "AND r.deletedAt IS NULL")
-    List<Review> findAllByMemberIdWithNext(@Param("memberId") String memberId, @Param("reviewId") String reviewId);
-
-    @Query("SELECT r as review, " +
-            "b as beer, " +
-            "dc as departuresCountry, " +
-            "ac as arrivalCountry, " +
-            "f1 as flavor1, " +
-            "f2 as flavor2, " +
-            "f3 as flavor3 " +
+    @Query("SELECT r as review " +
             "FROM Review r " +
-            "INNER JOIN Beer b ON b.id = r.beerId AND b.id = :beerId AND b.deletedAt IS NULL " +
-            "INNER JOIN Country dc ON dc.id = r.route.departureCountryId " +
-            "INNER JOIN Country ac ON ac.id = r.route.arrivalCountryId " +
-            "LEFT OUTER JOIN Flavor f1 ON f1.id = r.flavorIds.flavor1 " +
-            "LEFT OUTER JOIN Flavor f2 ON f2.id = r.flavorIds.flavor2 " +
-            "LEFT OUTER JOIN Flavor f3 ON f3.id = r.flavorIds.flavor3 " +
-            "WHERE r.memberId = :memberId AND r.deletedAt IS NULL")
-    Optional<ReviewDto> findByMemberIdAndBeerId(@Param("memberId") String memberId, @Param("beerId") String beerId);
+            "WHERE r.memberId = :memberId " +
+            "AND (r.id = :reviewId OR r.previousId = :reviewId) " +
+            "AND r.deletedAt IS NULL " +
+            "ORDER BY r.createdAt")
+    List<Review> findAllByIdAndPreviousIdAndMemberId(@Param("memberId") String memberId, @Param("reviewId") String reviewId);
+
+    /** 리뷰 목록이 작업될때까지 테스트에서 임시로 사용할 메서드 입니다. */
+    @Query("SELECT r as review " +
+            "FROM Review r " +
+            "WHERE r.beerId = :beerId " +
+            "AND r.deletedAt IS NULL")
+    Optional<Review> findByBeerId(@Param("beerId") String beerId);
 }

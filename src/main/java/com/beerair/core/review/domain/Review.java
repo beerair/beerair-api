@@ -19,16 +19,23 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
 
 @Table(
         indexes = {
                 @Index(name = "INDEX_BEER_ID", columnList = "beerId"),
+                @Index(name = "INDEX_PREVIOUS_ID", columnList = "previousId"),
                 @Index(name = "INDEX_MEMBER_ID", columnList = "memberId"),
                 @Index(name = "INDEX_FLAVOR1_ID", columnList = "flavor1"),
                 @Index(name = "INDEX_FLAVOR2_ID", columnList = "flavor2"),
                 @Index(name = "INDEX_FLAVOR3_ID", columnList = "flavor3")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UNIQUE_MEMBER_BEER", columnNames = {
+                        "memberId", "beerId"
+                })
         }
 )
 @Getter
@@ -40,7 +47,7 @@ public class Review extends BaseEntity {
     @Column(length = UUID_LENGTH)
     private String id;
 
-    @Comment("이전 리뷰 Id")
+    @Comment("이전 리뷰 맥주 Id")
     @Column(length = UUID_LENGTH)
     private String previousId;
 
@@ -75,7 +82,7 @@ public class Review extends BaseEntity {
     private Boolean isPublic;
 
     @Builder
-    private Review(String id, String previousId, String beerId, String memberId, Route route, FeelStatus feelStatus, ReviewFlavorIds flavorIds, String content, String imageUrl, Boolean isPublic) {
+    private Review(String previousId, String beerId, String memberId, Route route, FeelStatus feelStatus, ReviewFlavorIds flavorIds, String content, String imageUrl, Boolean isPublic) {
         this.id = IdGenerator.createUUID();
         this.previousId = previousId;
         this.beerId = beerId;
@@ -86,6 +93,12 @@ public class Review extends BaseEntity {
         this.content = content;
         this.imageUrl = imageUrl;
         this.isPublic = isPublic;
+    }
+
+    public void joinRoute(Review previousReview) {
+        route = previousReview
+                .getRoute()
+                .join(getRoute());
     }
 
     public void delete() {

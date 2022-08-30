@@ -33,7 +33,9 @@ public class ReviewCreateFacade {
     private Review createReview(String memberId, ReviewRequest request) {
         var latestReview = reviewRepository.findLatestByMemberId(memberId);
 
-        var previousId = latestReview.map(Review::getId).orElse(null);
+        var previousId = latestReview
+                .map(Review::getId)
+                .orElse(null);
         var route = createRoute(latestReview, request.getBeerId());
         var flavorIds = ReviewFlavorIds.from(request.getFlavorIds());
 

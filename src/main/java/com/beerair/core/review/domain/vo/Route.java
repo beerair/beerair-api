@@ -34,6 +34,6 @@ public class Route {
     }
 
     public Route join(Route nextRoute) {
-        return null;
+        return new Route(getDepartureCountryId(), nextRoute.getArrivalCountryId());
     }
 }
