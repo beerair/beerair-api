@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 @Repository
 public class FlavorRankRepositoryImpl implements FlavorRankRepository {
-    // TODO 갯수 같이 반환하는거 뺴먹음!!
     private static final int LIMIT = 3;
     private static final String SQL =
                             "SELECT flavor as id, f.content, COUNT(id) as count " +
@@ -22,7 +21,7 @@ public class FlavorRankRepositoryImpl implements FlavorRankRepository {
                                 "SELECT beer_id, flavor2 as flavor FROM review " +
                                 "UNION ALL " +
                                 "SELECT beer_id, flavor3 as flavor FROM review " +
-                            ") r" +
+                            ") r " +
                             "INNER JOIN flavor f ON f.id = flavor " +
                             "GROUP BY beer_id, flavor HAVING flavor IS NOT NULL AND beer_id = :beerId " +
                             "ORDER BY COUNT(id) DESC";

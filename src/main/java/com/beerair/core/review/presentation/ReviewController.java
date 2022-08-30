@@ -3,7 +3,6 @@ package com.beerair.core.review.presentation;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
-import com.beerair.core.review.application.FlavorService;
 import com.beerair.core.review.application.ReviewService;
 import com.beerair.core.review.dto.request.ReviewRequest;
 import com.beerair.core.review.facade.ReviewCreateFacade;
@@ -26,7 +25,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
-    private final ReviewCreateFacade reviewFacade;
+    private final ReviewCreateFacade reviewCreateFacade;
 
     @ApiOperation(value = "리뷰 티켓 조회")
     @GetMapping
@@ -38,11 +37,10 @@ public class ReviewController {
         return ResponseDto.ok(response);
     }
 
-    // TODO 리뷰 2번 요청시?
     @ApiOperation(value = "리뷰 티켓 등록")
     @PostMapping
     public ResponseEntity<?> create(@AuthMember LoggedInMember member, @RequestBody ReviewRequest request) {
-        reviewFacade.create(member.getId(), request);
+        reviewCreateFacade.create(member.getId(), request);
         return ResponseDto.noContent();
     }
 }

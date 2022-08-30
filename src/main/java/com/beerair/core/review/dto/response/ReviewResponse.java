@@ -44,8 +44,6 @@ public class ReviewResponse {
                 .createdAt(dto.getReview().getCreatedAt())
 
                 .beer(BeerResponse.from(dto.getBeer()))
-                .departuresCountry(CountryResponse.from(dto.getDeparturesCountry()))
-                .arrivalCountry(CountryResponse.from(dto.getArrivalCountry()))
                 .flavors(flavors(dto))
 
                 .build();

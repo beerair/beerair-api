@@ -46,29 +46,25 @@ public class BeerResponse {
 
 	private Boolean liked;
 
-	private LocalDateTime createdAt;
-
-	private LocalDateTime modifiedAt;
 
 	public static BeerResponse from(BeerDto beerDto) {
 		var myReview = Objects.isNull(beerDto.getMyReview()) ?
 				null : ReviewResponse.from(beerDto.getMyReview());
-		return new BeerResponse(
-				beerDto.getBeer().getId(),
-				CountryResponse.from(beerDto.getCountry()),
-				BeerTypeResponse.from(beerDto.getBeerType()),
-				myReview,
-				beerDto.getBeer().getKorName(),
-				beerDto.getBeer().getEngName(),
-				beerDto.getBeer().getImageUrl(),
-				beerDto.getBeer().getContent(),
-				beerDto.getBeer().getAlcohol(),
-				beerDto.getBeer().getPrice(),
-				beerDto.getBeer().getVolume(),
-				beerDto.getLiked(),
-				beerDto.getBeer().getCreatedAt(),
-				beerDto.getBeer().getModifiedAt()
-		);
+		var beerInfo = beerDto.getBeer();
+		return BeerResponse.builder()
+				.id(beerInfo.getId())
+				.country(CountryResponse.from(beerDto.getCountry()))
+				.type(BeerTypeResponse.from(beerDto.getBeerType()))
+				.myReview(myReview)
+				.korName(beerInfo.getKorName())
+				.engName(beerInfo.getEngName())
+				.imageUrl(beerInfo.getImageUrl())
+				.content(beerInfo.getContent())
+				.alcohol(beerInfo.getAlcohol())
+				.price(beerInfo.getPrice())
+				.volume(beerInfo.getVolume())
+				.liked(beerDto.getLiked())
+				.build();
 	}
 
 	public static BeerResponse from(ReviewDto.BeerInfo beerInfo) {
