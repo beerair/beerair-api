@@ -1,6 +1,7 @@
 package com.beerair.core.review.dto.query;
 
 import com.beerair.core.review.domain.vo.FeelStatus;
+import com.beerair.core.review.domain.vo.Route;
 
 import java.time.LocalDateTime;
 
@@ -15,10 +16,11 @@ public interface ReviewDto {
 
     interface ReviewInfo {
         String getId();
+        String getPreviousId();
         String getContent();
         FeelStatus getFeelStatus();
         String getImageUrl();
-        Boolean getIsPublic();
+        Route getRoute();
         LocalDateTime getCreatedAt();
     }
 

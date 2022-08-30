@@ -18,11 +18,11 @@ public class ReviewStepThenDefs {
     @Then("리뷰의 출발지는 {string} 이다.")
     public void 출발지_검증(String expert) {
         ResponseDto<ReviewResponse> response = CucumberHttpResponseContext.getBody(new TypeReference<>() {});
-        var arrival = response
+        var departures = response
                 .getData()
                 .getDeparturesCountry()
                 .getKorName();
-        assertThat(arrival).isEqualTo(expert);
+        assertThat(departures).isEqualTo(expert);
     }
 
     @Then("리뷰의 도착지는 {string} 이다.")
@@ -33,15 +33,5 @@ public class ReviewStepThenDefs {
                 .getArrivalCountry()
                 .getKorName();
         assertThat(arrival).isEqualTo(expert);
-    }
-
-    @Then("맛 TOP3는 {int},{int},{int} 이다.")
-    public void 도착지_검증(int f1, int f2, int f3) {
-        Set<Long> experts = Set.of((long) f1, (long) f2, (long) f3);
-        ResponseDto<List<FlavorResponse>> response = CucumberHttpResponseContext.getBody(new TypeReference<>() {});
-
-        for (var each : response.getData()) {
-            assertThat(experts).contains(each.getId());
-        }
     }
 }

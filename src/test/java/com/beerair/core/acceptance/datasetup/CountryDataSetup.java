@@ -31,12 +31,21 @@ public class CountryDataSetup extends DataSetup {
                 .imageUrl("https://beerair-service.s3.ap-northeast-2.amazonaws.com/COUNTRY/denmark.png")
                 .engName("denmark")
                 .korName("덴마크")
-                .continentId(1L)
+                .continentId(2L)
                 .build();
         new Fixture<>(country2).set("id", 2L);
 
+        Country country3 = Country.builder()
+                .backgroundImageUrl("https://beerair-service.s3.ap-northeast-2.amazonaws.com/COUNTRY/background/usa.png")
+                .imageUrl("https://beerair-service.s3.ap-northeast-2.amazonaws.com/COUNTRY/usa.png")
+                .engName("usa")
+                .korName("미국")
+                .continentId(3L)
+                .build();
+        new Fixture<>(country2).set("id", 3L);
+
         countryRepository.saveAll(
-                List.of(country1, country2)
+                List.of(country1, country2, country3)
         );
     }
 }

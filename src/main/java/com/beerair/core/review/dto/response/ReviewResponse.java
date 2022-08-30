@@ -37,16 +37,18 @@ public class ReviewResponse {
     public static ReviewResponse from(ReviewDto dto) {
         return ReviewResponse.builder()
                 .id(dto.getReview().getId())
+
+                .beer(BeerResponse.from(dto.getBeer()))
+                .departuresCountry(CountryResponse.from(dto.getDeparturesCountry()))
+                .arrivalCountry(CountryResponse.from(dto.getArrivalCountry()))
+                .flavors(flavors(dto))
+
                 .content(dto.getReview().getContent())
                 .imageUrl(dto.getReview().getImageUrl())
                 .feelScore(dto.getReview().getFeelStatus().getScore())
                 .feelDescription(dto.getReview().getFeelStatus().getDescription())
                 .createdAt(dto.getReview().getCreatedAt())
 
-                .beer(BeerResponse.from(dto.getBeer()))
-                .departuresCountry(CountryResponse.from(dto.getDeparturesCountry()))
-                .arrivalCountry(CountryResponse.from(dto.getArrivalCountry()))
-                .flavors(flavors(dto))
 
                 .build();
     }

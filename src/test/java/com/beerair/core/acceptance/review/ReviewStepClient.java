@@ -16,18 +16,16 @@ public class ReviewStepClient extends StepClient {
         super("/api/v1/reviews");
     }
 
-    public void getFlavorTop3(String beerId) {
-        String url = "/flavors-top3?beerId=" + beerId;
-        exchange(HttpMethod.GET, url, new HttpEntity<>(authed()));
-    }
-
     public void get(String beerId) {
-        String query = "?beerId=" + beerId;
-        exchange(HttpMethod.GET, query, new HttpEntity<>(authed()));
+        exchange(HttpMethod.GET, "/" + beerId, new HttpEntity<>(authed()));
     }
 
     public void create(ReviewRequest request) {
         var httpEntity = new HttpEntity<>(request, authed());
         exchange(HttpMethod.POST, "", httpEntity);
+    }
+
+    public void delete(String beerId) {
+        exchange(HttpMethod.DELETE, "/" + beerId, new HttpEntity<>(authed()));
     }
 }
