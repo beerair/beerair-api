@@ -24,7 +24,7 @@ public interface ReviewRepository extends JpaRepository<Review, String> {
     default Optional<Route> findLatestRouteByMemberId(String memberId) {
         var result = findAllRouteByMemberId(
                 memberId,
-                PageRequest.of(0, 1, Sort.by("createdAt").descending())
+                PageRequest.of(0, 2, Sort.by("createdAt").descending())
         );
         if (result.isEmpty()) {
             return Optional.empty();

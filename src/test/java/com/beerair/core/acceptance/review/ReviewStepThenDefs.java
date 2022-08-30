@@ -18,11 +18,11 @@ public class ReviewStepThenDefs {
     @Then("리뷰의 출발지는 {string} 이다.")
     public void 출발지_검증(String expert) {
         ResponseDto<ReviewResponse> response = CucumberHttpResponseContext.getBody(new TypeReference<>() {});
-        var arrival = response
+        var departures = response
                 .getData()
                 .getDeparturesCountry()
                 .getKorName();
-        assertThat(arrival).isEqualTo(expert);
+        assertThat(departures).isEqualTo(expert);
     }
 
     @Then("리뷰의 도착지는 {string} 이다.")

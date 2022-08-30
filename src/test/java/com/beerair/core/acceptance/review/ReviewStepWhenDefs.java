@@ -30,4 +30,9 @@ public class ReviewStepWhenDefs {
     public void 맥주_리뷰_조회_요청(String beerId) {
         reviewStepClient.get(beerId);
     }
+
+    @When("{string} 맥주 리뷰 삭제를 요청하면")
+    public void 맥주_리뷰_삭제_요청(String beerId) {
+        reviewStepClient.delete(beerId);
+    }
 }

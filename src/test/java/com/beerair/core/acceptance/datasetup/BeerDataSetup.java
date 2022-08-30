@@ -38,8 +38,18 @@ public class BeerDataSetup extends DataSetup {
                 .build();
         new Fixture<>(beer2).set("id", "에일의 정석");
 
+        Beer beer3 = Beer.builder()
+                .alcohol(9.9f)
+                .korName("미국 맥주")
+                .engName("USA USA USA")
+                .imageUrl("https://beerair-service.s3.ap-northeast-2.amazonaws.com/BEER/usa_usa_usa.png")
+                .countryId(3L)
+                .typeId(3L)
+                .build();
+        new Fixture<>(beer3).set("id", "미국 맥주");
+
         beerRepository.saveAll(
-                List.of(beer1, beer2)
+                List.of(beer1, beer2, beer3)
         );
     }
 }

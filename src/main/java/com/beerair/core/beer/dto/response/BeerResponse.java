@@ -46,6 +46,9 @@ public class BeerResponse {
 
 	private Boolean liked;
 
+	private LocalDateTime createdAt;
+
+	private LocalDateTime modifiedAt;
 
 	public static BeerResponse from(BeerDto beerDto) {
 		var myReview = Objects.isNull(beerDto.getMyReview()) ?

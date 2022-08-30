@@ -11,7 +11,9 @@ import com.beerair.core.review.dto.request.ReviewRequest;
 import com.beerair.core.review.infrastructure.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ReviewCreateFacade {

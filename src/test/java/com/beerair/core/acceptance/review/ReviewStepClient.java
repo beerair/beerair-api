@@ -25,4 +25,9 @@ public class ReviewStepClient extends StepClient {
         var httpEntity = new HttpEntity<>(request, authed());
         exchange(HttpMethod.POST, "", httpEntity);
     }
+
+    public void delete(String beerId) {
+        String query = "?beerId=" + beerId;
+        exchange(HttpMethod.DELETE, query, new HttpEntity<>(authed()));
+    }
 }
