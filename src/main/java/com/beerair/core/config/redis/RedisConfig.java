@@ -2,6 +2,7 @@ package com.beerair.core.config.redis;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -38,8 +39,12 @@ public class RedisConfig {
         return redisTemplate;
     }
 
+    /**
+     * default Cache Manager
+     **/
     @Bean
-    public CacheManager webtoonCacheManager() {
+    @ConditionalOnMissingBean(name = "beerAirCacheManager")
+    public CacheManager beerAirCacheManager() {
         var stringSerializationPair = RedisSerializationContext
                 .SerializationPair.fromSerializer(new StringRedisSerializer());
         var objectSerializationPair = RedisSerializationContext
