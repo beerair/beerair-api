@@ -2,7 +2,7 @@ package com.beerair.core.review.dto.response;
 
 import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.beer.dto.response.BeerResponse;
-import com.beerair.core.region.domain.vo.rs.CountryResponse;
+import com.beerair.core.region.dto.response.CountryResponse;
 import com.beerair.core.review.dto.query.ReviewDto;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AccessLevel;

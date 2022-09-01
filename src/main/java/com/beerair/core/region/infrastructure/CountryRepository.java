@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Long> {
-
     @Transactional(readOnly = true)
     List<Country> findByContinentId(Long continentId);
 

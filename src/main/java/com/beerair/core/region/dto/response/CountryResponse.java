@@ -1,4 +1,4 @@
-package com.beerair.core.region.domain.vo.rs;
+package com.beerair.core.region.dto.response;
 
 import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.region.domain.Country;

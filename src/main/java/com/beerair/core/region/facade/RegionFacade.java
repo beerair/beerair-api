@@ -3,8 +3,8 @@ package com.beerair.core.region.facade;
 import com.beerair.core.error.exception.region.ContinentNotFoundException;
 import com.beerair.core.region.application.ContinentService;
 import com.beerair.core.region.application.CountryService;
-import com.beerair.core.region.domain.vo.rs.ContinentResponses;
-import com.beerair.core.region.domain.vo.rs.CountryResponses;
+import com.beerair.core.region.dto.response.ContinentResponses;
+import com.beerair.core.region.dto.response.CountryResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

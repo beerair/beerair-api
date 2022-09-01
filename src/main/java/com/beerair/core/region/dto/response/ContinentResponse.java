@@ -1,4 +1,4 @@
-package com.beerair.core.region.domain.vo.rs;
+package com.beerair.core.region.dto.response;
 
 import com.beerair.core.region.domain.Continent;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

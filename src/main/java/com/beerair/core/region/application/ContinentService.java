@@ -1,7 +1,7 @@
 package com.beerair.core.region.application;
 
-import com.beerair.core.region.domain.vo.rs.ContinentResponse;
-import com.beerair.core.region.domain.vo.rs.ContinentResponses;
+import com.beerair.core.region.dto.response.ContinentResponse;
+import com.beerair.core.region.dto.response.ContinentResponses;
 import com.beerair.core.region.infrastructure.ContinentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

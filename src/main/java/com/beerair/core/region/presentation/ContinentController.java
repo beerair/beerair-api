@@ -1,9 +1,8 @@
 package com.beerair.core.region.presentation;
 
-import com.beerair.core.beer.dto.response.BeerTypeResponses;
 import com.beerair.core.common.dto.ResponseDto;
-import com.beerair.core.region.domain.vo.rs.ContinentResponses;
-import com.beerair.core.region.domain.vo.rs.CountryResponses;
+import com.beerair.core.region.dto.response.ContinentResponses;
+import com.beerair.core.region.dto.response.CountryResponses;
 import com.beerair.core.region.facade.RegionFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,5 +35,4 @@ public class ContinentController {
     ) {
         return ResponseDto.ok(regionFacade.getCountriesByContinentId(continentId));
     }
-
 }
