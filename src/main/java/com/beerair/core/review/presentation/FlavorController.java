@@ -22,8 +22,9 @@ public class FlavorController {
 
     @ApiOperation(value = "맛 목록 조회 api")
     @GetMapping
-    public ResponseEntity<Void> readFlavors() {
-        return ResponseDto.noContent();
+    public ResponseEntity<?> getAll() {
+        var response = flavorService.getAll();
+        return ResponseEntity.ok(response);
     }
 
     @ApiOperation(value = "특정 맥주의 맛 top3 API")
