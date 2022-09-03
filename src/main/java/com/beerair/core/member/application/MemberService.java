@@ -3,7 +3,7 @@ package com.beerair.core.member.application;
 import com.beerair.core.error.exception.member.MemberNotFoundException;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.dto.LoggedInMember;
-import com.beerair.core.member.dto.response.MemberMeResponse;
+import com.beerair.core.member.dto.response.MemberResponse;
 import com.beerair.core.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class MemberService {
         get(user).changeNickname(nickname);
     }
 
-    public MemberMeResponse getMe(LoggedInMember user) {
+    public MemberResponse getMe(LoggedInMember user) {
         return memberRepository.findByIdWithLevel(user.getId())
                 .orElseThrow(MemberNotFoundException::new);
     }

@@ -5,7 +5,7 @@ import com.beerair.core.member.application.MemberService;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.dto.request.MemberChangeNicknameRequest;
 import com.beerair.core.member.dto.request.MemberSignRequest;
-import com.beerair.core.member.dto.response.MemberMeResponse;
+import com.beerair.core.member.dto.response.MemberResponse;
 import com.beerair.core.member.facade.MemberSignFacade;
 import com.beerair.core.member.presentation.annotation.AuthMember;
 import io.swagger.annotations.Api;
@@ -62,7 +62,7 @@ public class MemberController {
     @ApiOperation(value = "사용자 정보 조회 API")
     @GetMapping("me")
     public ResponseEntity<?> get(@AuthMember LoggedInMember member) {
-        MemberMeResponse response = memberService.getMe(member);
+        MemberResponse response = memberService.getMe(member);
         return ResponseDto.ok(response);
     }
 }

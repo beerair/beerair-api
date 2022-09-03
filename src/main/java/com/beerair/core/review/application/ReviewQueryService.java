@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -17,5 +20,19 @@ public class ReviewQueryService {
         var result = reviewQueryRepository.findByMemberIdAndReviewId(memberId, reviewId)
                 .orElseThrow(ReviewNotFoundException::new);
         return ReviewResponse.from(result);
+    }
+
+    public List<ReviewResponse> getAllByMe(String memberId) {
+        return reviewQueryRepository.findAllByMemberId(memberId)
+                .stream()
+                .map(ReviewResponse::ofListItemAtMe)
+                .collect(Collectors.toList());
+    }
+
+    public List<ReviewResponse> getAllByBeer(String beerId) {
+        return reviewQueryRepository.findAllByBeerId(beerId)
+                .stream()
+                .map(ReviewResponse::ofListItemAtBeer)
+                .collect(Collectors.toList());
     }
 }

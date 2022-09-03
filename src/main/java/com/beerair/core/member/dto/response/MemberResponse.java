@@ -2,10 +2,17 @@ package com.beerair.core.member.dto.response;
 
 import com.beerair.core.member.domain.Level;
 import com.beerair.core.member.domain.Member;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
-public class MemberMeResponse {
+@Builder
+@AllArgsConstructor
+@Data
+public class MemberResponse {
+    private String id;
     private String email;
     private String profileUrl;
     private String nickname;
@@ -13,10 +20,10 @@ public class MemberMeResponse {
     private Integer tier;
     private String levelImage;
 
-    protected MemberMeResponse() {
+    protected MemberResponse() {
     }
 
-    public MemberMeResponse(Member member, Level level) {
+    public MemberResponse(Member member, Level level) {
         this.email = member.getEmail();
         this.profileUrl = member.getProfileUrl();
         this.nickname = member.getNickname();

@@ -1,5 +1,7 @@
 package com.beerair.core.review.application;
 
+import com.beerair.core.review.dto.query.FlavorRankDto;
+import com.beerair.core.review.dto.response.FlavorRankResponse;
 import com.beerair.core.review.dto.response.FlavorResponse;
 import com.beerair.core.review.dto.response.FlavorsResponse;
 import com.beerair.core.review.infrastructure.FlavorRankRepository;
@@ -28,11 +30,11 @@ public class FlavorService {
     }
 
     @Transactional(readOnly = true)
-    public List<FlavorResponse> getFlavorTop3(String beerId) {
+    public List<FlavorRankResponse> getFlavorTop3(String beerId) {
         return flavorRankRepository
                 .findTop3ByBeerId(beerId)
                 .stream()
-                .map(each -> new FlavorResponse(each.getId(), each.getContent()))
+                .map(FlavorRankResponse::from)
                 .collect(Collectors.toList());
     }
 }

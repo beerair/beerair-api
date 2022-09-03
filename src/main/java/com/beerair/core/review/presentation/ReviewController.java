@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
@@ -55,5 +56,23 @@ public class ReviewController {
     ) {
         commandService.delete(member.getId(), reviewId);
         return ResponseDto.noContent();
+    }
+
+    @ApiOperation(value = "나의 리뷰 티켓 목록 조회")
+    @GetMapping("me")
+    public ResponseEntity<?> getAllByMe(
+            @AuthMember LoggedInMember member
+    ) {
+        var responses = queryService.getAllByMe(member.getId());
+        return ResponseDto.ok(responses);
+    }
+
+    @ApiOperation(value = "특정 맥주에 대한 리뷰 조회")
+    @GetMapping
+    public ResponseEntity<?> getAllByBeer(
+            @RequestParam("beerId") String beerId
+    ) {
+        var responses = queryService.getAllByBeer(beerId);
+        return ResponseDto.ok(responses);
     }
 }
