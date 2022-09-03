@@ -21,7 +21,7 @@ Feature: Review
         And     3개가 조회된다.
         And     맛 TOP3는 4,5,6 이다.
 
-    Scenario: 리뷰 등록, 삭제, 목록 조회
+    Scenario: 리뷰 등록, 삭제, 목록 조회, 특정 맥주에 대한 리뷰 조회
         Given   access: '1234', refresh: '5678' 회원가입된 유저의 토큰이 발급 되어있다.
         And     Access Token 사용 : '1234'
 
@@ -54,5 +54,14 @@ Feature: Review
         Then    리뷰의 도착지는 '대한민국' 이다.
 
         When    나의 맥주 리뷰 목록을 조회하면
+        Then    요청이 성공한다.
+        And     2개가 조회된다.
+
+        Given   access: '2222', refresh: '3333' 회원가입된 유저의 토큰이 발급 되어있다.
+        And     Access Token 사용 : '2222'
+
+        # 특정 맥주에 대한 리뷰 조회
+        Given   '미국 맥주' 맥주에 맛 4,5,6 리뷰 작성을 요청하면
+        When    '미국 맥주' 리뷰 목록 조회를 요청하면
         Then    요청이 성공한다.
         And     2개가 조회된다.

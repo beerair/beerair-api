@@ -10,6 +10,7 @@ public interface ReviewDto {
     BeerInfo getBeer();
     CountryInfo getDeparturesCountry();
     CountryInfo getArrivalCountry();
+    MemberInfo getMember();
     FlavorDto getFlavor1();
     FlavorDto getFlavor2();
     FlavorDto getFlavor3();
@@ -24,13 +25,20 @@ public interface ReviewDto {
         LocalDateTime getCreatedAt();
     }
 
+    interface MemberInfo {
+        String getId();
+        String getNickname();
+    }
+
     interface BeerInfo {
+        String getId();
         String getKorName();
         String getEngName();
         Float getAlcohol();
     }
 
     interface CountryInfo {
+        Long getId();
         String getKorName();
         String getEngName();
     }

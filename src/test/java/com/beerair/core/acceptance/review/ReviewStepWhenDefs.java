@@ -47,6 +47,11 @@ public class ReviewStepWhenDefs {
         reviewStepClient.getAllByMe();
     }
 
+    @When("{string} 리뷰 목록 조회를 요청하면")
+    public void 특정_맥주_리뷰_목록_요청(String beerId) {
+        reviewStepClient.getAllByBeer(beerId);
+    }
+
     private String getReviewId(String beerId) {
         return reviewRepository.findByBeerId(beerId)
                 .map(Review::getId)

@@ -47,6 +47,7 @@ public class CountryResponse {
 
 	public static CountryResponse from(ReviewDto.CountryInfo countryInfo) {
 		return CountryResponse.builder()
+				.id(countryInfo.getId())
 				.korName(countryInfo.getKorName())
 				.engName(countryInfo.getEngName())
 				.build();

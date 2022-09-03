@@ -2,7 +2,7 @@ package com.beerair.core.member.infrastructure;
 
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.MemberSocial;
-import com.beerair.core.member.dto.response.MemberMeResponse;
+import com.beerair.core.member.dto.response.MemberResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,12 +24,12 @@ public interface MemberRepository extends JpaRepository<Member, String> {
             "AND m.deletedAt IS NULL")
     Optional<Member> findById(String id);
 
-    @Query("SELECT new com.beerair.core.member.dto.response.MemberMeResponse(m, l) " +
+    @Query("SELECT new com.beerair.core.member.dto.response.MemberResponse(m, l) " +
             "FROM Member m " +
             "INNER JOIN Level l ON l.id = m.leverId " +
             "WHERE m.id = :id " +
             "AND m.deletedAt IS NULL")
-    Optional<MemberMeResponse> findByIdWithLevel(String id);
+    Optional<MemberResponse> findByIdWithLevel(String id);
 
     boolean existsByNickname(String nickname);
 }

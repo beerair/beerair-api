@@ -25,7 +25,14 @@ public class ReviewQueryService {
     public List<ReviewResponse> getAllByMe(String memberId) {
         return reviewQueryRepository.findAllByMemberId(memberId)
                 .stream()
-                .map(ReviewResponse::ofMyListItem)
+                .map(ReviewResponse::ofListItemAtMe)
+                .collect(Collectors.toList());
+    }
+
+    public List<ReviewResponse> getAllByBeer(String beerId) {
+        return reviewQueryRepository.findAllByBeerId(beerId)
+                .stream()
+                .map(ReviewResponse::ofListItemAtBeer)
                 .collect(Collectors.toList());
     }
 }
