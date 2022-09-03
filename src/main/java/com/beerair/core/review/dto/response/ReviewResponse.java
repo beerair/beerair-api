@@ -49,7 +49,21 @@ public class ReviewResponse {
                 .feelDescription(dto.getReview().getFeelStatus().getDescription())
                 .createdAt(dto.getReview().getCreatedAt())
 
+                .build();
+    }
 
+    public static ReviewResponse ofMyListItem(ReviewDto dto) {
+        BeerResponse beer = BeerResponse.builder()
+                .korName(dto.getBeer().getKorName())
+                .engName(dto.getBeer().getEngName())
+                .build();
+        return ReviewResponse.builder()
+                .id(dto.getReview().getId())
+                .beer(beer)
+                .departuresCountry(CountryResponse.from(dto.getDeparturesCountry()))
+                .arrivalCountry(CountryResponse.from(dto.getArrivalCountry()))
+                .feelScore(dto.getReview().getFeelStatus().getScore())
+                .createdAt(dto.getReview().getCreatedAt())
                 .build();
     }
 

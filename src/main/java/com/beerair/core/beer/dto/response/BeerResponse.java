@@ -2,7 +2,7 @@ package com.beerair.core.beer.dto.response;
 
 import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.beer.dto.query.BeerListItemDto;
-import com.beerair.core.region.domain.vo.rs.CountryResponse;
+import com.beerair.core.region.dto.response.CountryResponse;
 import com.beerair.core.review.dto.query.ReviewDto;
 import com.beerair.core.review.dto.response.ReviewResponse;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
-@Builder(access = AccessLevel.PRIVATE)
+@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)

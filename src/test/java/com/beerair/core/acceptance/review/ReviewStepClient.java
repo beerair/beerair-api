@@ -16,6 +16,10 @@ public class ReviewStepClient extends StepClient {
         super("/api/v1/reviews");
     }
 
+    public void getAllByMe() {
+        exchange(HttpMethod.GET, "/me", new HttpEntity<>(authed()));
+    }
+
     public void get(String beerId) {
         exchange(HttpMethod.GET, "/" + beerId, new HttpEntity<>(authed()));
     }

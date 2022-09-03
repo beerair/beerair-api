@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class FlavorRankResponse {
     private Long id;
     private String content;
-    private int count;
+    private Long count;
 
     public static FlavorRankResponse from(FlavorRankDto dto) {
         return new FlavorRankResponse(dto.getId(), dto.getContent(), dto.getCount());

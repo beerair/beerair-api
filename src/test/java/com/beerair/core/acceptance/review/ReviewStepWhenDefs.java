@@ -42,6 +42,11 @@ public class ReviewStepWhenDefs {
         reviewStepClient.delete(getReviewId(beerId));
     }
 
+    @When("나의 맥주 리뷰 목록을 조회하면")
+    public void 나의_맥주_리뷰_목록_요청() {
+        reviewStepClient.getAllByMe();
+    }
+
     private String getReviewId(String beerId) {
         return reviewRepository.findByBeerId(beerId)
                 .map(Review::getId)

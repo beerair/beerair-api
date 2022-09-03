@@ -34,7 +34,7 @@ public class RouteTest {
                 .isEqualTo(CURRENT_COUNTRY);
     }
 
-    @DisplayName("[Route 삭제에 해당] 현재 경로의 출발지와 다음 경로의 도착지를 이어 붙인다.")
+    @DisplayName("[Route 삭제에 해당] 현재 경로를 없애고 이전 경로와 다음 경로를 이어 붙인다..")
     @Test
     void join() {
         var defaultRoute = Route.ofOnlyArrival(FIRST_COUNTRY);

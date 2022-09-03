@@ -56,4 +56,13 @@ public class ReviewController {
         commandService.delete(member.getId(), reviewId);
         return ResponseDto.noContent();
     }
+
+    @ApiOperation(value = "나의 리뷰 티켓 목록 조회")
+    @GetMapping("me")
+    public ResponseEntity<?> getAllByMe(
+            @AuthMember LoggedInMember member
+    ) {
+        var responses = queryService.getAllByMe(member.getId());
+        return ResponseDto.ok(responses);
+    }
 }
