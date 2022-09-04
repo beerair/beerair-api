@@ -1,10 +1,8 @@
 package com.beerair.core.config.security;
 
 import com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter;
-import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
 import com.beerair.core.member.domain.vo.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,7 +19,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -62,8 +59,8 @@ public class SecurityConfig {
     }
 
     private void configureAuthorizeRequests(HttpSecurity http) throws Exception {
-        final String ONLY_USER = createAccess(Role.USER.getAuthorities());
-        final String ONLY_MEMBER = createAccess(Role.MEMBER.getAuthorities());
+        final var ONLY_USER = createAccess(Role.USER.getAuthorities());
+        final var ONLY_MEMBER = createAccess(Role.MEMBER.getAuthorities());
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/members").access(ONLY_USER)
                 .antMatchers("/api/v1/members").access(ONLY_MEMBER)

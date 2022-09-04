@@ -56,7 +56,7 @@ public class ReviewCreateFacade {
     private Route createRoute(Optional<Review> latestReview, String beerId) {
         var latestRoute = latestReview.map(Review::getRoute)
                 .orElseGet(this::defaultRoute);
-        Long arrivalCountryId = beerRepository.findCountryIdById(beerId)
+        var arrivalCountryId = beerRepository.findCountryIdById(beerId)
                 .orElseThrow(BeerNotFoundException::new);
         return Route.next(latestRoute, arrivalCountryId);
     }

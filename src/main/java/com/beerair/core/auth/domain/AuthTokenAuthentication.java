@@ -15,18 +15,26 @@ public class AuthTokenAuthentication extends AbstractAuthenticationToken {
     private final LoggedInMember loggedInUser;
     private final Date expired;
 
-    private AuthTokenAuthentication(LoggedInMember loggedInUser, Collection<? extends GrantedAuthority> authorities, Date expired) {
+    private AuthTokenAuthentication(
+            LoggedInMember loggedInUser,
+            Collection<? extends GrantedAuthority> authorities,
+            Date expired
+    ) {
         super(authorities);
         this.loggedInUser = loggedInUser;
         this.expired = expired;
     }
 
     public static AuthTokenAuthentication create(OAuth2AuthenticationToken authentication) {
-        OAuth2Member oAuth2Member = (OAuth2Member) authentication.getPrincipal();
+        var oAuth2Member = (OAuth2Member) authentication.getPrincipal();
         return new AuthTokenAuthentication(oAuth2Member, authentication.getAuthorities(), null);
     }
 
-    public static AuthTokenAuthentication from(LoggedInMember loggedInUser, Collection<? extends GrantedAuthority> authorities, Date expired) {
+    public static AuthTokenAuthentication from(
+            LoggedInMember loggedInUser,
+            Collection<? extends GrantedAuthority> authorities,
+            Date expired
+    ) {
         return new AuthTokenAuthentication(loggedInUser, authorities, expired);
     }
 

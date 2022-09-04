@@ -1,6 +1,5 @@
 package com.beerair.core.beer.application;
 
-import com.beerair.core.beer.dto.query.BeerListItemDto;
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import com.beerair.core.beer.dto.response.BeerResponse;
 import com.beerair.core.beer.dto.response.BeerSearchResponse;
@@ -39,8 +38,8 @@ public class BeerService {
     }
 
     public BeerSearchResponse search(String memberId, BeerSearchRequest request) {
-        Long total = beerRepository.findCount();
-        List<BeerListItemDto> searched = beerSearchRepository.search(
+        var total = beerRepository.findCount();
+        var searched = beerSearchRepository.search(
                 memberId,
                 request.toBeerSearchCondition(),
                 request.getOrder(),
@@ -51,6 +50,7 @@ public class BeerService {
         var contents = searched.stream()
                 .map(BeerResponse::ofListItem)
                 .collect(Collectors.toList());
+
         return BeerSearchResponse.from(contents, total);
     }
 

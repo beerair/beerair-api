@@ -1,7 +1,6 @@
 package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.application.AuthTokenService;
-import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.dto.response.AuthMeResponse;
 import com.beerair.core.common.dto.ResponseDto;
@@ -37,9 +36,10 @@ public class AuthController {
         var token = authTokenAuthenticationFilter
                 .getToken(httpServletRequest)
                 .orElseThrow(NoAuthException::new);
-        AuthTokenAuthentication authentication = authTokenCrypto.decrypt(token);
+        var authentication = authTokenCrypto.decrypt(token);
 
         var response = AuthMeResponse.from(authentication);
+
         return ResponseDto.ok(response);
     }
 

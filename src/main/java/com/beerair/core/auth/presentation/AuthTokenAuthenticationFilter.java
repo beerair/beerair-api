@@ -36,9 +36,10 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
             if (optionalToken.isEmpty()) {
                 return;
             }
-            String token = optionalToken.get();
+            
+            var token = optionalToken.get();
             var authentication = convert(token);
-            String memberId = authentication.getLoggedInUser().getId();
+            var memberId = authentication.getLoggedInUser().getId();
 
             verify(memberId, token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -49,7 +50,7 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     public Optional<String> getToken(HttpServletRequest request) {
-        String token = request.getHeader("authorization");
+        var token = request.getHeader("authorization");
         if (Objects.isNull(token) || !token.startsWith(TOKEN_TYPE)) {
             return Optional.empty();
         }
@@ -66,7 +67,7 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private AuthTokenAuthentication convert(String token) {
-        AuthTokenAuthentication authentication = accessTokenCrypto.decrypt(token);
+        var authentication = accessTokenCrypto.decrypt(token);
         authentication.setAuthenticated(true);
         return authentication;
     }

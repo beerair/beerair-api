@@ -19,7 +19,7 @@ public class AuthTokenFailureHandler implements AuthenticationFailureHandler {
             "<script>" +
                     "alert('%s');" +
                     "location.replace('%s');" +
-            "</script>";
+                    "</script>";
 
     private final String redirectUrl;
 
@@ -28,7 +28,11 @@ public class AuthTokenFailureHandler implements AuthenticationFailureHandler {
     }
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
+    public void onAuthenticationFailure(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException exception
+    ) throws IOException {
         log.error("[ERROR] AuthenticationException -> {}", exception.getMessage());
         printWaring(response, exception.getMessage());
     }

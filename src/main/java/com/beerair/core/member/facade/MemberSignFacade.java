@@ -21,8 +21,8 @@ public class MemberSignFacade {
     private final RedisTemplate<String, Object> redisTemplate;
 
     public void sign(LoggedInMember user, MemberSignRequest request) {
-        Member member = memberService.get(user);
-        LevelResponse level = levelService.getIdByExp(0);
+        var member = memberService.get(user);
+        var level = levelService.getIdByExp(0);
         var levelId = level.getId();
 
         member.sign(request.getNickname(), levelId);

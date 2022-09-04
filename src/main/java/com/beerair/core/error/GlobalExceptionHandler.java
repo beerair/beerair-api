@@ -14,34 +14,34 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorDto> handleBusinessException(final BusinessException e) {
-        var errorMessage = e.getErrorMessage();
+        var message = e.getErrorMessage();
 
-        log.error("[ERROR] BusinessException -> {}", errorMessage.getDescription());
+        log.error("[ERROR] BusinessException -> {}", message.getDescription());
 
         return ResponseEntity
-                .status(errorMessage.getStatus())
-                .body(new ErrorDto(errorMessage));
+                .status(message.getStatus())
+                .body(new ErrorDto(message));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ErrorDto> handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
-        var errorMessage = ErrorMessage.CONFLICT_ERROR;
+        var message = ErrorMessage.CONFLICT_ERROR;
 
         log.error("[ERROR] MethodArgumentNotValidException -> {}", e.getBindingResult());
 
         return ResponseEntity
-                .status(errorMessage.getStatus())
-                .body(new ErrorDto(errorMessage, e.getMessage()));
+                .status(message.getStatus())
+                .body(new ErrorDto(message, e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorDto> handleException(final Exception e) {
-        var errorMessage = ErrorMessage.CONFLICT_ERROR;
+        var message = ErrorMessage.CONFLICT_ERROR;
 
         log.error("[ERROR] Exception -> {}", e.getCause().toString());
 
         return ResponseEntity
-                .status(errorMessage.getStatus())
-                .body(new ErrorDto(errorMessage, e.getMessage()));
+                .status(message.getStatus())
+                .body(new ErrorDto(message, e.getMessage()));
     }
 }

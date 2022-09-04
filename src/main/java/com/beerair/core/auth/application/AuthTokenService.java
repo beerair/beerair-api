@@ -1,6 +1,5 @@
 package com.beerair.core.auth.application;
 
-import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.RefreshToken;
 import com.beerair.core.auth.domain.TokenPurpose;
@@ -40,7 +39,7 @@ public class AuthTokenService {
     public TokenRefreshResponse issueByRefreshToken(String token) {
         get(token).use();
 
-        AuthTokenAuthentication authentication = refreshTokenCrypto.decrypt(token);
+        var authentication = refreshTokenCrypto.decrypt(token);
         var newAccess = accessTokenCrypto.encrypt(authentication);
         var newRefresh = refreshTokenCrypto.encrypt(authentication);
         return new TokenRefreshResponse(

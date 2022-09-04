@@ -42,13 +42,13 @@ public class AuthMockController {
     @ApiOperation(value = "모의 유저 생성")
     @PostMapping("access-token")
     public ResponseEntity<?> issueMockAccessToken() {
-        Member member = member();
+        var member = member();
         var authentication = AuthTokenAuthentication.from(
                 loggedInUser(member),
                 authorities(member),
                 new Date(new Date().getTime() + 1000000000)
         );
-        String token = authTokenCrypto.encrypt(authentication);
+        var token = authTokenCrypto.encrypt(authentication);
         redisTemplate.opsForValue().set("authToken:" + member.getId(), token);
         return ResponseDto.ok(TOKEN_TYPE + " " + token);
     }
@@ -57,35 +57,37 @@ public class AuthMockController {
     @ApiOperation(value = "모의 회원가입된 유저 생성")
     @PostMapping("access-token/registered")
     public ResponseEntity<?> issueMockAccessToken2() {
-        Member member = registeredMember();
+        var member = registeredMember();
         var authentication = AuthTokenAuthentication.from(
                 loggedInUser(member),
                 authorities(member),
                 new Date(new Date().getTime() + 1000000000)
         );
-        String token = authTokenCrypto.encrypt(authentication);
+        var token = authTokenCrypto.encrypt(authentication);
         redisTemplate.opsForValue().set("authToken:" + member.getId(), token);
         return ResponseDto.ok(TOKEN_TYPE + " " + token);
     }
 
     private Member member() {
-        Member member = Member.socialBuilder()
+        var member = Member.socialBuilder()
                 .social(new MemberSocial(new Date().getTime() + "", SocialType.KAKAO))
                 .phoneNumber("01012345678")
                 .email("useremail@kakao.com")
                 .profileUrl("https://i.picsum.photos/id/794/250/250.jpg?hmac=QUci8yt4pzVImB4UNMnMALBOHgHxmNN8DvCZG4s98i0")
                 .build();
+
         return memberRepository.save(member);
     }
 
     private Member registeredMember() {
-        Member member = Member.socialBuilder()
+        var member = Member.socialBuilder()
                 .social(new MemberSocial(new Date().getTime() + "", SocialType.KAKAO))
                 .phoneNumber("01012345678")
                 .email("useremail@kakao.com")
                 .profileUrl("https://i.picsum.photos/id/794/250/250.jpg?hmac=QUci8yt4pzVImB4UNMnMALBOHgHxmNN8DvCZG4s98i0")
                 .build();
         member.sign("12345", 1);
+
         return memberRepository.save(member);
     }
 

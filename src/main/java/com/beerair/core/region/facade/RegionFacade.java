@@ -24,7 +24,6 @@ public class RegionFacade {
     }
 
     public CountryResponses getCountriesByContinentId(Long continentId) {
-
         validateContinent(continentId);
 
         return countryService.getByContinentId(continentId);

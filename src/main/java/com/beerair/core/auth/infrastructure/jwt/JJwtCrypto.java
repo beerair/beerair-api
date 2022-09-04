@@ -48,7 +48,8 @@ public class JJwtCrypto implements AuthTokenCrypto {
 
     @Override
     public String encrypt(AuthTokenAuthentication authentication) {
-        Date now = new Date();
+        var now = new Date();
+
         return Jwts.builder()
                 .setSubject(authentication.getLoggedInUser().getId())
                 .compressWith(CompressionCodecs.GZIP)
@@ -64,14 +65,14 @@ public class JJwtCrypto implements AuthTokenCrypto {
     @Override
     public AuthTokenAuthentication decrypt(String token) {
         try {
-            Claims body = jwtParser
+            var body = jwtParser
                     .parseClaimsJws(token)
                     .getBody();
             if (!isNotMatchPurpose(tokenPurpose)) {
                 throw new InvalidAuthTokenException();
             }
             return convert(body);
-        } catch(ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
             throw new ExpiredAuthTokenException();
         } catch (JwtException e) {
             throw new InvalidAuthTokenException();
@@ -83,14 +84,16 @@ public class JJwtCrypto implements AuthTokenCrypto {
     }
 
     public AuthTokenAuthentication convert(Claims body) {
-        LoggedInMember loggedInUser = MapperUtil.readValue(
+        var loggedInUser = MapperUtil.readValue(
                 body.get(ClaimKey.USER, String.class),
                 TypeRef.USER
         );
-        Set<CustomGrantedAuthority> authorities = MapperUtil.readValue(
+
+        var authorities = MapperUtil.readValue(
                 body.get(ClaimKey.AUTHORITIES, String.class),
                 TypeRef.AUTHORITIES
         );
+
         return AuthTokenAuthentication.from(loggedInUser, authorities, body.getExpiration());
     }
 
@@ -104,7 +107,9 @@ public class JJwtCrypto implements AuthTokenCrypto {
 
     @UtilityClass
     private static class TypeRef {
-        private static final TypeReference<Set<CustomGrantedAuthority>> AUTHORITIES = new TypeReference<>() {};
-        private static final TypeReference<LoggedInMember> USER = new TypeReference<>() {};
+        private static final TypeReference<Set<CustomGrantedAuthority>> AUTHORITIES = new TypeReference<>() {
+        };
+        private static final TypeReference<LoggedInMember> USER = new TypeReference<>() {
+        };
     }
 }
