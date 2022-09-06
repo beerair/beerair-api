@@ -24,6 +24,10 @@ public class ReviewStepClient extends StepClient {
         exchange(HttpMethod.GET, "/me", new HttpEntity<>(authed()));
     }
 
+    public void getLatestByMe() {
+        exchange(HttpMethod.GET, "/me/latest", new HttpEntity<>(authed()));
+    }
+
     public void get(String beerId) {
         exchange(HttpMethod.GET, "/" + beerId, new HttpEntity<>(authed()));
     }

@@ -29,6 +29,12 @@ public class ReviewQueryService {
                 .collect(Collectors.toList());
     }
 
+    public ReviewResponse getLatestByMe(String memberId) {
+        return reviewQueryRepository.findLatestByMemberId(memberId)
+                .map(ReviewResponse::from)
+                .orElseThrow(ReviewNotFoundException::new);
+    }
+
     public List<ReviewResponse> getAllByBeer(String beerId) {
         return reviewQueryRepository.findAllByBeerId(beerId)
                 .stream()

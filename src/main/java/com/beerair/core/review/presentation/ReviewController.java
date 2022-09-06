@@ -67,6 +67,15 @@ public class ReviewController {
         return ResponseDto.ok(responses);
     }
 
+    @ApiOperation(value = "최근 리뷰 티켓 조회")
+    @GetMapping("me/latest")
+    public ResponseEntity<?> getLatestByMe(
+            @AuthMember LoggedInMember member
+    ) {
+        var responses = queryService.getLatestByMe(member.getId());
+        return ResponseDto.ok(responses);
+    }
+
     @ApiOperation(value = "특정 맥주에 대한 리뷰 조회")
     @GetMapping
     public ResponseEntity<?> getAllByBeer(
