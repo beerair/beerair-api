@@ -48,7 +48,7 @@ public class BeerController {
         return ResponseDto.ok(response);
     }
 
-    @ApiOperation(value = "맥주 추천 목록 조회 api", notes = "MOCK UP API")
+    @ApiOperation(value = "맥주 추천 목록 조회 api")
     @GetMapping("/recommends")
     public ResponseEntity<?> getRecommends(@AuthMember LoggedInMember member) {
         var response = beerService.getRecommends(member.getId());

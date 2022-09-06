@@ -3,7 +3,6 @@ package com.beerair.core.acceptance.review;
 import com.beerair.core.error.exception.review.ReviewNotFoundException;
 import com.beerair.core.review.domain.Review;
 import com.beerair.core.review.domain.vo.FeelStatus;
-import com.beerair.core.review.dto.query.ReviewDto;
 import com.beerair.core.review.dto.request.ReviewRequest;
 import com.beerair.core.review.infrastructure.ReviewRepository;
 import io.cucumber.java.en.When;
@@ -50,6 +49,11 @@ public class ReviewStepWhenDefs {
     @When("{string} 리뷰 목록 조회를 요청하면")
     public void 특정_맥주_리뷰_목록_요청(String beerId) {
         reviewStepClient.getAllByBeer(beerId);
+    }
+
+    @When("최근 리뷰 조회를 요청하면")
+    public void 최근_맥주_리뷰_조회_요청() {
+        reviewStepClient.getLatestByMe();
     }
 
     private String getReviewId(String beerId) {
