@@ -26,7 +26,7 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     @Query("SELECT new com.beerair.core.member.dto.response.MemberResponse(m, l) " +
             "FROM Member m " +
-            "INNER JOIN Level l ON l.id = m.leverId " +
+            "INNER JOIN Level l ON l.id = m.levelId " +
             "WHERE m.id = :id " +
             "AND m.deletedAt IS NULL")
     Optional<MemberResponse> findByIdWithLevel(String id);

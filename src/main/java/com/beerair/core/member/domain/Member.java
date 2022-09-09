@@ -23,7 +23,6 @@ import javax.persistence.UniqueConstraint;
 import java.util.Objects;
 
 import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
-import static com.beerair.core.error.dto.ErrorMessage.MEMBER_UNABLE_SIGN_BY_SIGNED;
 
 @Table(
         uniqueConstraints = {
@@ -73,7 +72,7 @@ public class Member extends BaseEntity {
     private String nickname;
 
     @Comment("레벨 Id")
-    private Integer leverId;
+    private Integer levelId;
 
     @Comment("경험치")
     private Integer exp;
@@ -101,7 +100,7 @@ public class Member extends BaseEntity {
             throw new MemberUnableSignException();
         }
         this.role = Role.MEMBER;
-        this.leverId = levelId;
+        this.levelId = levelId;
         this.exp = 0;
         changeNickname(nickname);
     }
