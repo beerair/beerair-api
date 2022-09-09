@@ -13,7 +13,6 @@ public class MemberValidationService {
     private final MemberRepository memberRepository;
 
     public void verifyNickname(String nickname) {
-        System.out.println(memberRepository.existsByNickname(nickname));
         if (memberRepository.existsByNickname(nickname)) {
             throw new MemberNicknameAlreadyExistsException();
         }
