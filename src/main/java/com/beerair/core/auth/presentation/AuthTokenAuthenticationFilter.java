@@ -12,9 +12,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -23,7 +25,6 @@ import java.util.Optional;
 public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     public static final String TOKEN_TYPE = "Bearer";
     private final AuthTokenCrypto accessTokenCrypto;
-    private final RedisTemplate<String, Object> redisTemplate;
     @Setter
     private SetAuthenticationStrategy setAuthenticationStrategy = new DefaultSetAuthenticationStrategy();
 
@@ -34,38 +35,28 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
         try {
-            Optional<String> optionalToken = getToken(request);
-            if (optionalToken.isEmpty()) {
-                return;
-            }
-
-            var token = optionalToken.get();
-            var authentication = convert(token);
-            var memberId = authentication.getLoggedInUser().getId();
-
-            verify(memberId, token);
-            setAuthenticationStrategy.set(authentication);
+            getAccessToken(request)
+                    .ifPresent(token -> {
+                        var authentication = convert(token);
+                        setAuthenticationStrategy.set(authentication);
+                    });
         } catch (BusinessException ignored) {
         } finally {
             filterChain.doFilter(request, response);
         }
     }
 
-    private Optional<String> getToken(HttpServletRequest request) {
-        var token = request.getHeader("authorization");
-        if (Objects.isNull(token) || !token.startsWith(TOKEN_TYPE)) {
-            return Optional.empty();
-        }
-        return Optional.of(token)
-                .map(t -> t.split(" ")[1]);
-    }
-
-    private void verify(String memberId, String token) {
-        Object raw = redisTemplate.opsForValue().get("authToken:" + memberId);
-        var saved = Optional.ofNullable(raw).map(t -> (String) t);
-        if (saved.isEmpty() || !token.equals(saved.get())) {
-            throw new TokenNotFoundException();
-        }
+    private Optional<String> getAccessToken(HttpServletRequest request) {
+        return Arrays.stream(request.getCookies())
+                .filter(eachCookie -> eachCookie.getName().equals("authorization"))
+                .findFirst()
+                .map(Cookie::getValue)
+                .map(token -> {
+                    if (token.startsWith(TOKEN_TYPE)) {
+                        return token.split(" ")[1];
+                    }
+                    return null;
+                });
     }
 
     private AuthTokenAuthentication convert(String token) {

@@ -17,11 +17,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
+import static com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter.TOKEN_TYPE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -35,8 +37,6 @@ class AuthTokenAuthenticationFilterTest {
     private AuthTokenAuthenticationFilter authTokenAuthenticationFilter;
     @Mock
     private AuthTokenCrypto accessTokenCrypto;
-    @Mock
-    private RedisTemplate<String, Object> redisTemplate;
     @Mock
     private SetAuthenticationStrategy setAuthenticationStrategy;
 
@@ -58,7 +58,7 @@ class AuthTokenAuthenticationFilterTest {
     @DisplayName("authorization cookie를 가져와 엑세스 토큰으로 사용한다.")
     @Test
     void doFilterInternalFromAuthorizationCookie() throws ServletException, IOException {
-        RedisTestUtils.setDoNothing(redisTemplate);
+        stubbingByGetCookies();
         stubbingCrypto();
 
         authTokenAuthenticationFilter.doFilter(httpServletRequest, httpServletResponse, filterChain);
@@ -67,12 +67,15 @@ class AuthTokenAuthenticationFilterTest {
                 .set(any());
     }
 
-    private void stubbingCrypto() {
-        var sample = new OAuth2Member(
-                "", "", Collections.emptySet(), Collections.emptyMap()
-        );
-        when(authentication.getPrincipal())
+    private void stubbingByGetCookies() {
+        var sample = new Cookie[] {
+                new Cookie("authorization", TOKEN_TYPE + " 1234")
+        };
+        when(httpServletRequest.getCookies())
                 .thenReturn(sample);
+    }
+
+    private void stubbingCrypto() {
         when(accessTokenCrypto.decrypt(anyString()))
                 .thenReturn(authentication);
     }
