@@ -26,22 +26,7 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequestMapping(value = "/api/v1/auths", produces = APPLICATION_JSON_UTF_8)
 @RestController
 public class AuthController {
-    private final AuthTokenAuthenticationFilter authTokenAuthenticationFilter;
-    private final AuthTokenCrypto authTokenCrypto;
     private final AuthTokenService refreshTokenService;
-
-    @ApiOperation(value = "Access Token 정보 조회")
-    @GetMapping("me")
-    public ResponseEntity<?> authMe(HttpServletRequest httpServletRequest, @AuthMember LoggedInMember user) {
-        var token = authTokenAuthenticationFilter
-                .getToken(httpServletRequest)
-                .orElseThrow(NoAuthException::new);
-        var authentication = authTokenCrypto.decrypt(token);
-
-        var response = AuthMeResponse.from(authentication);
-
-        return ResponseDto.ok(response);
-    }
 
     @ApiOperation(value = "Refresh Token 사용한 Access Token 발급 요청 api")
     @PostMapping("{refreshToken}/access-token")
