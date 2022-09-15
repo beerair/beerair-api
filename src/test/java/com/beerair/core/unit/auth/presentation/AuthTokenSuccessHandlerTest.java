@@ -6,6 +6,7 @@ import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
 import com.beerair.core.auth.presentation.AuthTokenSuccessHandler;
+import com.beerair.core.fixture.RedisTestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,7 +72,7 @@ class AuthTokenSuccessHandlerTest {
     void handle() throws ServletException, IOException {
         stubbingByIssueToken();
         stubbingAuthentication();
-        stubbingRedis();
+        RedisTestUtils.setDoNothing(redisTemplate);
 
         authTokenSuccessHandler.onAuthenticationSuccess(
                 httpServletRequest, httpServletResponse, authentication
@@ -96,14 +97,5 @@ class AuthTokenSuccessHandlerTest {
         );
         when(authentication.getPrincipal())
                 .thenReturn(sample);
-    }
-
-    private void stubbingRedis() {
-        ValueOperations<String, Object> operations = mock(ValueOperations.class);
-        doNothing().when(operations)
-                .set(anyString(), any());
-
-        when(redisTemplate.opsForValue())
-                .thenReturn(operations);
     }
 }

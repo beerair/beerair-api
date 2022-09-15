@@ -5,8 +5,8 @@ import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.error.exception.BusinessException;
 import com.beerair.core.error.exception.auth.TokenNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,6 +24,8 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     public static final String TOKEN_TYPE = "Bearer";
     private final AuthTokenCrypto accessTokenCrypto;
     private final RedisTemplate<String, Object> redisTemplate;
+    @Setter
+    private SetAuthenticationStrategy setAuthenticationStrategy = new DefaultSetAuthenticationStrategy();
 
     @Override
     protected void doFilterInternal(
@@ -36,20 +38,20 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
             if (optionalToken.isEmpty()) {
                 return;
             }
-            
+
             var token = optionalToken.get();
             var authentication = convert(token);
             var memberId = authentication.getLoggedInUser().getId();
 
             verify(memberId, token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            setAuthenticationStrategy.set(authentication);
         } catch (BusinessException ignored) {
         } finally {
             filterChain.doFilter(request, response);
         }
     }
 
-    public Optional<String> getToken(HttpServletRequest request) {
+    private Optional<String> getToken(HttpServletRequest request) {
         var token = request.getHeader("authorization");
         if (Objects.isNull(token) || !token.startsWith(TOKEN_TYPE)) {
             return Optional.empty();
