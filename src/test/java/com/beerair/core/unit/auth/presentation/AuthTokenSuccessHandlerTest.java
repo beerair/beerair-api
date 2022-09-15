@@ -1,6 +1,7 @@
 package com.beerair.core.unit.auth.presentation;
 
 import com.beerair.core.auth.application.AuthTokenService;
+import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -83,9 +85,9 @@ class AuthTokenSuccessHandlerTest {
 
     private void stubbingByIssueToken() {
         when(accessTokenCrypto.encrypt(any()))
-                .thenReturn("access");
+                .thenReturn(new AuthToken("access", new Date()));
         when(refreshTokenCrypto.encrypt(any()))
-                .thenReturn("refresh");
+                .thenReturn(new AuthToken("refresh", new Date()));
     }
 
     private void stubbingAuthentication() {

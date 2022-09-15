@@ -36,12 +36,13 @@ public class AuthTokenService {
         refreshTokenRepository.save(new RefreshToken(memberId, token));
     }
 
+    @Deprecated
     public TokenRefreshResponse issueByRefreshToken(String token) {
         get(token).use();
 
         var authentication = refreshTokenCrypto.decrypt(token);
-        var newAccess = accessTokenCrypto.encrypt(authentication);
-        var newRefresh = refreshTokenCrypto.encrypt(authentication);
+        var newAccess = accessTokenCrypto.encrypt(authentication).getToken();
+        var newRefresh = refreshTokenCrypto.encrypt(authentication).getToken();
         return new TokenRefreshResponse(
                 newAccess, newRefresh
         );

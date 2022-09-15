@@ -1,6 +1,7 @@
 package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.application.AuthTokenService;
+import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.error.exception.auth.BadLoginRequestException;
@@ -15,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final String successRedirectUri;
@@ -64,21 +66,28 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         response.sendRedirect(successRedirectUri);
     }
 
-    private String accessToken(AuthTokenAuthentication authTokenAuthentication) {
+    private AuthToken accessToken(AuthTokenAuthentication authTokenAuthentication) {
         return accessTokenCrypto.encrypt(authTokenAuthentication);
     }
 
-    private String refreshToken(AuthTokenAuthentication authTokenAuthentication) {
+    private AuthToken refreshToken(AuthTokenAuthentication authTokenAuthentication) {
         return refreshTokenCrypto.encrypt(authTokenAuthentication);
     }
 
-    private void persistToken(String memberId, String access, String refresh) {
+    private void persistToken(String memberId, AuthToken access, AuthToken refresh) {
         redisTemplate.opsForValue().set("authToken:" + memberId, access);
-        refreshTokenService.issue(memberId, refresh);
+        refreshTokenService.issue(memberId, refresh.getToken());
     }
 
-    private void setCookies(HttpServletResponse response, String access, String refresh) {
-        response.addCookie(new Cookie("accessToken", access));
-        response.addCookie(new Cookie("refreshToken", refresh));
+    private void setCookies(HttpServletResponse response, AuthToken access, AuthToken refresh) {
+        response.addCookie(toCookie("authorization", access));
+        response.addCookie(toCookie("refresh", refresh));
+    }
+
+    private Cookie toCookie(String cookieName, AuthToken authToken) {
+        var cookie = new Cookie(cookieName, authToken.getToken());
+        var maxAge = (int)(authToken.getExpired().getTime() - new Date().getTime()) / 1000;
+        cookie.setMaxAge(maxAge);
+        return cookie;
     }
 }

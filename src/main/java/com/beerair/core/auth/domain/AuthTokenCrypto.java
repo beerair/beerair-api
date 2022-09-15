@@ -1,7 +1,7 @@
 package com.beerair.core.auth.domain;
 
 public interface AuthTokenCrypto {
-    String encrypt(AuthTokenAuthentication authentication);
+    AuthToken encrypt(AuthTokenAuthentication authentication);
 
     AuthTokenAuthentication decrypt(String token);
 }

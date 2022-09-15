@@ -1,5 +1,6 @@
 package com.beerair.core.fixture.fake;
 
+import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
@@ -38,8 +39,11 @@ public class FakeAuthTokenCrypto implements AuthTokenCrypto {
     }
 
     @Override
-    public String encrypt(AuthTokenAuthentication authentication) {
-        return findTokenByMemberId(authentication.getLoggedInUser().getId());
+    public AuthToken encrypt(AuthTokenAuthentication authentication) {
+        return new AuthToken(
+                findTokenByMemberId(authentication.getLoggedInUser().getId()),
+                new Date(new Date().getTime() + 1000000)
+        );
     }
 
     @Override

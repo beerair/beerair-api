@@ -22,13 +22,6 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 public class AuthController {
     private final AuthTokenService refreshTokenService;
 
-    @ApiOperation(value = "Refresh Token 사용한 Access Token 발급 요청 api")
-    @PostMapping("{refreshToken}/access-token")
-    public ResponseEntity<?> issueAccessToken(@PathVariable("refreshToken") String refreshToken) {
-        var response = refreshTokenService.issueByRefreshToken(refreshToken);
-        return ResponseDto.ok(response);
-    }
-
     @ApiOperation(value = "로그아웃")
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@AuthMember LoggedInMember member) {
