@@ -3,6 +3,7 @@ package com.beerair.core.auth.infrastructure.oauth2.dto;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.dto.LoggedInMember;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -17,7 +18,7 @@ public class OAuth2Member extends LoggedInMember implements OAuth2User {
     private final Map<String, Object> attributes;
     private final Set<GrantedAuthority> authorities;
 
-    private OAuth2Member(String id, String email, Set<GrantedAuthority> authorities, Map<String, Object> attributes) {
+    public OAuth2Member(String id, String email, Set<GrantedAuthority> authorities, Map<String, Object> attributes) {
         super(id, email);
         this.attributes = attributes;
         this.authorities = authorities;
