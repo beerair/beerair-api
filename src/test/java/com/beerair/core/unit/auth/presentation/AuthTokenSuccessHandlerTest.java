@@ -4,8 +4,8 @@ import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
-import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
-import com.beerair.core.auth.presentation.AuthTokenSuccessHandler;
+import com.beerair.core.auth.presentation.loginhandler.AuthTokenFailureHandler;
+import com.beerair.core.auth.presentation.loginhandler.AuthTokenSuccessHandler;
 import com.beerair.core.fixture.RedisTestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,22 +14,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,13 +45,13 @@ class AuthTokenSuccessHandlerTest {
 
     @Mock
     private HttpServletRequest httpServletRequest;
-    @Mock
-    private HttpServletResponse httpServletResponse;
+    private MockHttpServletResponse httpServletResponse;
     @Mock
     private OAuth2AuthenticationToken authentication;
 
     @BeforeEach
     void setUp() {
+        httpServletResponse = new MockHttpServletResponse();
         authTokenSuccessHandler = AuthTokenSuccessHandler.builder()
                 .successRedirectUri(REDIRECT_EXPERT)
                 .redisTemplate(redisTemplate)
@@ -67,9 +62,36 @@ class AuthTokenSuccessHandlerTest {
                 .build();
     }
 
-    @DisplayName("쿠키에 토큰값을 담아주고, 리다이렉트 한다.")
+    @DisplayName("로그인 성공시 리다이렉트 한다.")
     @Test
     void handle() throws ServletException, IOException {
+        onAuthenticationSuccess();
+
+        assertThat(httpServletResponse.getRedirectedUrl())
+                .isEqualTo(REDIRECT_EXPERT);
+    }
+
+    @DisplayName("엑세스 토큰 쿠키 설정 값 확인")
+    @Test
+    void accessTokenCookieTest() throws ServletException, IOException {
+        onAuthenticationSuccess();
+
+        var cookie = httpServletResponse.getCookie("accessToken");
+        assertThat(cookie.isHttpOnly())
+                .isFalse();
+    }
+
+    @DisplayName("리프레시 토큰 쿠키 검증")
+    @Test
+    void refreshTokenCookieTest() throws ServletException, IOException {
+        onAuthenticationSuccess();
+
+        var cookie = httpServletResponse.getCookie("refreshToken");
+        assertThat(cookie.isHttpOnly())
+                .isTrue();
+    }
+
+    private void onAuthenticationSuccess() throws ServletException, IOException {
         stubbingByIssueToken();
         stubbingAuthentication();
         RedisTestUtils.setDoNothing(redisTemplate);
@@ -77,11 +99,6 @@ class AuthTokenSuccessHandlerTest {
         authTokenSuccessHandler.onAuthenticationSuccess(
                 httpServletRequest, httpServletResponse, authentication
         );
-
-        verify(httpServletResponse, times(1))
-                .sendRedirect(REDIRECT_EXPERT);
-        verify(httpServletResponse, times(2))
-                .addCookie(any());
     }
 
     private void stubbingByIssueToken() {

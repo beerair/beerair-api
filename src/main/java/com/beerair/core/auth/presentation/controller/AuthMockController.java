@@ -1,4 +1,4 @@
-package com.beerair.core.auth.presentation;
+package com.beerair.core.auth.presentation.controller;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import static com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter.TOKEN_TYPE;
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Profile("local")
@@ -50,7 +49,7 @@ public class AuthMockController {
         );
         var token = authTokenCrypto.encrypt(authentication);
         redisTemplate.opsForValue().set("authToken:" + member.getId(), token);
-        return ResponseDto.ok(TOKEN_TYPE + " " + token);
+        return ResponseDto.ok(token);
     }
 
     @Transactional
@@ -65,7 +64,7 @@ public class AuthMockController {
         );
         var token = authTokenCrypto.encrypt(authentication);
         redisTemplate.opsForValue().set("authToken:" + member.getId(), token);
-        return ResponseDto.ok(TOKEN_TYPE + " " + token);
+        return ResponseDto.ok(token);
     }
 
     private Member member() {

@@ -1,6 +1,6 @@
 package com.beerair.core.config.security;
 
-import com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter;
+import com.beerair.core.auth.presentation.filter.AuthTokenAuthenticationFilter;
 import com.beerair.core.member.domain.vo.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -63,7 +63,7 @@ public class SecurityConfig {
         final var ONLY_MEMBER = createAccess(Role.MEMBER.getAuthorities());
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/members").access(ONLY_USER)
-                .antMatchers("/api/v1/members").access(ONLY_MEMBER)
+                .antMatchers("/api/v1/members/*").access(ONLY_MEMBER)
                 .anyRequest().permitAll();
     }
 

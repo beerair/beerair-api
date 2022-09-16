@@ -46,6 +46,7 @@ public class AuthStepGivenDefs {
         FakeAuthTokenCrypto.register(access, member);
         FakeAuthTokenCrypto.register(refresh, member);
 
+        // TODO :: Redis에 refresh token 저장하도록 변경하기
         redisTemplate.opsForValue().set("authToken:" + member.getId(), access);
         refreshTokenRepository.save(new RefreshToken(member.getId(), refresh));
     }

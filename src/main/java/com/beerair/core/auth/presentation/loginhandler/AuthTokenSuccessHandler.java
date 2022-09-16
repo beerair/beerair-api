@@ -1,4 +1,4 @@
-package com.beerair.core.auth.presentation;
+package com.beerair.core.auth.presentation.loginhandler;
 
 import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthToken;
@@ -80,8 +80,13 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     }
 
     private void setCookies(HttpServletResponse response, AuthToken access, AuthToken refresh) {
-        response.addCookie(toCookie("authorization", access));
-        response.addCookie(toCookie("refresh", refresh));
+        // TODO :: 운영 환경에서는 보안 설정 추가 해야함
+        var accessTokenCookie = toCookie("accessToken", access);
+        response.addCookie(accessTokenCookie);
+
+        var refreshTokenCookie = toCookie("refreshToken", refresh);
+        refreshTokenCookie.setHttpOnly(true);
+        response.addCookie(refreshTokenCookie);
     }
 
     private Cookie toCookie(String cookieName, AuthToken authToken) {

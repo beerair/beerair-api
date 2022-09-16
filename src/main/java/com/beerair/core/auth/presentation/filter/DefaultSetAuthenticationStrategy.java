@@ -1,4 +1,4 @@
-package com.beerair.core.auth.presentation;
+package com.beerair.core.auth.presentation.filter;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

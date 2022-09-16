@@ -32,6 +32,7 @@ class JJwtEncoderForOAuth2Test {
     @BeforeEach
     void setUp() {
         var crypto = JJwtCrypto.builder()
+                .tokenPurpose("test")
                 .signatureAlgorithm(ALGORITHM)
                 .signatureKey(KEY)
                 .build();

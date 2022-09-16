@@ -1,30 +1,25 @@
-package com.beerair.core.auth.presentation;
+package com.beerair.core.auth.presentation.filter;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
+import com.beerair.core.auth.presentation.tokenreader.AuthTokenReader;
 import com.beerair.core.error.exception.BusinessException;
-import com.beerair.core.error.exception.auth.TokenNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
 public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
-    public static final String TOKEN_TYPE = "Bearer";
-    private final AuthTokenCrypto accessTokenCrypto;
+    private final AuthTokenCrypto authTokenCrypto;
+    private final AuthTokenReader authTokenReader;
     @Setter
     private SetAuthenticationStrategy setAuthenticationStrategy = new DefaultSetAuthenticationStrategy();
 
@@ -35,7 +30,7 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
         try {
-            getAccessToken(request)
+            authTokenReader.read(request)
                     .ifPresent(token -> {
                         var authentication = convert(token);
                         setAuthenticationStrategy.set(authentication);
@@ -46,21 +41,8 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 
-    private Optional<String> getAccessToken(HttpServletRequest request) {
-        return Arrays.stream(request.getCookies())
-                .filter(eachCookie -> eachCookie.getName().equals("authorization"))
-                .findFirst()
-                .map(Cookie::getValue)
-                .map(token -> {
-                    if (token.startsWith(TOKEN_TYPE)) {
-                        return token.split(" ")[1];
-                    }
-                    return null;
-                });
-    }
-
     private AuthTokenAuthentication convert(String token) {
-        var authentication = accessTokenCrypto.decrypt(token);
+        var authentication = authTokenCrypto.decrypt(token);
         authentication.setAuthenticated(true);
         return authentication;
     }

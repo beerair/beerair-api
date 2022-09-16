@@ -1,4 +1,4 @@
-package com.beerair.core.auth.presentation;
+package com.beerair.core.auth.presentation.controller;
 
 import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.common.dto.ResponseDto;
