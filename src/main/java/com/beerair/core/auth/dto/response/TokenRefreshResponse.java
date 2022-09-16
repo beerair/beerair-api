@@ -1,6 +1,6 @@
 package com.beerair.core.auth.dto.response;
 
-import lombok.AccessLevel;
+import com.beerair.core.auth.domain.AuthToken;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class TokenRefreshResponse {
-    private String accessToken;
-    private String refreshToken;
+    private AuthToken accessToken;
+    private AuthToken refreshToken;
 }

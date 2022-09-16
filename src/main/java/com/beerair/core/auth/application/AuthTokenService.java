@@ -17,13 +17,13 @@ import java.util.concurrent.TimeUnit;
 
 @Transactional
 @Service
-public class RefreshTokenService {
+public class AuthTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final AuthTokenCrypto accessTokenCrypto;
     private final AuthTokenCrypto refreshTokenCrypto;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public RefreshTokenService(
+    public AuthTokenService(
             RefreshTokenRepository refreshTokenRepository,
             RedisTemplate<String, Object> redisTemplate,
             @Qualifier(TokenPurpose.ACCESS) AuthTokenCrypto accessTokenCrypto,
@@ -35,19 +35,18 @@ public class RefreshTokenService {
         this.refreshTokenCrypto = refreshTokenCrypto;
     }
 
-    @Deprecated
     public TokenRefreshResponse issueByRefreshToken(String token) {
         get(token).use();
 
         var authentication = refreshTokenCrypto.decrypt(token);
-        var newAccess = accessTokenCrypto.encrypt(authentication).getToken();
-        var newRefresh = refreshTokenCrypto.encrypt(authentication).getToken();
+        var newAccess = accessTokenCrypto.encrypt(authentication);
+        var newRefresh = refreshTokenCrypto.encrypt(authentication);
         return new TokenRefreshResponse(
                 newAccess, newRefresh
         );
     }
 
-    public void issue(String memberId, AuthToken authToken) {
+    public void issueRefreshToken(String memberId, AuthToken authToken) {
         redisTemplate.opsForValue().set(
                 "refreshToken:" + memberId,
                 authToken.getToken(),
@@ -56,7 +55,7 @@ public class RefreshTokenService {
         );
     }
 
-    public void deleteByMember(String memberId) {
+    public void deleteRefreshTokenByMember(String memberId) {
         redisTemplate.delete("refreshToken:" + memberId);
     }
 

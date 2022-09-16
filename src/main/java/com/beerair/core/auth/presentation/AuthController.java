@@ -1,6 +1,6 @@
 package com.beerair.core.auth.presentation;
 
-import com.beerair.core.auth.application.RefreshTokenService;
+import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
@@ -22,12 +22,12 @@ import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 @RequestMapping(value = "/api/v1", produces = APPLICATION_JSON_UTF_8)
 @RestController
 public class AuthController {
-    private final RefreshTokenService refreshTokenService;
+    private final AuthTokenService refreshTokenService;
 
     @ApiOperation(value = "로그아웃")
     @PostMapping("logout")
     public ResponseEntity<?> logout(HttpServletResponse response, @AuthMember LoggedInMember member) {
-        refreshTokenService.deleteByMember(member.getId());
+        refreshTokenService.deleteRefreshTokenByMember(member.getId());
         deleteCookie("accessToken", response);
         deleteCookie("refreshToken", response);
         return ResponseDto.noContent();

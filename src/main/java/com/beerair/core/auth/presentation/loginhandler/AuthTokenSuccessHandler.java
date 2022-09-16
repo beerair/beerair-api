@@ -1,12 +1,11 @@
 package com.beerair.core.auth.presentation.loginhandler;
 
-import com.beerair.core.auth.application.RefreshTokenService;
+import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.error.exception.auth.BadLoginRequestException;
 import lombok.Builder;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -22,14 +21,14 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     private final AuthTokenCrypto refreshTokenCrypto;
     private final AuthTokenFailureHandler failureHandler;
     private final TokenDelivery tokenDeliver;
-    private final RefreshTokenService refreshTokenService;
+    private final AuthTokenService refreshTokenService;
 
     @Builder
     private AuthTokenSuccessHandler(
             String successRedirectUri,
             AuthTokenCrypto accessTokenCrypto,
             AuthTokenCrypto refreshTokenCrypto,
-            RefreshTokenService refreshTokenService,
+            AuthTokenService refreshTokenService,
             AuthTokenFailureHandler failureHandler,
             TokenDelivery tokenDeliver
     ) {
@@ -59,7 +58,7 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         var refresh = refreshToken(authTokenAuthentication);
         var memberId = authTokenAuthentication.getLoggedInUser().getId();
 
-        refreshTokenService.issue(memberId, refresh);
+        refreshTokenService.issueRefreshToken(memberId, refresh);
         tokenDeliver.deliver(request, response, access, refresh);
         response.sendRedirect(successRedirectUri);
     }

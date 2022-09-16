@@ -1,6 +1,6 @@
 package com.beerair.core.unit.auth.presentation.loginhandler;
 
-import com.beerair.core.auth.application.RefreshTokenService;
+import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
@@ -40,7 +39,7 @@ class AuthTokenSuccessHandlerTest {
     @Mock
     private AuthTokenCrypto refreshTokenCrypto;
     @Mock
-    private RefreshTokenService refreshTokenService;
+    private AuthTokenService refreshTokenService;
     @Mock
     private AuthTokenFailureHandler failureHandler;
 

@@ -1,25 +1,34 @@
 package com.beerair.core.unit.auth.presentation.filter;
 
+import com.beerair.core.auth.application.AuthTokenService;
+import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
+import com.beerair.core.auth.dto.response.TokenRefreshResponse;
 import com.beerair.core.auth.presentation.filter.AuthTokenAuthenticationFilter;
 import com.beerair.core.auth.presentation.filter.SetAuthenticationStrategy;
+import com.beerair.core.auth.presentation.loginhandler.CookieTokenDelivery;
 import com.beerair.core.auth.presentation.tokenreader.AuthTokenReader;
+import com.beerair.core.error.exception.auth.ExpiredAuthTokenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -37,11 +46,14 @@ class AuthTokenAuthenticationFilterTest {
     private SetAuthenticationStrategy setAuthenticationStrategy;
     @Mock
     private AuthTokenReader authTokenReader;
+    @Mock
+    private AuthTokenService refreshTokenService;
+    @Spy
+    private CookieTokenDelivery tokenDelivery;
 
     @Mock
     private HttpServletRequest httpServletRequest;
-    @Mock
-    private HttpServletResponse httpServletResponse;
+    private MockHttpServletResponse httpServletResponse;
     @Mock
     private FilterChain filterChain;
 
@@ -50,6 +62,7 @@ class AuthTokenAuthenticationFilterTest {
 
     @BeforeEach
     void setUp() {
+        httpServletResponse = new MockHttpServletResponse();
         authTokenAuthenticationFilter.setSetAuthenticationStrategy(setAuthenticationStrategy);
     }
 
@@ -72,6 +85,37 @@ class AuthTokenAuthenticationFilterTest {
 
     private void stubbingCrypto() {
         when(accessTokenCrypto.decrypt(anyString()))
+                .thenReturn(authentication);
+    }
+
+    @DisplayName("accessToken이 만료되었다면 cookie에 포함된 refreshToken으로 갱신한다.")
+    @Test
+    void refresh() throws ServletException, IOException {
+        final String NEW_ACCESS = "NEW";
+        final String NEW_REFRESH = "NEW_REFRESH";
+
+        stubbingAuthTokenReader();
+        stubbingCryptoByRefresh("OLD", "OLD_REFRESH", NEW_ACCESS, NEW_REFRESH);
+
+        authTokenAuthenticationFilter.doFilter(httpServletRequest, httpServletResponse, filterChain);
+
+        assertThat(httpServletResponse.getCookie("accessToken").getValue())
+                .isEqualTo(NEW_ACCESS);
+    }
+
+    private void stubbingCryptoByRefresh(String oldAccess, String oldRefresh, String newAccess, String newRefresh) {
+        when(authTokenReader.read(httpServletRequest))
+                .thenReturn(Optional.of(oldAccess));
+        when(accessTokenCrypto.decrypt(oldAccess))
+                .thenThrow(new ExpiredAuthTokenException());
+
+        when(httpServletRequest.getCookies())
+                .thenReturn(new Cookie[] {
+                        new Cookie("refreshToken", oldRefresh)
+                });
+        when(refreshTokenService.issueByRefreshToken(anyString()))
+                .thenReturn(new TokenRefreshResponse(new AuthToken(newAccess, new Date()), new AuthToken(newRefresh, new Date())));
+        when(accessTokenCrypto.decrypt(newAccess))
                 .thenReturn(authentication);
     }
 }
