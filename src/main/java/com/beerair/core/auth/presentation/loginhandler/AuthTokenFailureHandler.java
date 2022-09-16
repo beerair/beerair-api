@@ -1,4 +1,4 @@
-package com.beerair.core.auth.presentation;
+package com.beerair.core.auth.presentation.loginhandler;
 
 import com.beerair.core.error.dto.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;

@@ -1,21 +1,23 @@
 package com.beerair.core.acceptance;
 
 import com.beerair.core.acceptance.auth.AccessTokenHolder;
+import com.beerair.core.auth.presentation.tokenreader.HeaderAuthTokenReader;
 import com.beerair.core.common.dto.ResponseDto;
+import lombok.SneakyThrows;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.util.Objects;
 
-import static com.beerair.core.auth.presentation.AuthTokenAuthenticationFilter.TOKEN_TYPE;
+import static com.beerair.core.auth.presentation.tokenreader.HeaderAuthTokenReader.*;
 
 public abstract class StepClient {
     private static final String SERVER_URL = "http://localhost";
@@ -46,10 +48,13 @@ public abstract class StepClient {
         CucumberHttpResponseContext.set(response);
     }
 
+    @SneakyThrows
     protected HttpHeaders authed() {
         HttpHeaders headers = new HttpHeaders();
         if (Objects.nonNull(AccessTokenHolder.access)) {
-            headers.add("authorization", TOKEN_TYPE + " " + AccessTokenHolder.access);
+            var value = TOKEN_TYPE + " " + AccessTokenHolder.access;
+            headers.add("authorization", value);
+            headers.add("Cookie", "accessToken=" + AccessTokenHolder.access);
         }
         return headers;
     }

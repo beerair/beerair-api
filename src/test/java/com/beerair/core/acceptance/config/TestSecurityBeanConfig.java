@@ -3,12 +3,15 @@ package com.beerair.core.acceptance.config;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
-import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
+import com.beerair.core.auth.presentation.loginhandler.AuthTokenFailureHandler;
+import com.beerair.core.auth.presentation.tokenreader.AuthTokenReader;
+import com.beerair.core.auth.presentation.tokenreader.AuthTokenReaders;
+import com.beerair.core.auth.presentation.tokenreader.CookieAuthTokenReader;
+import com.beerair.core.auth.presentation.tokenreader.HeaderAuthTokenReader;
 import com.beerair.core.fixture.fake.FakeAuthTokenCrypto;
 import com.beerair.core.fixture.fake.FakeAuthenticationSuccessHandler;
 import com.beerair.core.fixture.fake.FakeClientRegistrationRepository;
 import com.beerair.core.fixture.fake.FakeDelegateOAuth2AttributesLoader;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -42,5 +45,13 @@ public class TestSecurityBeanConfig {
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
         return new AuthTokenFailureHandler("/");
+    }
+
+    @Bean
+    public AuthTokenReader authTokenReaders() {
+        return new AuthTokenReaders(
+                new CookieAuthTokenReader(),
+                new HeaderAuthTokenReader()
+        );
     }
 }

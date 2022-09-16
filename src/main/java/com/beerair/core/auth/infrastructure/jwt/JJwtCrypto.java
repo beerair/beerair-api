@@ -1,5 +1,6 @@
 package com.beerair.core.auth.infrastructure.jwt;
 
+import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
@@ -47,10 +48,10 @@ public class JJwtCrypto implements AuthTokenCrypto {
     }
 
     @Override
-    public String encrypt(AuthTokenAuthentication authentication) {
+    public AuthToken encrypt(AuthTokenAuthentication authentication) {
         var now = new Date();
-
-        return Jwts.builder()
+        var expired = new Date(now.getTime() + this.expiration);
+        String token = Jwts.builder()
                 .setSubject(authentication.getLoggedInUser().getId())
                 .compressWith(CompressionCodecs.GZIP)
                 .claim(ClaimKey.PURPOSE, tokenPurpose)
@@ -58,8 +59,9 @@ public class JJwtCrypto implements AuthTokenCrypto {
                 .claim(ClaimKey.AUTHORITIES, MapperUtil.writeValueAsString(authentication.getAuthorities()))
                 .signWith(signatureKey, signatureAlgorithm)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + expiration))
+                .setExpiration(expired)
                 .compact();
+        return new AuthToken(token, expired);
     }
 
     @Override

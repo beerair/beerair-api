@@ -1,7 +1,7 @@
 package com.beerair.core.acceptance.auth;
 
-import com.beerair.core.auth.domain.RefreshToken;
-import com.beerair.core.auth.infrastructure.RefreshTokenRepository;
+import com.beerair.core.auth.application.AuthTokenService;
+import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.fixture.MemberFixture;
 import com.beerair.core.fixture.fake.FakeAuthTokenCrypto;
 import com.beerair.core.fixture.fake.FakeOAuth2UserService;
@@ -12,14 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Random;
 
 @ScenarioScope
 public class AuthStepGivenDefs {
     @Autowired
-    private RefreshTokenRepository refreshTokenRepository;
-    @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private AuthTokenService authTokenService;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -31,8 +32,6 @@ public class AuthStepGivenDefs {
         memberRepository.save(member);
 
         FakeAuthTokenCrypto.register(access, member);
-
-        redisTemplate.opsForValue().set("authToken:" + member.getId(), access);
     }
 
     @Transactional
@@ -46,8 +45,10 @@ public class AuthStepGivenDefs {
         FakeAuthTokenCrypto.register(access, member);
         FakeAuthTokenCrypto.register(refresh, member);
 
-        redisTemplate.opsForValue().set("authToken:" + member.getId(), access);
-        refreshTokenRepository.save(new RefreshToken(member.getId(), refresh));
+        authTokenService.issueRefreshToken(
+                member.getId(),
+                new AuthToken(refresh, new Date(new Date().getTime() + 10000))
+        );
     }
 
     @Given("Access Token 사용 : {string}")

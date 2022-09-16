@@ -32,6 +32,7 @@ class JJwtEncoderForOAuth2Test {
     @BeforeEach
     void setUp() {
         var crypto = JJwtCrypto.builder()
+                .tokenPurpose("test")
                 .signatureAlgorithm(ALGORITHM)
                 .signatureKey(KEY)
                 .build();
@@ -54,7 +55,7 @@ class JJwtEncoderForOAuth2Test {
         var crypto = this.crypto.set("expiration", 10000).get();
 
         // When
-        String token = crypto.encrypt(authentication);
+        String token = crypto.encrypt(authentication).getToken();
 
         // Then
         var authentication = crypto.decrypt(token);
@@ -70,7 +71,7 @@ class JJwtEncoderForOAuth2Test {
     void verify() {
         var crypto = this.crypto.set("expiration", 0).get();
 
-        String token = crypto.encrypt(authentication);
+        String token = crypto.encrypt(authentication).getToken();
 
         assertThatThrownBy(() -> crypto.decrypt(token))
             .isInstanceOf(ExpiredAuthTokenException.class);

@@ -7,15 +7,19 @@ import com.beerair.core.auth.infrastructure.jwt.JJwtCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.KakaoOAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
-import com.beerair.core.auth.presentation.AuthTokenFailureHandler;
-import com.beerair.core.auth.presentation.AuthTokenSuccessHandler;
+import com.beerair.core.auth.presentation.loginhandler.AuthTokenFailureHandler;
+import com.beerair.core.auth.presentation.loginhandler.AuthTokenSuccessHandler;
+import com.beerair.core.auth.presentation.loginhandler.TokenDelivery;
+import com.beerair.core.auth.presentation.tokenreader.AuthTokenReader;
+import com.beerair.core.auth.presentation.tokenreader.AuthTokenReaders;
+import com.beerair.core.auth.presentation.tokenreader.CookieAuthTokenReader;
+import com.beerair.core.auth.presentation.tokenreader.HeaderAuthTokenReader;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -68,23 +72,32 @@ public class SecurityBeanConfig {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler(
-            RedisTemplate<String, Object> redisTemplate,
+            AuthTokenService refreshTokenService,
             @Value("${auth.success_redirect_uri}") String successRedirectUri,
             @Qualifier(TokenPurpose.ACCESS) AuthTokenCrypto accessTokenCrypto,
             @Qualifier(TokenPurpose.REFRESH) AuthTokenCrypto refreshTokenCrypto,
-            AuthTokenService refreshTokenService
+            TokenDelivery tokenDeliver
     ) {
         return AuthTokenSuccessHandler.builder()
-                .redisTemplate(redisTemplate)
+                .refreshTokenService(refreshTokenService)
                 .successRedirectUri(successRedirectUri)
                 .accessTokenCrypto(accessTokenCrypto)
                 .refreshTokenCrypto(refreshTokenCrypto)
                 .refreshTokenService(refreshTokenService)
+                .tokenDeliver(tokenDeliver)
                 .build();
     }
 
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler(@Value("${auth.fail_redirect_uri}") String redirectUrl) {
         return new AuthTokenFailureHandler(redirectUrl);
+    }
+
+    @Bean
+    public AuthTokenReader authTokenReaders() {
+        return new AuthTokenReaders(
+                new CookieAuthTokenReader(),
+                new HeaderAuthTokenReader()
+        );
     }
 }

@@ -1,5 +1,6 @@
 package com.beerair.core.acceptance;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -8,6 +9,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+
+import java.util.List;
 
 /**
  * @author 김재원
@@ -39,6 +42,10 @@ public class CucumberHttpResponseContext {
         return OBJECT_MAPPER.readValue(
             json.toString(), typeReference
         );
+    }
+
+    public static String getCookie() {
+        return latestResponse.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
     }
 
     public static boolean is2XX() {
