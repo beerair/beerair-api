@@ -38,7 +38,6 @@ public class MemberController {
             @AuthMember LoggedInMember member,
             @Valid @RequestBody MemberSignRequest request
     ) {
-        // TODO :: 토큰 재발급 (Interceptor?)
         memberSignFacade.sign(member, request);
         return ResponseDto.noContent();
     }

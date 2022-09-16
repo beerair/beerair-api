@@ -25,6 +25,7 @@ public class CookieTokenDelivery implements TokenDelivery {
         var cookie = new Cookie(cookieName, authToken.getToken());
         var maxAge = (int)(authToken.getExpired().getTime() - new Date().getTime()) / 1000;
         cookie.setMaxAge(maxAge);
+        cookie.setPath("/");
         return cookie;
     }
 }

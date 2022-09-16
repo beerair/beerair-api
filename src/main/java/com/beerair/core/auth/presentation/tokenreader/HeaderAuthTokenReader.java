@@ -1,12 +1,9 @@
 package com.beerair.core.auth.presentation.tokenreader;
 
-import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import java.util.Optional;
 
-@Component
 public class HeaderAuthTokenReader implements AuthTokenReader {
     public static final String TOKEN_TYPE = "Bearer";
 

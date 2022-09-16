@@ -1,10 +1,15 @@
 package com.beerair.core.acceptance.member;
 
+import com.beerair.core.acceptance.CucumberHttpResponseContext;
+import com.beerair.core.acceptance.auth.AccessTokenHolder;
 import com.beerair.core.member.dto.request.MemberChangeNicknameRequest;
 import com.beerair.core.member.dto.request.MemberSignRequest;
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.ScenarioScope;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
