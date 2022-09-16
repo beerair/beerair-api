@@ -12,18 +12,24 @@ import java.util.Date;
 public class CookieTokenDelivery implements TokenDelivery {
     @Override
     public void deliver(HttpServletRequest request, HttpServletResponse response, AuthToken accessToken, AuthToken refreshToken) {
-        // TODO :: 운영 환경에서는 보안 설정 추가 해야함
-        var accessTokenCookie = toCookie("accessToken", accessToken);
+        int maxExpired = maxExpired(accessToken, refreshToken);
+
+        // TODO :: 운영 환경에서는 보안 설정 추가 해야함 (https)
+        var accessTokenCookie = toCookie("accessToken", accessToken, maxExpired);
         response.addCookie(accessTokenCookie);
 
-        var refreshTokenCookie = toCookie("refreshToken", refreshToken);
+        var refreshTokenCookie = toCookie("refreshToken", refreshToken, maxExpired);
         refreshTokenCookie.setHttpOnly(true);
         response.addCookie(refreshTokenCookie);
     }
 
-    private Cookie toCookie(String cookieName, AuthToken authToken) {
+    private int maxExpired(AuthToken accessToken, AuthToken refreshToken) {
+        long max = Math.max(accessToken.getExpired().getTime(), refreshToken.getExpired().getTime());
+        return (int)(max - new Date().getTime()) / 1000;
+    }
+
+    private Cookie toCookie(String cookieName, AuthToken authToken, int maxAge) {
         var cookie = new Cookie(cookieName, authToken.getToken());
-        var maxAge = (int)(authToken.getExpired().getTime() - new Date().getTime()) / 1000;
         cookie.setMaxAge(maxAge);
         cookie.setPath("/");
         return cookie;

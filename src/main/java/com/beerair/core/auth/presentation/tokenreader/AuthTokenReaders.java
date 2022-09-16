@@ -12,10 +12,10 @@ public class AuthTokenReaders implements AuthTokenReader {
 
     @Override
     public Optional<String> read(HttpServletRequest request) {
-        var byCookie = cookieAuthTokenReader.read(request);
-        if (byCookie.isPresent()) {
-            return byCookie;
+        var byHeader = headerAuthTokenReader.read(request);
+        if (byHeader.isPresent()) {
+            return byHeader;
         }
-        return headerAuthTokenReader.read(request);
+        return cookieAuthTokenReader.read(request);
     }
 }

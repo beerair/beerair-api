@@ -33,7 +33,7 @@ class AuthTokenReadersTest {
         request = new MockHttpServletRequest();
     }
 
-    @DisplayName("쿠키에 토큰이 있다면 가져온다. (쿠키에서 먼저 가져온다.)")
+    @DisplayName("쿠키에 토큰이 있다면 가져온다.")
     @Test
     void readByCookie() {
         when(cookieAuthTokenReader.read(request))
@@ -43,7 +43,7 @@ class AuthTokenReadersTest {
         assertThat(actual).isNotNull();
     }
 
-    @DisplayName("헤더에 토큰이 있다면 가져온다.")
+    @DisplayName("헤더에 토큰이 있다면 가져온다. (헤더 먼저 가져온다.)")
     @Test
     void readByHeader() {
         when(headerAuthTokenReader.read(request))

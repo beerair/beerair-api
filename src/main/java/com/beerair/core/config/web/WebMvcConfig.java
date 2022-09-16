@@ -1,5 +1,6 @@
 package com.beerair.core.config.web;
 
+import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.presentation.aop.AuthMemberArgumentResolver;
@@ -25,17 +26,20 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final AuthTokenCrypto refreshTokenCrypto;
     private final TokenDelivery tokenDelivery;
     private final MemberRepository memberRepository;
+    private final AuthTokenService authTokenService;
 
     public WebMvcConfig(GetAuthenticationStrategy getAuthenticationStrategy,
                         @Qualifier(TokenPurpose.ACCESS) AuthTokenCrypto accessTokenCrypto,
                         @Qualifier(TokenPurpose.REFRESH) AuthTokenCrypto refreshTokenCrypto,
                         TokenDelivery tokenDelivery,
-                        MemberRepository memberRepository) {
+                        MemberRepository memberRepository,
+                        AuthTokenService authTokenService) {
         this.getAuthenticationStrategy = getAuthenticationStrategy;
         this.accessTokenCrypto = accessTokenCrypto;
         this.refreshTokenCrypto = refreshTokenCrypto;
         this.tokenDelivery = tokenDelivery;
         this.memberRepository = memberRepository;
+        this.authTokenService = authTokenService;
     }
 
     @Override
@@ -63,6 +67,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .refreshTokenCrypto(refreshTokenCrypto)
                 .tokenDelivery(tokenDelivery)
                 .memberRepository(memberRepository)
+                .authTokenService(authTokenService)
                 .build();
     }
 }

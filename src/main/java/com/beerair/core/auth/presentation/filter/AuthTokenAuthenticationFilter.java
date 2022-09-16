@@ -15,8 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,16 +44,15 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
                         AuthTokenAuthentication authentication;
                         try {
                             authentication = convert(token);
-                        } catch (ExpiredAuthTokenException ignored) {
-                            authentication = convert(refresh(request, response));
+                        } catch (ExpiredAuthTokenException e) {
+                            var newAccess = refresh(request, response).orElseThrow(() -> e);
+                            authentication = convert(newAccess);
                         }
                         setAuthenticationStrategy.set(authentication);
                     });
         } catch (BusinessException ignored) {
         } finally {
-            if (!(filterChain instanceof NullFilterChain)) {
-                filterChain.doFilter(request, response);
-            }
+            filterChain.doFilter(request, response);
         }
     }
 
@@ -66,14 +63,16 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @SneakyThrows
-    private String refresh(HttpServletRequest request, HttpServletResponse response) {
+    private Optional<String> refresh(HttpServletRequest request, HttpServletResponse response) {
         var refreshToken = getRefreshToken(request);
         if (refreshToken.isPresent()) {
             var tokens = refreshTokenService.issueByRefreshToken(refreshToken.get());
             tokenDelivery.deliver(request, response, tokens.getAccessToken(), tokens.getRefreshToken());
-            return tokens.getAccessToken().getToken();
+            return Optional.of(
+                    tokens.getAccessToken().getToken()
+            );
         }
-        return null;
+        return Optional.empty();
     }
 
     private Optional<String> getRefreshToken(HttpServletRequest request) {
@@ -81,14 +80,5 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
                 .filter(eachCookie -> eachCookie.getName().equals("refreshToken"))
                 .map(Cookie::getValue)
                 .findFirst();
-    }
-
-    private static class NullFilterChain implements FilterChain {
-        private static final NullFilterChain INSTANCE = new NullFilterChain();
-
-        @Override
-        public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
-
-        }
     }
 }

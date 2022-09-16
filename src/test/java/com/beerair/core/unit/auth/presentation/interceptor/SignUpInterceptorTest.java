@@ -1,6 +1,6 @@
 package com.beerair.core.unit.auth.presentation.interceptor;
 
-import com.beerair.core.auth.domain.AuthToken;
+import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.presentation.aop.SignUpInterceptor;
 import com.beerair.core.auth.presentation.filter.GetAuthenticationStrategy;
@@ -20,7 +20,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +39,8 @@ class SignUpInterceptorTest {
     private GetAuthenticationStrategy getAuthenticationStrategy;
     @Mock
     private AuthTokenCrypto authTokenCrypto;
+    @Mock
+    private AuthTokenService authTokenService;
     @Mock
     private TokenDelivery tokenDelivery;
     @Mock

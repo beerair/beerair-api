@@ -1,5 +1,6 @@
 package com.beerair.core.auth.presentation.aop;
 
+import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
@@ -26,18 +27,21 @@ public class SignUpInterceptor implements HandlerInterceptor {
     private final AuthTokenCrypto accessTokenCrypto;
     private final AuthTokenCrypto refreshTokenCrypto;
     private final TokenDelivery tokenDelivery;
+    private final AuthTokenService authTokenService;
     private final MemberRepository memberRepository;
 
     @Builder
     private SignUpInterceptor(GetAuthenticationStrategy getAuthenticationStrategy,
-                             AuthTokenCrypto accessTokenCrypto,
-                             AuthTokenCrypto refreshTokenCrypto,
-                             TokenDelivery tokenDelivery,
-                             MemberRepository memberRepository) {
+                              AuthTokenCrypto accessTokenCrypto,
+                              AuthTokenCrypto refreshTokenCrypto,
+                              TokenDelivery tokenDelivery,
+                              AuthTokenService authTokenService,
+                              MemberRepository memberRepository) {
         this.getAuthenticationStrategy = getAuthenticationStrategy;
         this.accessTokenCrypto = accessTokenCrypto;
         this.refreshTokenCrypto = refreshTokenCrypto;
         this.tokenDelivery = tokenDelivery;
+        this.authTokenService = authTokenService;
         this.memberRepository = memberRepository;
     }
 
@@ -51,6 +55,7 @@ public class SignUpInterceptor implements HandlerInterceptor {
         var access = accessTokenCrypto.encrypt(synced);
         var refresh = refreshTokenCrypto.encrypt(synced);
 
+        authTokenService.issueRefreshToken(synced.getPrincipal().getId(), refresh);
         tokenDelivery.deliver(request, response, access, refresh);
     }
 

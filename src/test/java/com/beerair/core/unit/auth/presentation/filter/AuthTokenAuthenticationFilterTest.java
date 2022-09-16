@@ -95,7 +95,7 @@ class AuthTokenAuthenticationFilterTest {
         final String NEW_REFRESH = "NEW_REFRESH";
 
         stubbingAuthTokenReader();
-        stubbingCryptoByRefresh("OLD", "OLD_REFRESH", NEW_ACCESS, NEW_REFRESH);
+        stubbingCryptoByRefresh(NEW_ACCESS, NEW_REFRESH);
 
         authTokenAuthenticationFilter.doFilter(httpServletRequest, httpServletResponse, filterChain);
 
@@ -103,18 +103,26 @@ class AuthTokenAuthenticationFilterTest {
                 .isEqualTo(NEW_ACCESS);
     }
 
-    private void stubbingCryptoByRefresh(String oldAccess, String oldRefresh, String newAccess, String newRefresh) {
+    private void stubbingCryptoByRefresh(String newAccess, String newRefresh) {
+        final String OLD_ACCESS = "OLD";
+        final String OLD_REFRESH = "OLD_REFRESH";
+
         when(authTokenReader.read(httpServletRequest))
-                .thenReturn(Optional.of(oldAccess));
-        when(accessTokenCrypto.decrypt(oldAccess))
+                .thenReturn(Optional.of(OLD_ACCESS));
+        when(accessTokenCrypto.decrypt(OLD_ACCESS))
                 .thenThrow(new ExpiredAuthTokenException());
 
+        final Cookie[] COOKIE = new Cookie[] {
+                new Cookie("refreshToken", OLD_REFRESH)
+        };
         when(httpServletRequest.getCookies())
-                .thenReturn(new Cookie[] {
-                        new Cookie("refreshToken", oldRefresh)
-                });
-        when(refreshTokenService.issueByRefreshToken(anyString()))
-                .thenReturn(new TokenRefreshResponse(new AuthToken(newAccess, new Date()), new AuthToken(newRefresh, new Date())));
+                .thenReturn(COOKIE);
+
+        final TokenRefreshResponse TOKENS = new TokenRefreshResponse(
+                new AuthToken(newAccess, new Date()), new AuthToken(newRefresh, new Date())
+        );
+        when(refreshTokenService.issueByRefreshToken(OLD_REFRESH))
+                .thenReturn(TOKENS);
         when(accessTokenCrypto.decrypt(newAccess))
                 .thenReturn(authentication);
     }

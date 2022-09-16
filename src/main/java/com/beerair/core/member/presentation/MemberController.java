@@ -51,7 +51,7 @@ public class MemberController {
 
     @ApiOperation(value = "닉네임 변경 API")
     @PatchMapping("/nickname")
-    public ResponseEntity<?> modifiedNickname(
+    public ResponseEntity<?> modifyNickname(
             @AuthMember LoggedInMember member,
             @Valid @RequestBody MemberChangeNicknameRequest request
     ) {

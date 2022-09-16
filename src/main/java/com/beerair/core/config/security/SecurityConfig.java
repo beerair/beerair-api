@@ -64,6 +64,7 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/members").access(ONLY_USER)
                 .antMatchers("/api/v1/members/*").access(ONLY_MEMBER)
+                .antMatchers("/api/v1/members").access(ONLY_MEMBER)
                 .anyRequest().permitAll();
     }
 
