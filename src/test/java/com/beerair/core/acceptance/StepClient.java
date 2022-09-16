@@ -9,6 +9,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.ResponseErrorHandler;
@@ -53,6 +54,7 @@ public abstract class StepClient {
         if (Objects.nonNull(AccessTokenHolder.access)) {
             var value = TOKEN_TYPE + " " + AccessTokenHolder.access;
             headers.add("authorization", value);
+            headers.add("Cookie", "accessToken=" + AccessTokenHolder.access);
         }
         return headers;
     }

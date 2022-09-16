@@ -1,6 +1,5 @@
 package com.beerair.core.acceptance.auth;
 
-import com.beerair.core.auth.domain.RefreshToken;
 import com.beerair.core.auth.infrastructure.RefreshTokenRepository;
 import com.beerair.core.fixture.MemberFixture;
 import com.beerair.core.fixture.fake.FakeAuthTokenCrypto;
@@ -31,8 +30,6 @@ public class AuthStepGivenDefs {
         memberRepository.save(member);
 
         FakeAuthTokenCrypto.register(access, member);
-
-        redisTemplate.opsForValue().set("authToken:" + member.getId(), access);
     }
 
     @Transactional
@@ -46,9 +43,7 @@ public class AuthStepGivenDefs {
         FakeAuthTokenCrypto.register(access, member);
         FakeAuthTokenCrypto.register(refresh, member);
 
-        // TODO :: Redis에 refresh token 저장하도록 변경하기
-        redisTemplate.opsForValue().set("authToken:" + member.getId(), access);
-        refreshTokenRepository.save(new RefreshToken(member.getId(), refresh));
+        redisTemplate.opsForValue().set("refreshToken:" + member.getId(), refresh);
     }
 
     @Given("Access Token 사용 : {string}")

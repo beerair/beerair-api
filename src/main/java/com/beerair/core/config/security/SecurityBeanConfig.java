@@ -1,6 +1,6 @@
 package com.beerair.core.config.security;
 
-import com.beerair.core.auth.application.AuthTokenService;
+import com.beerair.core.auth.application.RefreshTokenService;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.infrastructure.jwt.JJwtCrypto;
@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -69,15 +68,14 @@ public class SecurityBeanConfig {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler(
-            RedisTemplate<String, Object> redisTemplate,
+            RefreshTokenService refreshTokenService,
             @Value("${auth.success_redirect_uri}") String successRedirectUri,
             @Qualifier(TokenPurpose.ACCESS) AuthTokenCrypto accessTokenCrypto,
             @Qualifier(TokenPurpose.REFRESH) AuthTokenCrypto refreshTokenCrypto,
-            AuthTokenService refreshTokenService,
             TokenDelivery tokenDeliver
     ) {
         return AuthTokenSuccessHandler.builder()
-                .redisTemplate(redisTemplate)
+                .refreshTokenService(refreshTokenService)
                 .successRedirectUri(successRedirectUri)
                 .accessTokenCrypto(accessTokenCrypto)
                 .refreshTokenCrypto(refreshTokenCrypto)

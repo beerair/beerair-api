@@ -1,6 +1,6 @@
 package com.beerair.core.auth.presentation.loginhandler;
 
-import com.beerair.core.auth.application.AuthTokenService;
+import com.beerair.core.auth.application.RefreshTokenService;
 import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
@@ -18,30 +18,27 @@ import java.io.IOException;
 
 public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final String successRedirectUri;
-    private final RedisTemplate<String, Object> redisTemplate;
     private final AuthTokenCrypto accessTokenCrypto;
     private final AuthTokenCrypto refreshTokenCrypto;
-    private final AuthTokenService refreshTokenService;
     private final AuthTokenFailureHandler failureHandler;
     private final TokenDelivery tokenDeliver;
+    private final RefreshTokenService refreshTokenService;
 
     @Builder
     private AuthTokenSuccessHandler(
-            RedisTemplate<String, Object> redisTemplate,
             String successRedirectUri,
             AuthTokenCrypto accessTokenCrypto,
             AuthTokenCrypto refreshTokenCrypto,
-            AuthTokenService refreshTokenService,
+            RefreshTokenService refreshTokenService,
             AuthTokenFailureHandler failureHandler,
             TokenDelivery tokenDeliver
     ) {
         this.successRedirectUri = successRedirectUri;
-        this.redisTemplate = redisTemplate;
         this.accessTokenCrypto = accessTokenCrypto;
         this.refreshTokenCrypto = refreshTokenCrypto;
-        this.refreshTokenService = refreshTokenService;
         this.failureHandler = failureHandler;
         this.tokenDeliver = tokenDeliver;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @Transactional
@@ -61,8 +58,8 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         var access = accessToken(authTokenAuthentication);
         var refresh = refreshToken(authTokenAuthentication);
         var memberId = authTokenAuthentication.getLoggedInUser().getId();
-        persistToken(memberId, access, refresh);
 
+        refreshTokenService.issue(memberId, refresh);
         tokenDeliver.deliver(request, response, access, refresh);
         response.sendRedirect(successRedirectUri);
     }
@@ -73,10 +70,5 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
     private AuthToken refreshToken(AuthTokenAuthentication authTokenAuthentication) {
         return refreshTokenCrypto.encrypt(authTokenAuthentication);
-    }
-
-    private void persistToken(String memberId, AuthToken access, AuthToken refresh) {
-        redisTemplate.opsForValue().set("authToken:" + memberId, access.getToken());
-        refreshTokenService.issue(memberId, refresh.getToken());
     }
 }

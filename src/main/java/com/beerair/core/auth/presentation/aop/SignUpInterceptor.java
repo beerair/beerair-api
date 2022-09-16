@@ -42,7 +42,7 @@ public class SignUpInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)  {
         if (!request.getMethod().equals(HttpMethod.POST.name())) {
             return;
         }
