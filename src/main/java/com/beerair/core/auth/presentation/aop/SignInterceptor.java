@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class SignUpInterceptor implements HandlerInterceptor {
+public class SignInterceptor implements HandlerInterceptor {
     private final GetAuthenticationStrategy getAuthenticationStrategy;
     private final AuthTokenCrypto accessTokenCrypto;
     private final AuthTokenCrypto refreshTokenCrypto;
@@ -31,12 +31,12 @@ public class SignUpInterceptor implements HandlerInterceptor {
     private final MemberRepository memberRepository;
 
     @Builder
-    private SignUpInterceptor(GetAuthenticationStrategy getAuthenticationStrategy,
-                              AuthTokenCrypto accessTokenCrypto,
-                              AuthTokenCrypto refreshTokenCrypto,
-                              TokenDelivery tokenDelivery,
-                              AuthTokenService authTokenService,
-                              MemberRepository memberRepository) {
+    private SignInterceptor(GetAuthenticationStrategy getAuthenticationStrategy,
+                            AuthTokenCrypto accessTokenCrypto,
+                            AuthTokenCrypto refreshTokenCrypto,
+                            TokenDelivery tokenDelivery,
+                            AuthTokenService authTokenService,
+                            MemberRepository memberRepository) {
         this.getAuthenticationStrategy = getAuthenticationStrategy;
         this.accessTokenCrypto = accessTokenCrypto;
         this.refreshTokenCrypto = refreshTokenCrypto;

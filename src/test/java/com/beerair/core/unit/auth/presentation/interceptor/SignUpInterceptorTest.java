@@ -2,7 +2,7 @@ package com.beerair.core.unit.auth.presentation.interceptor;
 
 import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
-import com.beerair.core.auth.presentation.aop.SignUpInterceptor;
+import com.beerair.core.auth.presentation.aop.SignInterceptor;
 import com.beerair.core.auth.presentation.filter.GetAuthenticationStrategy;
 import com.beerair.core.auth.presentation.loginhandler.TokenDelivery;
 import com.beerair.core.member.domain.Member;
@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class SignUpInterceptorTest {
     @InjectMocks
-    private SignUpInterceptor signUpInterceptor;
+    private SignInterceptor signUpInterceptor;
     @Mock
     private GetAuthenticationStrategy getAuthenticationStrategy;
     @Mock

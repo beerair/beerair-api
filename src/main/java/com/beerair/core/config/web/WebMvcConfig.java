@@ -4,15 +4,14 @@ import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.presentation.aop.AuthMemberArgumentResolver;
-import com.beerair.core.auth.presentation.aop.SignUpInterceptor;
+import com.beerair.core.auth.presentation.aop.ReSignUpInterceptor;
+import com.beerair.core.auth.presentation.aop.SignInterceptor;
 import com.beerair.core.auth.presentation.filter.GetAuthenticationStrategy;
 import com.beerair.core.auth.presentation.loginhandler.TokenDelivery;
 import com.beerair.core.member.infrastructure.MemberRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.PathMatcher;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -54,13 +53,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(signUpInterceptor())
+        registry.addInterceptor(signInterceptor())
+                .addPathPatterns("/api/v1/members");
+
+        registry.addInterceptor(reSignUpInterceptor())
                 .addPathPatterns("/api/v1/members");
     }
 
     @Bean
-    public SignUpInterceptor signUpInterceptor() {
-        return SignUpInterceptor.builder()
+    public SignInterceptor signInterceptor() {
+        return SignInterceptor.builder()
                 .tokenDelivery(tokenDelivery)
                 .getAuthenticationStrategy(getAuthenticationStrategy)
                 .accessTokenCrypto(accessTokenCrypto)
@@ -69,5 +71,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .memberRepository(memberRepository)
                 .authTokenService(authTokenService)
                 .build();
+    }
+
+    @Bean
+    public ReSignUpInterceptor reSignUpInterceptor() {
+        return new ReSignUpInterceptor();
     }
 }
