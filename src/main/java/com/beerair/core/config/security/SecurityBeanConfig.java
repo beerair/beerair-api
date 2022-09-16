@@ -9,6 +9,7 @@ import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 import com.beerair.core.auth.presentation.loginhandler.AuthTokenFailureHandler;
 import com.beerair.core.auth.presentation.loginhandler.AuthTokenSuccessHandler;
+import com.beerair.core.auth.presentation.loginhandler.TokenDelivery;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -72,7 +73,8 @@ public class SecurityBeanConfig {
             @Value("${auth.success_redirect_uri}") String successRedirectUri,
             @Qualifier(TokenPurpose.ACCESS) AuthTokenCrypto accessTokenCrypto,
             @Qualifier(TokenPurpose.REFRESH) AuthTokenCrypto refreshTokenCrypto,
-            AuthTokenService refreshTokenService
+            AuthTokenService refreshTokenService,
+            TokenDelivery tokenDeliver
     ) {
         return AuthTokenSuccessHandler.builder()
                 .redisTemplate(redisTemplate)
@@ -80,6 +82,7 @@ public class SecurityBeanConfig {
                 .accessTokenCrypto(accessTokenCrypto)
                 .refreshTokenCrypto(refreshTokenCrypto)
                 .refreshTokenService(refreshTokenService)
+                .tokenDeliver(tokenDeliver)
                 .build();
     }
 

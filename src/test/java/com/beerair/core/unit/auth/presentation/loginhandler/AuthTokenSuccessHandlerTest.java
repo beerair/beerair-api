@@ -1,4 +1,4 @@
-package com.beerair.core.unit.auth.presentation;
+package com.beerair.core.unit.auth.presentation.loginhandler;
 
 import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthToken;
@@ -6,6 +6,7 @@ import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.auth.presentation.loginhandler.AuthTokenFailureHandler;
 import com.beerair.core.auth.presentation.loginhandler.AuthTokenSuccessHandler;
+import com.beerair.core.auth.presentation.loginhandler.TokenDelivery;
 import com.beerair.core.fixture.RedisTestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,12 +20,15 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,6 +52,8 @@ class AuthTokenSuccessHandlerTest {
     private MockHttpServletResponse httpServletResponse;
     @Mock
     private OAuth2AuthenticationToken authentication;
+    @Mock
+    private TokenDelivery tokenDeliver;
 
     @BeforeEach
     void setUp() {
@@ -59,10 +65,11 @@ class AuthTokenSuccessHandlerTest {
                 .refreshTokenCrypto(refreshTokenCrypto)
                 .refreshTokenService(refreshTokenService)
                 .failureHandler(failureHandler)
+                .tokenDeliver(tokenDeliver)
                 .build();
     }
 
-    @DisplayName("로그인 성공시 리다이렉트 한다.")
+    @DisplayName("로그인 성공 후 리다이렉트 한다.")
     @Test
     void handle() throws ServletException, IOException {
         onAuthenticationSuccess();
@@ -71,28 +78,22 @@ class AuthTokenSuccessHandlerTest {
                 .isEqualTo(REDIRECT_EXPERT);
     }
 
-    @DisplayName("엑세스 토큰 쿠키 설정 값 확인")
+    @DisplayName("로그인 성공 후 토큰을 프론트에 전달한다.")
     @Test
-    void accessTokenCookieTest() throws ServletException, IOException {
+    void deliver() throws ServletException, IOException {
         onAuthenticationSuccess();
 
-        var cookie = httpServletResponse.getCookie("accessToken");
-        assertThat(cookie.isHttpOnly())
-                .isFalse();
-    }
-
-    @DisplayName("리프레시 토큰 쿠키 검증")
-    @Test
-    void refreshTokenCookieTest() throws ServletException, IOException {
-        onAuthenticationSuccess();
-
-        var cookie = httpServletResponse.getCookie("refreshToken");
-        assertThat(cookie.isHttpOnly())
-                .isTrue();
+        verify(tokenDeliver, times(1))
+                .deliver(
+                        any(HttpServletRequest.class),
+                        any(HttpServletResponse.class),
+                        any(AuthToken.class),
+                        any(AuthToken.class)
+                );
     }
 
     private void onAuthenticationSuccess() throws ServletException, IOException {
-        stubbingByIssueToken();
+        stubbingTokenCrypto();
         stubbingAuthentication();
         RedisTestUtils.setDoNothing(redisTemplate);
 
@@ -101,7 +102,7 @@ class AuthTokenSuccessHandlerTest {
         );
     }
 
-    private void stubbingByIssueToken() {
+    private void stubbingTokenCrypto() {
         when(accessTokenCrypto.encrypt(any()))
                 .thenReturn(new AuthToken("access", new Date()));
         when(refreshTokenCrypto.encrypt(any()))

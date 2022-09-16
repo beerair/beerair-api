@@ -12,11 +12,9 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final String successRedirectUri;
@@ -25,6 +23,7 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     private final AuthTokenCrypto refreshTokenCrypto;
     private final AuthTokenService refreshTokenService;
     private final AuthTokenFailureHandler failureHandler;
+    private final TokenDelivery tokenDeliver;
 
     @Builder
     private AuthTokenSuccessHandler(
@@ -33,7 +32,8 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
             AuthTokenCrypto accessTokenCrypto,
             AuthTokenCrypto refreshTokenCrypto,
             AuthTokenService refreshTokenService,
-            AuthTokenFailureHandler failureHandler
+            AuthTokenFailureHandler failureHandler,
+            TokenDelivery tokenDeliver
     ) {
         this.successRedirectUri = successRedirectUri;
         this.redisTemplate = redisTemplate;
@@ -41,6 +41,7 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         this.refreshTokenCrypto = refreshTokenCrypto;
         this.refreshTokenService = refreshTokenService;
         this.failureHandler = failureHandler;
+        this.tokenDeliver = tokenDeliver;
     }
 
     @Transactional
@@ -62,7 +63,7 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
         var memberId = authTokenAuthentication.getLoggedInUser().getId();
         persistToken(memberId, access, refresh);
 
-        setCookies(response, access, refresh);
+        tokenDeliver.deliver(request, response, access, refresh);
         response.sendRedirect(successRedirectUri);
     }
 
@@ -77,22 +78,5 @@ public class AuthTokenSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     private void persistToken(String memberId, AuthToken access, AuthToken refresh) {
         redisTemplate.opsForValue().set("authToken:" + memberId, access);
         refreshTokenService.issue(memberId, refresh.getToken());
-    }
-
-    private void setCookies(HttpServletResponse response, AuthToken access, AuthToken refresh) {
-        // TODO :: 운영 환경에서는 보안 설정 추가 해야함
-        var accessTokenCookie = toCookie("accessToken", access);
-        response.addCookie(accessTokenCookie);
-
-        var refreshTokenCookie = toCookie("refreshToken", refresh);
-        refreshTokenCookie.setHttpOnly(true);
-        response.addCookie(refreshTokenCookie);
-    }
-
-    private Cookie toCookie(String cookieName, AuthToken authToken) {
-        var cookie = new Cookie(cookieName, authToken.getToken());
-        var maxAge = (int)(authToken.getExpired().getTime() - new Date().getTime()) / 1000;
-        cookie.setMaxAge(maxAge);
-        return cookie;
     }
 }

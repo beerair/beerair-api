@@ -21,7 +21,7 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     private final AuthTokenCrypto authTokenCrypto;
     private final AuthTokenReader authTokenReader;
     @Setter
-    private SetAuthenticationStrategy setAuthenticationStrategy = new DefaultSetAuthenticationStrategy();
+    private SetAuthenticationStrategy setAuthenticationStrategy = new DefaultAuthenticationStrategy();
 
     @Override
     protected void doFilterInternal(

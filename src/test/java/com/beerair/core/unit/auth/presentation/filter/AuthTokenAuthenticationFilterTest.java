@@ -1,4 +1,4 @@
-package com.beerair.core.unit.auth.presentation;
+package com.beerair.core.unit.auth.presentation.filter;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
