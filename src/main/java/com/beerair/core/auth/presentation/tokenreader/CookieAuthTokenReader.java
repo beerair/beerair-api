@@ -1,16 +1,11 @@
 package com.beerair.core.auth.presentation.tokenreader;
 
-import com.beerair.core.auth.domain.AuthToken;
-import org.springframework.stereotype.Component;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
-@Component
 public class CookieAuthTokenReader implements AuthTokenReader {
     @Override
     public Optional<String> read(HttpServletRequest request) {
