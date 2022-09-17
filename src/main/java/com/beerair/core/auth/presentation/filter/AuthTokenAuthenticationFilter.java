@@ -39,21 +39,27 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
         try {
-            authTokenReader.read(request)
-                    .ifPresent(token -> {
-                        AuthTokenAuthentication authentication;
-                        try {
-                            authentication = convert(token);
-                        } catch (ExpiredAuthTokenException e) {
-                            var newAccess = refresh(request, response).orElseThrow(() -> e);
-                            authentication = convert(newAccess);
-                        }
-                        setAuthenticationStrategy.set(authentication);
-                    });
+            setAuthentication(request, response);
         } catch (BusinessException ignored) {
         } finally {
             filterChain.doFilter(request, response);
         }
+    }
+
+    private void setAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        var access = authTokenReader.read(request);
+        if (access.isEmpty()) {
+            return;
+        }
+        AuthTokenAuthentication authentication;
+        try {
+            authentication = convert(access.get());
+        } catch (ExpiredAuthTokenException e) {
+            /* 쿠키 방식 일경우 재귀적으로 다시 인가할 수 있지만, 헤더 방식 일경우 재귀로 다시 인가하면 무한으로 재귀하게 됨 */
+            var newAccess = refresh(request, response).orElseThrow(() -> e);
+            authentication = convert(newAccess);
+        }
+        setAuthenticationStrategy.set(authentication);
     }
 
     private AuthTokenAuthentication convert(String token) {
