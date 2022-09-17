@@ -96,7 +96,7 @@ public class JJwtCrypto implements AuthTokenCrypto {
                 TypeRef.AUTHORITIES
         );
 
-        return AuthTokenAuthentication.from(loggedInUser, authorities, body.getExpiration());
+        return AuthTokenAuthentication.from(loggedInUser, authorities);
     }
 
 
