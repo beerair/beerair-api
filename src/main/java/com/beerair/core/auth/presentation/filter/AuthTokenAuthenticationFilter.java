@@ -25,8 +25,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
-    private final AuthTokenCrypto authTokenCrypto;
     private final AuthTokenReader authTokenReader;
+    private final AuthTokenCrypto authTokenCrypto;
     private final AuthTokenService refreshTokenService;
     private final TokenDelivery tokenDelivery;
     @Setter
