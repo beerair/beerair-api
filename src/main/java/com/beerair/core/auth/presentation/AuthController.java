@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +36,7 @@ public class AuthController {
     }
 
     @ApiOperation(value = "권한 정보 조회")
-    @PostMapping("me/authorities")
+    @GetMapping("me/authorities")
     public ResponseEntity<?> logout() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         var authorities = authentication.getAuthorities();
