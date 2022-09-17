@@ -45,7 +45,7 @@ class JJwtEncoderForOAuth2Test {
                 Collections.emptyMap()
         );
         this.authentication = AuthTokenAuthentication.from(
-                oAuth2Member, authorities, new Date(new Date().getTime() + 1000000000)
+                oAuth2Member, authorities
         );
     }
 

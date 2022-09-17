@@ -56,6 +56,6 @@ public class FakeAuthTokenCrypto implements AuthTokenCrypto {
                 .stream()
                 .map(CustomGrantedAuthority::new)
                 .collect(Collectors.toSet());
-        return AuthTokenAuthentication.from(loggedInUser, authorities, new Date(new Date().getTime() + 100000000));
+        return AuthTokenAuthentication.from(loggedInUser, authorities);
     }
 }

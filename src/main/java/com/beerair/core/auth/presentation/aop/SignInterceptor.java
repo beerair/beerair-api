@@ -66,8 +66,7 @@ public class SignInterceptor implements HandlerInterceptor {
 
         return AuthTokenAuthentication.from(
                 LoggedInMember.from(member),
-                authorities(member),
-                null
+                authorities(member)
         );
     }
 
