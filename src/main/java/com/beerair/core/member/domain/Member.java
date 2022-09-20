@@ -1,15 +1,14 @@
 package com.beerair.core.member.domain;
 
+import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
+
 import com.beerair.core.common.domain.BaseEntity;
 import com.beerair.core.common.domain.StringFieldCryptConverter;
 import com.beerair.core.common.util.IdGenerator;
 import com.beerair.core.error.exception.member.MemberUnableSignException;
 import com.beerair.core.member.domain.vo.MemberSocial;
 import com.beerair.core.member.domain.vo.Role;
-import lombok.Builder;
-import lombok.Getter;
-import org.hibernate.annotations.Comment;
-
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
@@ -20,9 +19,9 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import java.util.Objects;
-
-import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
+import lombok.Builder;
+import lombok.Getter;
+import org.hibernate.annotations.Comment;
 
 @Table(
         uniqueConstraints = {
@@ -111,6 +110,11 @@ public class Member extends BaseEntity {
 
     public void resign() {
         this.delete();
+    }
+
+    public void increaseExp(Levels levels) {
+        var level = levels.getByExp(++exp);
+        this.levelId = level.getId();
     }
 
     @Override

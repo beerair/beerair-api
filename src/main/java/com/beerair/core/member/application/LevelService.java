@@ -1,13 +1,13 @@
 package com.beerair.core.member.application;
 
+import com.beerair.core.member.domain.Levels;
 import com.beerair.core.member.dto.response.LevelResponse;
 import com.beerair.core.member.infrastructure.LevelRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -23,10 +23,13 @@ public class LevelService {
                 .collect(Collectors.toList());
     }
 
+    // TODO :: Cache
     @Transactional(readOnly = true)
-    public LevelResponse getIdByExp(int exp) {
-        return LevelResponse.from(
-                levelRepository.findTop1ByExpGreaterThanEqualOrderByTierAsc(exp)
-        );
+    public Levels getLevels() {
+        return levelRepository.findAll()
+            .stream()
+            .collect(Collectors.collectingAndThen(
+                Collectors.toList(), Levels::new
+            ));
     }
 }
