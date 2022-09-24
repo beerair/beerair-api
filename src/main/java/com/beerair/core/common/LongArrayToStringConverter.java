@@ -12,14 +12,14 @@ public class LongArrayToStringConverter implements AttributeConverter<List<Long>
     @Override
     public String convertToDatabaseColumn(List<Long> attribute) {
         return attribute.stream()
-                .map(id -> String.valueOf(id))
+                .map(String::valueOf)
                 .collect(Collectors.joining(COMMA_SPLITTER));
     }
 
     @Override
     public List<Long> convertToEntityAttribute(String dbData) {
         return Arrays.stream(dbData.split(COMMA_SPLITTER))
-                .map(s -> Long.parseLong(s))
+                .map(Long::parseLong)
                 .collect(Collectors.toList());
     }
 }
