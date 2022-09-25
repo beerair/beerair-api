@@ -18,9 +18,9 @@ public class MemberSignFacade {
 
     public void sign(LoggedInMember user, MemberSignRequest request) {
         var member = memberService.get(user);
-        var level = levelService.getIdByExp(0);
-        var levelId = level.getId();
+        var levels = levelService.getLevels();
+        var level = levels.getByExp(0);
 
-        member.sign(request.getNickname(), levelId);
+        member.sign(request.getNickname(), level.getId());
     }
 }

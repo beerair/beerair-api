@@ -3,17 +3,18 @@ package com.beerair.core.review.facade;
 import com.beerair.core.beer.infrastructure.BeerRepository;
 import com.beerair.core.error.exception.beer.BeerNotFoundException;
 import com.beerair.core.error.exception.region.CountryNotFoundException;
+import com.beerair.core.event.ReviewCreateEventArgs;
 import com.beerair.core.region.infrastructure.CountryRepository;
 import com.beerair.core.review.domain.Review;
 import com.beerair.core.review.domain.vo.ReviewFlavorIds;
 import com.beerair.core.review.domain.vo.Route;
 import com.beerair.core.review.dto.request.ReviewRequest;
 import com.beerair.core.review.infrastructure.ReviewRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor
@@ -24,10 +25,13 @@ public class ReviewCreateFacade {
     private final ReviewRepository reviewRepository;
     private final BeerRepository beerRepository;
 
+    private final ApplicationEventPublisher eventPublisher;
+
     public void create(String memberId, ReviewRequest request) {
-        reviewRepository.save(
+        var review = reviewRepository.save(
                 createReview(memberId, request)
         );
+        eventPublisher.publishEvent(createEventArgs(review));
     }
 
     private Review createReview(String memberId, ReviewRequest request) {
@@ -65,5 +69,13 @@ public class ReviewCreateFacade {
         var defaultCountry = countryRepository.findByEngName(DEFAULT_COUNTRY_NAME)
                 .orElseThrow(CountryNotFoundException::new);
         return Route.ofOnlyArrival(defaultCountry.getId());
+    }
+
+    private ReviewCreateEventArgs createEventArgs(Review review) {
+        return ReviewCreateEventArgs.builder()
+            .reviewId(review.getId())
+            .beerId(review.getBeerId())
+            .memberId(review.getMemberId())
+            .build();
     }
 }

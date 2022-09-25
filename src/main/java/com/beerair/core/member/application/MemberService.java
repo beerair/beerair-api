@@ -15,9 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    public Member get(String memberId) {
+        return memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
+    }
+
     public Member get(LoggedInMember user) {
-        return memberRepository.findById(user.getId())
-                .orElseThrow(MemberNotFoundException::new);
+        return get(user.getId());
     }
 
     public void resign(LoggedInMember user) {

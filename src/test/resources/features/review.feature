@@ -1,4 +1,15 @@
 Feature: Review
+    Scenario: 리뷰 작성하면 레벨과 경험치 증가
+        Given   access: '1234', refresh: '5678' 회원가입된 유저의 토큰이 발급 되어있다.
+        And     Access Token 사용 : '1234'
+
+        When    '에일의 정석' 맥주에 맛 1,2,3 리뷰 작성을 요청하면
+        Then    요청이 성공한다.
+
+        When    나의 정보를 요청 하면
+        Then    요청이 성공한다.
+        And     나의 정보에서 티어는 2 이다.
+
     Scenario: 리뷰 맛 TOP3
         Given   access: '1234', refresh: '5678' 회원가입된 유저의 토큰이 발급 되어있다.
         And     Access Token 사용 : '1234'
