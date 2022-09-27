@@ -1,0 +1,33 @@
+name: BeerAir Api Server Git-Action
+
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start Action
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
+          submodules: true
+
+      # Submodule Update
+      - name: Git Sumbmodule Update
+        run: git submodule update --remote --recursive
+
+      # Set JDK Version
+      - name: Set Up Jdk 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      # Modify Permission
+      - name: Grant Execute Permission For Gradlew
+        run: chmod +x gradlew
+
+      # Build Gradle
+      - name: Build With Gradle
+        run: ./gradlew clean build
