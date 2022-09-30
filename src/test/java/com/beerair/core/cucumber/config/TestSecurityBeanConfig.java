@@ -5,7 +5,6 @@ import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 import com.beerair.core.auth.presentation.loginhandler.AuthTokenFailureHandler;
 import com.beerair.core.auth.presentation.tokenreader.AuthTokenReader;
-import com.beerair.core.auth.presentation.tokenreader.AuthTokenReaders;
 import com.beerair.core.auth.presentation.tokenreader.CookieAuthTokenReader;
 import com.beerair.core.auth.presentation.tokenreader.HeaderAuthTokenReader;
 import com.beerair.core.fixture.fake.FakeAuthTokenCrypto;
@@ -45,13 +44,5 @@ public class TestSecurityBeanConfig {
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
         return new AuthTokenFailureHandler("/");
-    }
-
-    @Bean
-    public AuthTokenReader authTokenReaders() {
-        return new AuthTokenReaders(
-                new CookieAuthTokenReader(),
-                new HeaderAuthTokenReader()
-        );
     }
 }

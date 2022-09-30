@@ -1,14 +1,16 @@
 package com.beerair.core.cucumber;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-
+import com.beerair.core.common.dto.ResponseDto;
+import com.beerair.core.fixture.Fixture;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
+import java.util.List;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 
 /**
  * @author 김재원
@@ -40,6 +42,16 @@ public class CucumberHttpResponseContext {
         return OBJECT_MAPPER.readValue(
             json.toString(), typeReference
         );
+    }
+
+    @SneakyThrows
+    public static void selectByList(int index) {
+        ResponseDto<List<?>> body = getBody(new TypeReference<>() {});
+        Object selected = body.getData().get(index);
+        ResponseDto<?> newBody = new ResponseDto<>(selected);
+
+        new Fixture<>(latestResponse)
+            .set("body", newBody);
     }
 
     public static String getCookie() {

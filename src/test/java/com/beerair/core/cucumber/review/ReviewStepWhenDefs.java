@@ -51,9 +51,9 @@ public class ReviewStepWhenDefs {
         reviewStepClient.getAllByBeer(beerId);
     }
 
-    @When("최근 리뷰 조회를 요청하면")
-    public void 최근_맥주_리뷰_조회_요청() {
-        reviewStepClient.getLatestByMe();
+    @When("최근 리뷰 조회 {int}개를 요청하면")
+    public void 최근_맥주_리뷰_조회_요청(int limit) {
+        reviewStepClient.getRecentByMe(limit);
     }
 
     private String getReviewId(String beerId) {

@@ -18,4 +18,12 @@ public class MemberStepThenDefs {
         assertThat(response.getData().getTier())
                 .isEqualTo(expertLevel);
     }
+
+    @Then("나의 정보에서 권한 갯수는 {int}개 이다.")
+    public void 권한_갯수_검증(int size) {
+        ResponseDto<MemberResponse> response =
+            CucumberHttpResponseContext.getBody(new TypeReference<>() {});
+        assertThat(response.getData().getAuthorities().size())
+            .isEqualTo(size);
+    }
 }

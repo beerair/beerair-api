@@ -27,12 +27,13 @@ public class FlavorController {
         return ResponseEntity.ok(response);
     }
 
-    @ApiOperation(value = "특정 맥주의 맛 top3 API")
+    @ApiOperation(value = "특정 맥주의 맛 Rank API")
     @GetMapping("rank")
     public ResponseEntity<?> getFlavorTop3(
-            @RequestParam("beerId") String beerId
+        @RequestParam("beerId") String beerId,
+        @RequestParam("limit") Integer limit
     ) {
-        var response = flavorService.getFlavorTop3(beerId);
+        var response = flavorService.getFlavorRank(beerId, limit);
         return ResponseDto.ok(response);
     }
 }

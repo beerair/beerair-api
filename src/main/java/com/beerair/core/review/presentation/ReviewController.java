@@ -9,6 +9,7 @@ import com.beerair.core.review.dto.request.ReviewRequest;
 import com.beerair.core.review.facade.ReviewCreateFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,18 +62,11 @@ public class ReviewController {
     @ApiOperation(value = "나의 리뷰 티켓 목록 조회")
     @GetMapping("me")
     public ResponseEntity<?> getAllByMe(
-            @AuthMember LoggedInMember member
+            @AuthMember LoggedInMember member,
+            @RequestParam(value = "limit", required = false) Integer limit
     ) {
-        var responses = queryService.getAllByMe(member.getId());
-        return ResponseDto.ok(responses);
-    }
-
-    @ApiOperation(value = "최근 리뷰 티켓 조회")
-    @GetMapping("me/latest")
-    public ResponseEntity<?> getLatestByMe(
-            @AuthMember LoggedInMember member
-    ) {
-        var responses = queryService.getLatestByMe(member.getId());
+        limit = Objects.requireNonNullElse(limit, Integer.MAX_VALUE);
+        var responses = queryService.getAllByMe(member.getId(), limit);
         return ResponseDto.ok(responses);
     }
 

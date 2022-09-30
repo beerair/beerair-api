@@ -1,4 +1,4 @@
-package com.beerair.core.auth.presentation.aop;
+package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;

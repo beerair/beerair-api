@@ -2,17 +2,15 @@ package com.beerair.core.review.infrastructure;
 
 import com.beerair.core.common.util.NativeQueryReader;
 import com.beerair.core.review.dto.query.FlavorRankDto;
-import org.springframework.stereotype.Repository;
-
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class FlavorRankRepositoryImpl implements FlavorRankRepository {
-    private static final int LIMIT = 3;
     private static final String SQL =
                             "SELECT flavor as id, f.content, COUNT(id) as count " +
                             "FROM (" +
@@ -29,17 +27,17 @@ public class FlavorRankRepositoryImpl implements FlavorRankRepository {
     private EntityManager em;
 
     @Override
-    public List<FlavorRankDto> findTop3ByBeerId(String beerId) {
-        List<?> result = createQuery(beerId).getResultList();
+    public List<FlavorRankDto> findRankByBeerId(String beerId, int limit) {
+        List<?> result = createQuery(beerId, limit).getResultList();
         return result.stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
     }
 
-    private Query createQuery(String beerId) {
+    private Query createQuery(String beerId, int limit) {
         var query = em.createNativeQuery(SQL);
         query.setParameter("beerId", beerId);
-        query.setMaxResults(LIMIT);
+        query.setMaxResults(limit);
         return query;
     }
 

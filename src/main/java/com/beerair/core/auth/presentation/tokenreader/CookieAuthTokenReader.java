@@ -5,7 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CookieAuthTokenReader implements AuthTokenReader {
     @Override
     public Optional<String> read(HttpServletRequest request) {
