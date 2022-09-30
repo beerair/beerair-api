@@ -4,6 +4,7 @@ import com.beerair.core.error.exception.review.ReviewNotFoundException;
 import com.beerair.core.review.dto.response.ReviewResponse;
 import com.beerair.core.review.infrastructure.ReviewQueryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,17 +23,12 @@ public class ReviewQueryService {
         return ReviewResponse.from(result);
     }
 
-    public List<ReviewResponse> getAllByMe(String memberId) {
-        return reviewQueryRepository.findAllByMemberId(memberId)
-                .stream()
-                .map(ReviewResponse::ofListItemAtMe)
-                .collect(Collectors.toList());
-    }
-
-    public ReviewResponse getLatestByMe(String memberId) {
-        return reviewQueryRepository.findLatestByMemberId(memberId)
-                .map(ReviewResponse::from)
-                .orElseThrow(ReviewNotFoundException::new);
+    public List<ReviewResponse> getAllByMe(String memberId, int limit) {
+        Pageable pageable = Pageable.ofSize(limit);
+        return reviewQueryRepository.findAllByMemberId(memberId, pageable)
+            .stream()
+            .map(ReviewResponse::ofListItemAtMe)
+            .collect(Collectors.toList());
     }
 
     public List<ReviewResponse> getAllByBeer(String beerId) {

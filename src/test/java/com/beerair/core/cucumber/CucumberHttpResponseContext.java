@@ -1,7 +1,9 @@
 package com.beerair.core.cucumber;
 
+import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.fixture.Fixture;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.List;
@@ -44,9 +46,12 @@ public class CucumberHttpResponseContext {
 
     @SneakyThrows
     public static void selectByList(int index) {
-        List<?> body = getBody(new TypeReference<>() {});
+        ResponseDto<List<?>> body = getBody(new TypeReference<>() {});
+        Object selected = body.getData().get(index);
+        ResponseDto<?> newBody = new ResponseDto<>(selected);
+
         new Fixture<>(latestResponse)
-            .set("body", body.get(index));
+            .set("body", newBody);
     }
 
     public static String getCookie() {
