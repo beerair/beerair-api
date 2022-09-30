@@ -14,8 +14,13 @@ public class MemberStepWhenDefs {
     private MemberStepClient memberStepClient;
 
     @When("회원 가입을 요청 하면")
-    public void sign() {
-        MemberSignRequest request = new MemberSignRequest(randomAlphabetic(10));
+    public void signByRandom() {
+        sign(randomAlphabetic(10));
+    }
+
+    @When("{string} 닉네임으로 회원 가입을 요청 하면")
+    public void sign(String nickname) {
+        MemberSignRequest request = new MemberSignRequest(nickname);
         memberStepClient.sign(request);
     }
 
