@@ -10,10 +10,6 @@ import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 import com.beerair.core.auth.presentation.loginhandler.AuthTokenFailureHandler;
 import com.beerair.core.auth.presentation.loginhandler.AuthTokenSuccessHandler;
 import com.beerair.core.auth.presentation.loginhandler.TokenDelivery;
-import com.beerair.core.auth.presentation.tokenreader.AuthTokenReader;
-import com.beerair.core.auth.presentation.tokenreader.AuthTokenReaders;
-import com.beerair.core.auth.presentation.tokenreader.CookieAuthTokenReader;
-import com.beerair.core.auth.presentation.tokenreader.HeaderAuthTokenReader;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -91,13 +87,5 @@ public class SecurityBeanConfig {
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler(@Value("${auth.fail_redirect_uri}") String redirectUrl) {
         return new AuthTokenFailureHandler(redirectUrl);
-    }
-
-    @Bean
-    public AuthTokenReader authTokenReaders() {
-        return new AuthTokenReaders(
-                new CookieAuthTokenReader(),
-                new HeaderAuthTokenReader()
-        );
     }
 }

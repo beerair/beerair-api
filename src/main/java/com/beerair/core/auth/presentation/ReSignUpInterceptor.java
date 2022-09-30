@@ -1,4 +1,4 @@
-package com.beerair.core.auth.presentation.aop;
+package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.utils.CookieUtils;
 import org.springframework.http.HttpMethod;
