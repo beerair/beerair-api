@@ -40,7 +40,8 @@ public class MemberService {
     }
 
     public MemberResponse getMe(LoggedInMember user) {
-        return memberRepository.findByIdWithLevel(user.getId())
-                .orElseThrow(MemberNotFoundException::new);
+        var result = memberRepository.findByIdWithLevel(user.getId())
+            .orElseThrow(MemberNotFoundException::new);
+        return MemberResponse.from(result);
     }
 }

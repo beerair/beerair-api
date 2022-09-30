@@ -34,12 +34,4 @@ public class AuthController {
         CookieUtils.deleteCookie("refreshToken", response);
         return ResponseDto.noContent();
     }
-
-    @ApiOperation(value = "권한 정보 조회")
-    @GetMapping("me/authorities")
-    public ResponseEntity<?> logout() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var authorities = authentication.getAuthorities();
-        return ResponseDto.ok(authorities);
-    }
 }

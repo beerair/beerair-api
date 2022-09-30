@@ -16,10 +16,10 @@ public class LevelResponse {
 
     public static LevelResponse from(Level level) {
         return LevelResponse.builder()
-                .id(level.getId())
-                .imageUrl(level.getImageUrl())
-                .exp(level.getExp())
-                .tier(level.getTier())
-                .build();
+            .id(level.getId())
+            .imageUrl(level.getImageUrl())
+            .exp(level.getExp())
+            .tier(level.getTier())
+            .build();
     }
 }

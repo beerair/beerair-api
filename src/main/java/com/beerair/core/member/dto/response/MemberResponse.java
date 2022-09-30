@@ -1,33 +1,36 @@
 package com.beerair.core.member.dto.response;
 
-import com.beerair.core.member.domain.Level;
-import com.beerair.core.member.domain.Member;
+import com.beerair.core.member.dto.query.MemberDto;
+import java.util.Set;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Builder
-@AllArgsConstructor
+@AllArgsConstructor @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
 public class MemberResponse {
     private String id;
     private String email;
     private String profileUrl;
     private String nickname;
+    private Set<String> authorities;
 
     private Integer tier;
     private String levelImage;
 
-    protected MemberResponse() {
-    }
-
-    public MemberResponse(Member member, Level level) {
-        this.email = member.getEmail();
-        this.profileUrl = member.getProfileUrl();
-        this.nickname = member.getNickname();
-        this.tier = level.getTier();
-        this.levelImage = level.getImageUrl();
+    public static MemberResponse from(MemberDto dto) {
+        MemberDto.MemberInfo m = dto.getMember();
+        MemberDto.LevelInfo l = dto.getLevel();
+        return MemberResponse.builder()
+            .email(m.getEmail())
+            .profileUrl(m.getProfileUrl())
+            .nickname(m.getNickname())
+            .tier(l.getTier())
+            .levelImage(l.getImageUrl())
+            .authorities(m.getRole().getAuthorities())
+            .build();
     }
 }
