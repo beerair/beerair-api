@@ -3,12 +3,14 @@ package com.beerair.core.cucumber.common;
 import com.beerair.core.cucumber.CucumberHttpResponseContext;
 import com.beerair.core.common.dto.ResponseDto;
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.spring.ScenarioScope;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.in;
 
 @ScenarioScope
 public class CommonStepDefs {
@@ -33,8 +35,13 @@ public class CommonStepDefs {
     @Then("{int}개가 조회된다.")
     public void matchCollectionSize(int expect) {
         ResponseDto<List<?>> response = CucumberHttpResponseContext.getBody(
-                new TypeReference<>() {}
+            new TypeReference<>() {}
         );
         assertThat(response.getData().size()).isEqualTo(expect);
+    }
+
+    @Given("-- 리스트 중 {int}번째 선택")
+    public void select(int index) {
+        CucumberHttpResponseContext.selectByList(index);
     }
 }
