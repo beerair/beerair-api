@@ -4,29 +4,30 @@ import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.TokenPurpose;
 import com.beerair.core.auth.dto.response.TokenRefreshResponse;
+import com.beerair.core.cache.authtoken.AuthTokenRedisCacheService;
+import com.beerair.core.cache.authtoken.AuthTokenRedisKey;
 import com.beerair.core.error.exception.auth.InvalidAuthTokenException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
 @Transactional
 @Service
 public class AuthTokenService {
     private final AuthTokenCrypto accessTokenCrypto;
     private final AuthTokenCrypto refreshTokenCrypto;
+    private final AuthTokenRedisCacheService authTokenRedisCacheService;
     private final RedisTemplate<String, Object> redisTemplate;
 
     public AuthTokenService(
             RedisTemplate<String, Object> redisTemplate,
+            AuthTokenRedisCacheService authTokenRedisCacheService,
             @Qualifier(TokenPurpose.ACCESS) AuthTokenCrypto accessTokenCrypto,
             @Qualifier(TokenPurpose.REFRESH) AuthTokenCrypto refreshTokenCrypto
     ) {
         this.redisTemplate = redisTemplate;
+        this.authTokenRedisCacheService = authTokenRedisCacheService;
         this.accessTokenCrypto = accessTokenCrypto;
         this.refreshTokenCrypto = refreshTokenCrypto;
     }
@@ -34,7 +35,14 @@ public class AuthTokenService {
     public TokenRefreshResponse issueByRefreshToken(String refreshToken) {
         var authentication = refreshTokenCrypto.decrypt(refreshToken);
         var memberId = authentication.getPrincipal().getId();
-        if (!existsRefreshToken(memberId, refreshToken)) {
+
+        var isRefreshToken = !authTokenRedisCacheService.existsRefreshToken(
+                AuthTokenRedisKey.AUTH_REFRESH_TOKEN,
+                memberId,
+                refreshToken
+        );
+
+        if (isRefreshToken) {
             throw new InvalidAuthTokenException();
         }
 
@@ -46,25 +54,18 @@ public class AuthTokenService {
         );
     }
 
-    private boolean existsRefreshToken(String memberId, String token) {
-        String saved = (String) redisTemplate.opsForValue().get(refreshTokenKey(memberId));
-        return Objects.nonNull(saved) && saved.equals(token);
-    }
-
-    private String refreshTokenKey(String memberId) {
-        return "refreshToken:" + memberId;
-    }
-
     public void issueRefreshToken(String memberId, AuthToken authToken) {
-        redisTemplate.opsForValue().set(
-                refreshTokenKey(memberId),
-                authToken.getToken(),
-                (authToken.getExpired().getTime() - new Date().getTime()),
-                TimeUnit.MILLISECONDS
+        authTokenRedisCacheService.issueRefreshToken(
+                AuthTokenRedisKey.AUTH_REFRESH_TOKEN,
+                memberId,
+                authToken
         );
     }
 
     public void deleteRefreshTokenByMember(String memberId) {
-        redisTemplate.delete(refreshTokenKey(memberId));
+        authTokenRedisCacheService.delete(
+                AuthTokenRedisKey.AUTH_REFRESH_TOKEN,
+                memberId
+        );
     }
 }
