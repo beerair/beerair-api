@@ -29,7 +29,8 @@ public class BeerController {
     @GetMapping
     public ResponseEntity<?> search(
             @AuthMember Optional<LoggedInMember> member,
-            BeerSearchRequest request) {
+            BeerSearchRequest request
+    ) {
         var response = beerService.search(
                 member.map(LoggedInMember::getId).orElse(null), request
         );

@@ -1,7 +1,7 @@
 package com.beerair.core.review.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
-import com.beerair.core.common.util.IdGenerator;
+import com.beerair.core.common.util.KeyGenerator;
 import com.beerair.core.review.domain.vo.FeelStatus;
 import com.beerair.core.review.domain.vo.ReviewFlavorIds;
 import com.beerair.core.review.domain.vo.Route;
@@ -21,7 +21,7 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
+import static com.beerair.core.common.util.KeyGenerator.UUID_LENGTH;
 
 @Table(
         indexes = {
@@ -83,7 +83,7 @@ public class Review extends BaseEntity {
 
     @Builder
     private Review(String previousId, String beerId, String memberId, Route route, FeelStatus feelStatus, ReviewFlavorIds flavorIds, String content, String imageUrl, Boolean isPublic) {
-        this.id = IdGenerator.createUUID();
+        this.id = KeyGenerator.createKeyByUUID();
         this.previousId = previousId;
         this.beerId = beerId;
         this.memberId = memberId;

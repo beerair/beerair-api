@@ -1,7 +1,6 @@
 package com.beerair.core.beer.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
-import com.beerair.core.common.util.IdGenerator;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
