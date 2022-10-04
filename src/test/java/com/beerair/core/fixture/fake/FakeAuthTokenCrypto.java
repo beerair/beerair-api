@@ -7,7 +7,6 @@ import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.error.TestDebugException;
 import com.beerair.core.member.domain.Member;
-
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;

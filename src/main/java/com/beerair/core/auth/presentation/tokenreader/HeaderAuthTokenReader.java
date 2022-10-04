@@ -1,8 +1,8 @@
 package com.beerair.core.auth.presentation.tokenreader;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 
 public class HeaderAuthTokenReader implements AuthTokenReader {
     public static final String TOKEN_TYPE = "Bearer";

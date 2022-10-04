@@ -1,7 +1,10 @@
 package com.beerair.core.cucumber;
 
-import com.beerair.core.cucumber.auth.AccessTokenHolder;
+import static com.beerair.core.auth.presentation.tokenreader.HeaderAuthTokenReader.TOKEN_TYPE;
+
 import com.beerair.core.common.dto.ResponseDto;
+import com.beerair.core.cucumber.auth.AccessTokenHolder;
+import java.util.Objects;
 import lombok.SneakyThrows;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -12,10 +15,6 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Objects;
-
-import static com.beerair.core.auth.presentation.tokenreader.HeaderAuthTokenReader.*;
 
 public abstract class StepClient {
     private static final String SERVER_URL = "http://localhost";

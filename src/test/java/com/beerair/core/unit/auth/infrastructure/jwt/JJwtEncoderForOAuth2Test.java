@@ -1,5 +1,8 @@
 package com.beerair.core.unit.auth.infrastructure.jwt;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
 import com.beerair.core.auth.infrastructure.jwt.JJwtCrypto;
@@ -7,18 +10,13 @@ import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.error.exception.auth.ExpiredAuthTokenException;
 import com.beerair.core.fixture.Fixture;
 import com.beerair.core.fixture.MemberFixture;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class JJwtEncoderForOAuth2Test {
     private static final String ALGORITHM = "HS256";

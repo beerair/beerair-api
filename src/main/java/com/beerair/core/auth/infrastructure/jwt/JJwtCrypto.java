@@ -16,14 +16,13 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Builder;
-import lombok.experimental.UtilityClass;
-
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
 import java.util.Set;
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+import lombok.Builder;
+import lombok.experimental.UtilityClass;
 
 public class JJwtCrypto implements AuthTokenCrypto {
     private final SignatureAlgorithm signatureAlgorithm;

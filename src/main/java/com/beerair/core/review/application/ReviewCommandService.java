@@ -2,11 +2,10 @@ package com.beerair.core.review.application;
 
 import com.beerair.core.review.domain.Review;
 import com.beerair.core.review.infrastructure.ReviewRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Transactional
 @RequiredArgsConstructor

@@ -4,19 +4,18 @@ import com.beerair.core.beer.dto.query.BeerListItemDto;
 import com.beerair.core.beer.infrastructure.BeerSearchRepository;
 import com.beerair.core.common.util.NativeQueryReader;
 import com.beerair.core.review.domain.vo.FeelStatus;
-import lombok.SneakyThrows;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import lombok.SneakyThrows;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class BeerSearchRepositoryImpl implements BeerSearchRepository {

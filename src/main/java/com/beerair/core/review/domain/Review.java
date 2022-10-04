@@ -1,16 +1,12 @@
 package com.beerair.core.review.domain;
 
+import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
+
 import com.beerair.core.common.domain.BaseEntity;
 import com.beerair.core.common.util.IdGenerator;
 import com.beerair.core.review.domain.vo.FeelStatus;
 import com.beerair.core.review.domain.vo.ReviewFlavorIds;
 import com.beerair.core.review.domain.vo.Route;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Comment;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -20,8 +16,11 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Table(
         indexes = {

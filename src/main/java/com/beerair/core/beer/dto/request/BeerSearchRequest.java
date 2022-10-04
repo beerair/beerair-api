@@ -3,10 +3,8 @@ package com.beerair.core.beer.dto.request;
 import com.beerair.core.beer.infrastructure.search.BeerOrderBy;
 import com.beerair.core.beer.infrastructure.search.BeerSearchCondition;
 import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class BeerSearchRequest {

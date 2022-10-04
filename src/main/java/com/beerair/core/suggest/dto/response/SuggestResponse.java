@@ -2,9 +2,8 @@ package com.beerair.core.suggest.dto.response;
 
 import com.beerair.core.suggest.domain.Suggest;
 import com.beerair.core.suggest.domain.vo.SuggestStatus;
-import lombok.Data;
-
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
 public class SuggestResponse {

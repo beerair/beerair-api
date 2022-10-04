@@ -3,13 +3,11 @@ package com.beerair.core.review.infrastructure;
 import com.beerair.core.review.domain.Review;
 import com.beerair.core.review.dto.query.ReviewDto;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 @Repository

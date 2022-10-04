@@ -1,5 +1,12 @@
 package com.beerair.core.unit.member.domain;
 
+import static com.beerair.core.fixture.MemberFixture.createSocialMemberFixture;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.beerair.core.error.exception.member.MemberUnableSignException;
 import com.beerair.core.fixture.Fixture;
 import com.beerair.core.member.domain.Level;
@@ -10,13 +17,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import static com.beerair.core.fixture.MemberFixture.createSocialMemberFixture;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class MemberTest {
     private Fixture<Member> memberFixture;

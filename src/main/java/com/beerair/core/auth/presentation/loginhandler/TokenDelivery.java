@@ -1,7 +1,6 @@
 package com.beerair.core.auth.presentation.loginhandler;
 
 import com.beerair.core.auth.domain.AuthToken;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

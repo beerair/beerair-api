@@ -1,15 +1,14 @@
 package com.beerair.core.member.domain.vo;
 
 import com.beerair.core.common.domain.StringFieldCryptConverter;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import org.hibernate.annotations.Comment;
-
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import org.hibernate.annotations.Comment;
 
 @EqualsAndHashCode
 @Getter

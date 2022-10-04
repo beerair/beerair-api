@@ -3,11 +3,10 @@ package com.beerair.core.beer.application;
 import com.beerair.core.beer.dto.response.BeerTypeResponse;
 import com.beerair.core.beer.dto.response.BeerTypeResponses;
 import com.beerair.core.beer.infrastructure.BeerTypeRepository;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)

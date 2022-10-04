@@ -1,8 +1,7 @@
 package com.beerair.core.cucumber.cleanup;
 
-import org.springframework.stereotype.Component;
-
 import com.beerair.core.cucumber.CucumberHttpResponseContext;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CucumberHttpResponseCleanUp implements CleanUp {

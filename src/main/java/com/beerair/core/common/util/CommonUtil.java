@@ -2,7 +2,6 @@ package com.beerair.core.common.util;
 
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
-
 import java.util.Objects;
 
 /**

@@ -1,12 +1,11 @@
 package com.beerair.core.cucumber.config;
 
+import java.io.IOException;
 import lombok.experimental.UtilityClass;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
 
 @UtilityClass
 public class RestTemplateFactory {

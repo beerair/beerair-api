@@ -1,8 +1,7 @@
 package com.beerair.core.beer.dto.query;
 
-import com.beerair.core.review.domain.vo.ReviewFlavorIds;
 import com.beerair.core.review.domain.vo.FeelStatus;
-
+import com.beerair.core.review.domain.vo.ReviewFlavorIds;
 import java.time.LocalDateTime;
 
 public interface BeerDto {

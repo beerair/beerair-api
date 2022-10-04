@@ -1,12 +1,10 @@
 package com.beerair.core.auth.infrastructure.oauth2.dto;
 
 import com.beerair.core.member.domain.vo.SocialType;
+import java.util.Map;
+import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Map;
 
 @Getter
 public class OAuth2Attributes {

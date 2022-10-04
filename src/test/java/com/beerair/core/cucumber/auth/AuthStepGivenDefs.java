@@ -7,13 +7,11 @@ import com.beerair.core.fixture.fake.FakeAuthTokenCrypto;
 import com.beerair.core.fixture.fake.FakeOAuth2UserService;
 import com.beerair.core.member.infrastructure.MemberRepository;
 import io.cucumber.java.en.Given;
-import io.cucumber.spring.ScenarioScope;
+import java.util.Date;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
-import java.util.Random;
 
 public class AuthStepGivenDefs {
     @Autowired

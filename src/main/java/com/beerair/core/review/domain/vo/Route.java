@@ -1,10 +1,9 @@
 package com.beerair.core.review.domain.vo;
 
-import lombok.Getter;
-import org.hibernate.annotations.Comment;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Getter;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @Embeddable

@@ -3,7 +3,6 @@ package com.beerair.core.cucumber;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.fixture.Fixture;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.List;

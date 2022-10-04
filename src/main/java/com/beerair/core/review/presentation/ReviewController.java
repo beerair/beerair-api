@@ -1,17 +1,21 @@
 package com.beerair.core.review.presentation;
 
+import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
+
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
 import com.beerair.core.review.application.ReviewCommandService;
 import com.beerair.core.review.application.ReviewQueryService;
 import com.beerair.core.review.dto.request.ReviewRequest;
+import com.beerair.core.review.dto.response.ReviewResponse;
 import com.beerair.core.review.facade.ReviewCreateFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "[7] 리뷰 API")
 @RestController
@@ -32,50 +35,55 @@ public class ReviewController {
     private final ReviewCommandService commandService;
     private final ReviewCreateFacade createFacade;
 
+    @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "나의 리뷰 티켓 조회")
     @GetMapping("{id}")
-    public ResponseEntity<?> get(
+    public ResponseDto<ReviewResponse> get(
             @AuthMember LoggedInMember member,
             @PathVariable("id") String reviewId
     ) {
-        var response = queryService.get(member.getId(), reviewId);
-        return ResponseDto.ok(response);
+        var result = queryService.get(member.getId(), reviewId);
+        return new ResponseDto<>(result);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "리뷰 티켓 등록")
     @PostMapping
-    public ResponseEntity<?> create(@AuthMember LoggedInMember member, @RequestBody ReviewRequest request) {
+    public ResponseDto<Void> create(@AuthMember LoggedInMember member, @RequestBody ReviewRequest request) {
         createFacade.create(member.getId(), request);
-        return ResponseDto.noContent();
+        return new ResponseDto<>();
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "나의 리뷰 티켓 삭제")
     @DeleteMapping("{id}")
-    public ResponseEntity<?> delete(
+    public ResponseDto<Void> delete(
             @AuthMember LoggedInMember member,
             @PathVariable("id") String reviewId
     ) {
         commandService.delete(member.getId(), reviewId);
-        return ResponseDto.noContent();
+        return new ResponseDto<>();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "나의 리뷰 티켓 목록 조회")
     @GetMapping("me")
-    public ResponseEntity<?> getAllByMe(
+    public ResponseDto<List<ReviewResponse>> getAllByMe(
             @AuthMember LoggedInMember member,
             @RequestParam(value = "limit", required = false) Integer limit
     ) {
         limit = Objects.requireNonNullElse(limit, Integer.MAX_VALUE);
-        var responses = queryService.getAllByMe(member.getId(), limit);
-        return ResponseDto.ok(responses);
+        var result = queryService.getAllByMe(member.getId(), limit);
+        return new ResponseDto<>(result);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "특정 맥주에 대한 리뷰 조회")
     @GetMapping
-    public ResponseEntity<?> getAllByBeer(
+    public ResponseDto<List<ReviewResponse>> getAllByBeer(
             @RequestParam("beerId") String beerId
     ) {
-        var responses = queryService.getAllByBeer(beerId);
-        return ResponseDto.ok(responses);
+        var result = queryService.getAllByBeer(beerId);
+        return new ResponseDto<>(result);
     }
 }

@@ -2,7 +2,6 @@ package com.beerair.core.review.dto.query;
 
 import com.beerair.core.review.domain.vo.FeelStatus;
 import com.beerair.core.review.domain.vo.Route;
-
 import java.time.LocalDateTime;
 
 public interface ReviewDto {

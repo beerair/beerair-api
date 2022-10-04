@@ -1,5 +1,12 @@
 package com.beerair.core.unit.auth.application;
 
+import static com.beerair.core.fixture.MemberFixture.createSocialMemberFixture;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.beerair.core.auth.application.OAuth2UserServiceImpl;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
@@ -7,6 +14,8 @@ import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.SocialType;
 import com.beerair.core.member.infrastructure.MemberRepository;
+import java.util.Collections;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,16 +23,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-
-import java.util.Collections;
-import java.util.Optional;
-
-import static com.beerair.core.fixture.MemberFixture.createSocialMemberFixture;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class OAuth2UserServiceImplTest {

@@ -1,10 +1,10 @@
 package com.beerair.core.auth.presentation.tokenreader;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 @Component

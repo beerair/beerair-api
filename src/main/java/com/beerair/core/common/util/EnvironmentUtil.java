@@ -1,8 +1,7 @@
 package com.beerair.core.common.util;
 
-import org.springframework.core.env.Environment;
-
 import java.util.Arrays;
+import org.springframework.core.env.Environment;
 
 /**
  * EnvironmentUtil

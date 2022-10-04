@@ -1,10 +1,9 @@
 package com.beerair.core.common.util;
 
-import lombok.experimental.UtilityClass;
-
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ValidateUtil {

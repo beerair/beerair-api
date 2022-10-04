@@ -1,10 +1,10 @@
 package com.beerair.core.unit.review.domain.vo;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.beerair.core.review.domain.vo.Route;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class RouteTest {
     private static final Long FIRST_COUNTRY = 1L;

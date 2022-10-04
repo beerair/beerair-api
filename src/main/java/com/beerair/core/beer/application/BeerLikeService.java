@@ -3,12 +3,11 @@ package com.beerair.core.beer.application;
 import com.beerair.core.beer.domain.BeerLike;
 import com.beerair.core.beer.dto.response.BeerResponse;
 import com.beerair.core.beer.infrastructure.BeerLikeRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service

@@ -1,12 +1,11 @@
 package com.beerair.core.review.domain.vo;
 
+import java.util.List;
+import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
-
-import javax.persistence.Embeddable;
-import java.util.List;
 
 @Getter
 @Embeddable

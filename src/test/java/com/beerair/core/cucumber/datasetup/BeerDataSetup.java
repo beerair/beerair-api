@@ -3,11 +3,10 @@ package com.beerair.core.cucumber.datasetup;
 import com.beerair.core.beer.domain.Beer;
 import com.beerair.core.beer.infrastructure.BeerRepository;
 import com.beerair.core.fixture.Fixture;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Component
 public class BeerDataSetup extends DataSetup {

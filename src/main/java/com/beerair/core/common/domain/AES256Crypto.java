@@ -1,21 +1,17 @@
 package com.beerair.core.common.domain;
 
-import com.beerair.core.error.exception.common.PropertiesException;
-import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+import com.beerair.core.error.exception.common.PropertiesException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-import java.util.Objects;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import lombok.SneakyThrows;
 
 public class AES256Crypto implements Crypto {
     private static final String ALGORITHM = "AES";

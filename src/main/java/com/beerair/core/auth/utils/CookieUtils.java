@@ -1,9 +1,8 @@
 package com.beerair.core.auth.utils;
 
-import lombok.experimental.UtilityClass;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class CookieUtils {

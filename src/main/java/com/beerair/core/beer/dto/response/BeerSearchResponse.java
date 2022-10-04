@@ -1,12 +1,11 @@
 package com.beerair.core.beer.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

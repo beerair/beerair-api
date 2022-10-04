@@ -1,12 +1,12 @@
 package com.beerair.core.cucumber.member;
 
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+
 import com.beerair.core.member.dto.request.MemberChangeNicknameRequest;
 import com.beerair.core.member.dto.request.MemberSignRequest;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.ScenarioScope;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
 @ScenarioScope
 public class MemberStepWhenDefs {

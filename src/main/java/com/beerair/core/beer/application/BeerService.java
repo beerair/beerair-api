@@ -7,12 +7,11 @@ import com.beerair.core.beer.infrastructure.BeerRecommendRepository;
 import com.beerair.core.beer.infrastructure.BeerRepository;
 import com.beerair.core.beer.infrastructure.BeerSearchRepository;
 import com.beerair.core.error.exception.beer.BeerNotFoundException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

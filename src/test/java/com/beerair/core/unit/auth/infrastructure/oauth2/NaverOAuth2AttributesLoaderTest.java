@@ -1,12 +1,19 @@
 package com.beerair.core.unit.auth.infrastructure.oauth2;
 
-import static java.util.Collections.*;
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
+import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
+import com.beerair.core.fixture.Fixture;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -21,10 +28,6 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-
-import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
-import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
-import com.beerair.core.fixture.Fixture;
 
 @Tag("Unit")
 @ExtendWith(MockitoExtension.class)
