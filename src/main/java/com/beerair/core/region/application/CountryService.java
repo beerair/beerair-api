@@ -14,18 +14,19 @@ public class CountryService {
     private final CountryRepository countryRepository;
 
     public CountryResponses getAll() {
-        return CountryResponses.from(
-                countryRepository.findAll()
-                        .stream().map(CountryResponse::from)
-                        .collect(Collectors.toList()));
+        var country = countryRepository.findAll()
+                .stream().map(CountryResponse::from)
+                .collect(Collectors.toList());
+
+        return new CountryResponses(country);
     }
 
     public CountryResponses getByContinentId(Long continentId) {
+        var country = countryRepository.findByContinentId(continentId)
+                .stream()
+                .map(CountryResponse::from)
+                .collect(Collectors.toList());
 
-        return CountryResponses.from(
-                countryRepository.findByContinentId(continentId)
-                        .stream()
-                        .map(CountryResponse::from)
-                        .collect(Collectors.toList()));
+        return new CountryResponses(country);
     }
 }

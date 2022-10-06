@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RegionFacade {
-
     private final ContinentService continentService;
     private final CountryService countryService;
 
