@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BeerService {
     private static final int RECOMMEND_LIMIT = 9;
-    private static final int SEARCH_LIMIT = 30;
+    public static final int SEARCH_LIMIT = 30;
 
     private final BeerRepository beerRepository;
     private final BeerSearchRepository beerSearchRepository;
@@ -46,11 +46,11 @@ public class BeerService {
                 SEARCH_LIMIT
         );
 
-        var contents = searched.stream()
-                .map(BeerResponse::ofListItem)
-                .collect(Collectors.toList());
-
-        return BeerSearchResponse.from(contents, total);
+        return searched.stream()
+            .map(BeerResponse::ofListItem)
+            .collect(Collectors.collectingAndThen(
+                Collectors.toList(), r -> BeerSearchResponse.from(r, total)
+            ));
     }
 
     public List<BeerResponse> getRecommends(String memberId) {

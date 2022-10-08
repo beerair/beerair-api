@@ -15,9 +15,11 @@ public class BeerTypeService {
     private final BeerTypeRepository beerTypeRepository;
 
     public BeerTypeResponses getAll() {
-        return BeerTypeResponses.from(beerTypeRepository.findAll()
-                .stream()
-                .map(BeerTypeResponse::from)
-                .collect(Collectors.toList()));
+        return beerTypeRepository.findAll()
+            .stream()
+            .map(BeerTypeResponse::from)
+            .collect(Collectors.collectingAndThen(
+                Collectors.toList(), BeerTypeResponses::from
+            ));
     }
 }
