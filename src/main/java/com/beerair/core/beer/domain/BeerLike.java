@@ -1,22 +1,23 @@
 package com.beerair.core.beer.domain;
 
-import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
-
 import com.beerair.core.common.domain.BaseEntity;
-import com.beerair.core.common.util.IdGenerator;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import com.beerair.core.common.util.KeyGenerator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import static com.beerair.core.common.util.KeyGenerator.UUID_LENGTH;
+
 @Table(
         uniqueConstraints = {
-                @UniqueConstraint(name = "UNIQUE_MEMBER_BEER", columnNames = { "memberId", "beerId" })
+                @UniqueConstraint(name = "UNIQUE_MEMBER_BEER", columnNames = {"memberId", "beerId"})
         }
 )
 @Getter
@@ -36,7 +37,7 @@ public class BeerLike extends BaseEntity {
     private String beerId;
 
     public BeerLike(String memberId, String beerId) {
-        this.id = IdGenerator.createUUID();
+        this.id = KeyGenerator.createKeyByUUID();
         this.memberId = memberId;
         this.beerId = beerId;
     }

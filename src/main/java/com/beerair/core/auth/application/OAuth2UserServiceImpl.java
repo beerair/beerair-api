@@ -8,8 +8,8 @@ import com.beerair.core.error.exception.auth.BadLoginRequestException;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.MemberSocial;
 import com.beerair.core.member.infrastructure.MemberRepository;
-import javax.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -17,6 +17,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ConstraintViolationException;
+
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -44,8 +47,11 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         try {
             ValidateUtil.validate(attributes);
         } catch (ConstraintViolationException e) {
+            log.error(e.getMessage());
+
             var firstViolationMessage = e.getConstraintViolations()
-                    .iterator().next()
+                    .iterator()
+                    .next()
                     .getMessage();
 
             throw new BadLoginRequestException(firstViolationMessage);

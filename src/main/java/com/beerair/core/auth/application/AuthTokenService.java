@@ -8,7 +8,6 @@ import com.beerair.core.cache.authtoken.AuthTokenRedisCacheService;
 import com.beerair.core.cache.authtoken.AuthTokenRedisKey;
 import com.beerair.core.error.exception.auth.InvalidAuthTokenException;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +17,12 @@ public class AuthTokenService {
     private final AuthTokenCrypto accessTokenCrypto;
     private final AuthTokenCrypto refreshTokenCrypto;
     private final AuthTokenRedisCacheService authTokenRedisCacheService;
-    private final RedisTemplate<String, Object> redisTemplate;
 
     public AuthTokenService(
-            RedisTemplate<String, Object> redisTemplate,
             AuthTokenRedisCacheService authTokenRedisCacheService,
             @Qualifier(TokenPurpose.ACCESS) AuthTokenCrypto accessTokenCrypto,
             @Qualifier(TokenPurpose.REFRESH) AuthTokenCrypto refreshTokenCrypto
     ) {
-        this.redisTemplate = redisTemplate;
         this.authTokenRedisCacheService = authTokenRedisCacheService;
         this.accessTokenCrypto = accessTokenCrypto;
         this.refreshTokenCrypto = refreshTokenCrypto;

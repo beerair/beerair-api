@@ -1,10 +1,10 @@
 package com.beerair.core.member.domain;
 
-import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
+import static com.beerair.core.common.util.KeyGenerator.UUID_LENGTH;
 
 import com.beerair.core.common.domain.BaseEntity;
 import com.beerair.core.common.domain.StringFieldCryptConverter;
-import com.beerair.core.common.util.IdGenerator;
+import com.beerair.core.common.util.KeyGenerator;
 import com.beerair.core.error.exception.member.MemberUnableSignException;
 import com.beerair.core.member.domain.vo.MemberSocial;
 import com.beerair.core.member.domain.vo.Role;
@@ -86,7 +86,7 @@ public class Member extends BaseEntity {
 
     @Builder(builderMethodName = "socialBuilder")
     private Member(MemberSocial social, String email, String profileUrl, String phoneNumber) {
-        this.id = IdGenerator.createUUID();
+        this.id = KeyGenerator.createKeyByUUID();
         this.social = social;
         this.email = email;
         this.profileUrl = profileUrl;

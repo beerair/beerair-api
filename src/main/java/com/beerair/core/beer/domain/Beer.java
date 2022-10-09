@@ -1,16 +1,17 @@
 package com.beerair.core.beer.domain;
 
-import static com.beerair.core.common.util.IdGenerator.UUID_LENGTH;
-
 import com.beerair.core.common.domain.BaseEntity;
-import com.beerair.core.common.util.IdGenerator;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.beerair.core.common.util.KeyGenerator;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import static com.beerair.core.common.util.KeyGenerator.UUID_LENGTH;
 
 @Getter
 @Entity
@@ -39,8 +40,18 @@ public class Beer extends BaseEntity {
     private Long countryId;
 
     @Builder
-    private Beer(Float alcohol, String content, String imageUrl, String korName, String engName, Long typeId, Integer volume, Integer price, Long countryId) {
-        this.id = IdGenerator.createUUID();
+    private Beer(
+            Float alcohol,
+            String content,
+            String imageUrl,
+            String korName,
+            String engName,
+            Long typeId,
+            Integer volume,
+            Integer price,
+            Long countryId
+    ) {
+        this.id = KeyGenerator.createKeyByUUID();
         this.alcohol = alcohol;
         this.content = content;
         this.imageUrl = imageUrl;
@@ -52,4 +63,3 @@ public class Beer extends BaseEntity {
         this.countryId = countryId;
     }
 }
-

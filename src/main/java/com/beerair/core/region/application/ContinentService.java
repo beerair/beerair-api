@@ -15,11 +15,12 @@ public class ContinentService {
     private final ContinentRepository continentRepository;
 
     public ContinentResponses getAll() {
-        return ContinentResponses.from(
-                continentRepository.findAll()
+        var continent = continentRepository.findAll()
                 .stream()
                 .map(ContinentResponse::from)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+
+        return new ContinentResponses(continent);
     }
 
     public Boolean exists(Long continentId) {
