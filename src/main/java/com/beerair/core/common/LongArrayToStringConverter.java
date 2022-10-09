@@ -1,9 +1,9 @@
 package com.beerair.core.common;
 
-import javax.persistence.AttributeConverter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.persistence.AttributeConverter;
 
 public class LongArrayToStringConverter implements AttributeConverter<List<Long>, String> {
 

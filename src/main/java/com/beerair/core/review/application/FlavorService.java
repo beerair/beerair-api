@@ -5,12 +5,11 @@ import com.beerair.core.review.dto.response.FlavorResponse;
 import com.beerair.core.review.dto.response.FlavorsResponse;
 import com.beerair.core.review.infrastructure.FlavorRankRepository;
 import com.beerair.core.review.infrastructure.FlavorRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service

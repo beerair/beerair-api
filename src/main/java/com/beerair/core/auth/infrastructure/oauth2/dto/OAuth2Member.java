@@ -3,15 +3,13 @@ package com.beerair.core.auth.infrastructure.oauth2.dto;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.dto.LoggedInMember;
-import lombok.Builder;
-import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @Getter
 public class OAuth2Member extends LoggedInMember implements OAuth2User {

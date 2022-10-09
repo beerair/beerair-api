@@ -2,13 +2,11 @@ package com.beerair.core.auth.domain;
 
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.member.dto.LoggedInMember;
+import java.util.Collection;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-
-import java.util.Collection;
-import java.util.Date;
 
 @Getter
 public class AuthTokenAuthentication extends AbstractAuthenticationToken {

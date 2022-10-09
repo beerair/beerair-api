@@ -1,7 +1,7 @@
 package com.beerair.core.cucumber.cleanup;
 
-import com.beerair.core.cucumber.beer.BeerSearchGivenDefs;
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
+import com.beerair.core.cucumber.beer.BeerSearchGivenDefs;
 import org.springframework.stereotype.Component;
 
 @Component

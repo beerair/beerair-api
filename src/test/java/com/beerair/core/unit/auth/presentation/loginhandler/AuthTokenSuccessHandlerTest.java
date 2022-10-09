@@ -1,5 +1,11 @@
 package com.beerair.core.unit.auth.presentation.loginhandler;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
@@ -7,6 +13,12 @@ import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.auth.presentation.loginhandler.AuthTokenFailureHandler;
 import com.beerair.core.auth.presentation.loginhandler.AuthTokenSuccessHandler;
 import com.beerair.core.auth.presentation.loginhandler.TokenDelivery;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Date;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,19 +27,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Date;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AuthTokenSuccessHandlerTest {

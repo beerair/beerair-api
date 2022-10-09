@@ -10,17 +10,16 @@ import com.beerair.core.error.exception.member.MemberNotFoundException;
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.infrastructure.MemberRepository;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.Builder;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class SignInterceptor implements HandlerInterceptor {
     private final GetAuthenticationStrategy getAuthenticationStrategy;

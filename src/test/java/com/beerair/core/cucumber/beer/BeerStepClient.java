@@ -1,16 +1,15 @@
 package com.beerair.core.cucumber.beer;
 
-import com.beerair.core.cucumber.StepClient;
+import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
+
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
+import com.beerair.core.cucumber.StepClient;
+import java.util.Optional;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.Optional;
-
-import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component

@@ -1,16 +1,15 @@
 package com.beerair.core.cucumber.review;
 
-import com.beerair.core.cucumber.CucumberHttpResponseContext;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.beerair.core.common.dto.ResponseDto;
+import com.beerair.core.cucumber.CucumberHttpResponseContext;
 import com.beerair.core.review.dto.response.FlavorRankResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.cucumber.java.en.Then;
 import io.cucumber.spring.ScenarioScope;
-
 import java.util.List;
 import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @ScenarioScope
 public class FlavorStepThenDefs {

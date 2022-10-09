@@ -2,11 +2,10 @@ package com.beerair.core.cucumber.datasetup;
 
 import com.beerair.core.review.domain.Flavor;
 import com.beerair.core.review.infrastructure.FlavorRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Component
 public class FlavorSetup extends DataSetup {

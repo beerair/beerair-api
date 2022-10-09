@@ -1,12 +1,11 @@
 package com.beerair.core.auth.presentation;
 
 import com.beerair.core.auth.utils.CookieUtils;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class ReSignUpInterceptor implements HandlerInterceptor {
     @Override

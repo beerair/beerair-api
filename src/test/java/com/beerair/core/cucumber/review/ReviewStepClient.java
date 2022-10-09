@@ -1,13 +1,13 @@
 package com.beerair.core.cucumber.review;
 
+import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
+
 import com.beerair.core.cucumber.StepClient;
 import com.beerair.core.review.dto.request.ReviewRequest;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-
-import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component

@@ -2,11 +2,10 @@ package com.beerair.core.auth.infrastructure.oauth2;
 
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
 import com.beerair.core.member.domain.vo.SocialType;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-
 import java.util.Map;
 import java.util.Objects;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
 public final class KakaoOAuth2AttributesLoader extends DelegateOAuth2AttributesLoader {
     private static final String ACCOUNT_DETAILS_KEY = "kakao_account";

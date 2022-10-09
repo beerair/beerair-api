@@ -1,11 +1,9 @@
 package com.beerair.core.common.dto;
 
-import lombok.Getter;
-import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
-
 import java.io.Serializable;
 import java.util.List;
+import lombok.Getter;
+import org.springframework.data.domain.Page;
 
 @Getter
 public class PageDto<T> implements Serializable {
@@ -17,7 +15,7 @@ public class PageDto<T> implements Serializable {
     private final boolean firstPage;
     private final boolean lastPage;
 
-    private PageDto(final Page<T> page) {
+    public PageDto(final Page<T> page) {
         this.data = page.getContent();
         this.page = page.getNumber();
         this.size = page.getSize();
@@ -25,9 +23,5 @@ public class PageDto<T> implements Serializable {
         this.totalElements = page.getTotalElements();
         this.firstPage = page.isFirst();
         this.lastPage = page.isLast();
-    }
-
-    public static <T> ResponseEntity<PageDto<T>> ok(final Page<T> page) {
-        return ResponseEntity.ok(new PageDto<>(page));
     }
 }

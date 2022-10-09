@@ -3,17 +3,17 @@ package com.beerair.core.beer.dto.response;
 import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.beer.dto.query.BeerListItemDto;
 import com.beerair.core.region.dto.response.CountryResponse;
+import com.beerair.core.review.domain.vo.FeelStatus;
 import com.beerair.core.review.dto.query.ReviewDto;
 import com.beerair.core.review.dto.response.ReviewResponse;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Getter
 @Builder
@@ -21,7 +21,11 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BeerResponse {
-
+	@ApiModelProperty(
+		dataType = "Number",
+		value = "ID",
+		example = "1"
+	)
 	private String id;
 
 	private CountryResponse country;
@@ -30,25 +34,61 @@ public class BeerResponse {
 
 	private ReviewResponse myReview;
 
+	@ApiModelProperty(
+		dataType = "String",
+		value = "한글 이름",
+		example = "빅슬라이스 IPA"
+	)
 	private String korName;
 
+	@ApiModelProperty(
+		dataType = "String",
+		value = "영문 이름",
+		example = "Big Slice Ipa"
+	)
 	private String engName;
 
+	@ApiModelProperty(
+		dataType = "String",
+		value = "맥주 이미지 URL",
+		example = "https://beerair-service.s3.ap-northeast-2.amazonaws.com/BEER/big_slice_ipa.png"
+	)
 	private String imageUrl;
 
+	@ApiModelProperty(
+		dataType = "String",
+		value = "맥주 설명",
+		example = "열대 과일향과 몰트의 고소함"
+	)
 	private String content;
 
+	@ApiModelProperty(
+		dataType = "Float",
+		value = "도수",
+		example = "5.4"
+	)
 	private Float alcohol;
 
+	@ApiModelProperty(
+		dataType = "Number",
+		value = "가격",
+		example = "3500"
+	)
 	private Integer price;
 
+	@ApiModelProperty(
+		dataType = "Number",
+		value = "용량(ml)",
+		example = "500"
+	)
 	private Integer volume;
 
+	@ApiModelProperty(
+		dataType = "Boolean",
+		value = "사용자 좋아요 여부",
+		example = "false"
+	)
 	private Boolean liked;
-
-	private LocalDateTime createdAt;
-
-	private LocalDateTime modifiedAt;
 
 	public static BeerResponse from(BeerDto beerDto) {
 		var myReview = Objects.isNull(beerDto.getMyReview()) ?
@@ -85,13 +125,6 @@ public class BeerResponse {
 		var type = BeerTypeResponse.builder()
 				.korName(beerDto.getKorName())
 				.build();
-		ReviewResponse myReview = null;
-		if (Objects.nonNull(beerDto.getMyFeelStatus())) {
-			myReview = ReviewResponse.builder()
-					.feelScore(beerDto.getMyFeelStatus().getScore())
-					.feelDescription(beerDto.getMyFeelStatus().getDescription())
-					.build();
-		}
 		return BeerResponse.builder()
 				.id(beerDto.getId())
 				.alcohol(beerDto.getAlcohol())
@@ -99,8 +132,17 @@ public class BeerResponse {
 				.imageUrl(beerDto.getImageUrl())
 				.country(country)
 				.type(type)
-				.myReview(myReview)
+				.myReview(createReviewResponse(beerDto.getMyFeelStatus()))
 				.liked(beerDto.getLiked())
 				.build();
+	}
+
+	private static ReviewResponse createReviewResponse(FeelStatus feelStatus) {
+		if (Objects.isNull(feelStatus)) {
+			return null;
+		}
+		return ReviewResponse.builder()
+			.feelStatus(feelStatus)
+			.build();
 	}
 }

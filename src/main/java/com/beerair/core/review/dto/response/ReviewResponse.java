@@ -4,19 +4,20 @@ import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.beer.dto.response.BeerResponse;
 import com.beerair.core.member.dto.response.MemberResponse;
 import com.beerair.core.region.dto.response.CountryResponse;
+import com.beerair.core.review.domain.vo.FeelStatus;
 import com.beerair.core.review.dto.query.ReviewDto;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
+import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
@@ -24,17 +25,46 @@ import java.util.stream.Stream;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ReviewResponse {
+    @ApiModelProperty(
+        dataType = "String",
+        value = "리뷰 ID",
+        example = "52abe0bf432a44e881a62aad7686ddb8"
+    )
     private String id;
+
+    @ApiModelProperty(
+        dataType = "String",
+        value = "리뷰 내용",
+        example = "맛있다"
+    )
+    private String content;
+
+    @ApiModelProperty(
+        dataType = "String",
+        value = "평점",
+        example = "VERY_GOOD"
+    )
+    private FeelStatus feelStatus;
+
+    @ApiModelProperty(
+        dataType = "String",
+        value = "업로드한 이미지",
+        example = "미구현"
+    )
+    private String imageUrl;
+
+    @ApiModelProperty(
+        dataType = "String",
+        value = "평점",
+        example = "2022-09-17TZ12:44:56.000"
+    )
+    private LocalDateTime createdAt;
+
     private MemberResponse member;
     private BeerResponse beer;
     private CountryResponse departuresCountry;
     private CountryResponse arrivalCountry;
     private List<FlavorResponse> flavors;
-    private String content;
-    private int feelScore;
-    private String feelDescription;
-    private String imageUrl;
-    private LocalDateTime createdAt;
 
     public static ReviewResponse from(ReviewDto dto) {
         return ReviewResponse.builder()
@@ -47,8 +77,7 @@ public class ReviewResponse {
 
                 .content(dto.getReview().getContent())
                 .imageUrl(dto.getReview().getImageUrl())
-                .feelScore(dto.getReview().getFeelStatus().getScore())
-                .feelDescription(dto.getReview().getFeelStatus().getDescription())
+                .feelStatus(dto.getReview().getFeelStatus())
                 .createdAt(dto.getReview().getCreatedAt())
 
                 .build();
@@ -76,7 +105,7 @@ public class ReviewResponse {
                 .beer(beer)
                 .departuresCountry(CountryResponse.from(dto.getDeparturesCountry()))
                 .arrivalCountry(CountryResponse.from(dto.getArrivalCountry()))
-                .feelScore(dto.getReview().getFeelStatus().getScore())
+                .feelStatus(dto.getReview().getFeelStatus())
                 .createdAt(dto.getReview().getCreatedAt())
                 .build();
     }
@@ -90,7 +119,7 @@ public class ReviewResponse {
                 .id(dto.getReview().getId())
                 .member(member)
                 .flavors(flavors(dto))
-                .feelScore(dto.getReview().getFeelStatus().getScore())
+                .feelStatus(dto.getReview().getFeelStatus())
                 .content(dto.getReview().getContent())
                 .createdAt(dto.getReview().getCreatedAt())
                 .build();
@@ -101,8 +130,7 @@ public class ReviewResponse {
                 .id(review.getId())
                 .content(review.getContent())
                 .imageUrl(review.getImageUrl())
-                .feelScore(review.getFeelStatus().getScore())
-                .feelDescription(review.getFeelStatus().getDescription())
+                .feelStatus(review.getFeelStatus())
                 .createdAt(review.getCreatedAt())
                 .build();
     }

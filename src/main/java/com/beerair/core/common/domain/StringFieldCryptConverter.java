@@ -1,10 +1,9 @@
 package com.beerair.core.common.domain;
 
-import lombok.RequiredArgsConstructor;
-
+import java.util.Objects;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import java.util.Objects;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Converter

@@ -1,7 +1,6 @@
 package com.beerair.core.cucumber.beer;
 
 import io.cucumber.java.en.When;
-import io.cucumber.spring.ScenarioScope;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class BeerSearchWhenDefs {

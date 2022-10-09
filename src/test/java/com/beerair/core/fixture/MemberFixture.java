@@ -2,12 +2,9 @@ package com.beerair.core.fixture;
 
 import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.MemberSocial;
-import com.beerair.core.member.domain.vo.Role;
 import com.beerair.core.member.domain.vo.SocialType;
-
-import lombok.experimental.UtilityClass;
-
 import java.util.Random;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class MemberFixture {

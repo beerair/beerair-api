@@ -1,5 +1,11 @@
 package com.beerair.core.unit.auth.presentation.interceptor;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.presentation.SignInterceptor;
@@ -9,6 +15,9 @@ import com.beerair.core.member.domain.Member;
 import com.beerair.core.member.domain.vo.Role;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.infrastructure.MemberRepository;
+import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,16 +29,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.Authentication;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SignUpInterceptorTest {

@@ -1,5 +1,12 @@
 package com.beerair.core.unit.auth.presentation.filter;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthToken;
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
@@ -10,6 +17,13 @@ import com.beerair.core.auth.presentation.filter.SetAuthenticationStrategy;
 import com.beerair.core.auth.presentation.loginhandler.CookieTokenDelivery;
 import com.beerair.core.auth.presentation.tokenreader.AuthTokenReader;
 import com.beerair.core.error.exception.auth.ExpiredAuthTokenException;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Optional;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,21 +33,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockHttpServletResponse;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Date;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)

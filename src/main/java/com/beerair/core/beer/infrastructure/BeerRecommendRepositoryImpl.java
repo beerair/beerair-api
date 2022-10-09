@@ -2,13 +2,12 @@ package com.beerair.core.beer.infrastructure;
 
 import com.beerair.core.beer.dto.query.BeerListItemDto;
 import com.beerair.core.common.util.NativeQueryReader;
-import org.springframework.stereotype.Repository;
-
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class BeerRecommendRepositoryImpl implements BeerRecommendRepository {

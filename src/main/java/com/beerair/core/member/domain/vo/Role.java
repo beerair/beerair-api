@@ -1,8 +1,7 @@
 package com.beerair.core.member.domain.vo;
 
-import lombok.Getter;
-
 import java.util.Set;
+import lombok.Getter;
 
 @Getter
 public enum Role {

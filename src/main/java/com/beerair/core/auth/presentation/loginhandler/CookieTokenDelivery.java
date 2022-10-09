@@ -1,12 +1,11 @@
 package com.beerair.core.auth.presentation.loginhandler;
 
 import com.beerair.core.auth.domain.AuthToken;
-import org.springframework.stereotype.Component;
-
+import java.util.Date;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CookieTokenDelivery implements TokenDelivery {

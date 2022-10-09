@@ -1,14 +1,13 @@
 package com.beerair.core.member.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
-import lombok.Builder;
-import lombok.Getter;
-import org.hibernate.annotations.Comment;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.Builder;
+import lombok.Getter;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @Entity

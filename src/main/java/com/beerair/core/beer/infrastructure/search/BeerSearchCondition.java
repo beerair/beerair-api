@@ -1,9 +1,8 @@
 package com.beerair.core.beer.infrastructure.search;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 public class BeerSearchCondition {

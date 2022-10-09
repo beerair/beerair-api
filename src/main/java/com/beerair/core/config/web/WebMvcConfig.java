@@ -9,14 +9,13 @@ import com.beerair.core.auth.presentation.SignInterceptor;
 import com.beerair.core.auth.presentation.filter.GetAuthenticationStrategy;
 import com.beerair.core.auth.presentation.loginhandler.TokenDelivery;
 import com.beerair.core.member.infrastructure.MemberRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.List;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {

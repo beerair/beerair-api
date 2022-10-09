@@ -1,6 +1,9 @@
 package com.beerair.core.config;
 
 import com.beerair.core.member.dto.LoggedInMember;
+import java.util.Collections;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,10 +19,6 @@ import springfox.documentation.service.Server;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
-import java.util.List;
 
 @Configuration
 @EnableOpenApi

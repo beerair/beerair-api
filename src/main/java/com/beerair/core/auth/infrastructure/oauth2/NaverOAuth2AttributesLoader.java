@@ -2,13 +2,12 @@ package com.beerair.core.auth.infrastructure.oauth2;
 
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Attributes;
 import com.beerair.core.member.domain.vo.SocialType;
+import java.util.Map;
+import java.util.Objects;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-
-import java.util.Map;
-import java.util.Objects;
 
 public final class NaverOAuth2AttributesLoader extends DelegateOAuth2AttributesLoader {
     private static final String SUCCESS_RESULT_CODE = "00";

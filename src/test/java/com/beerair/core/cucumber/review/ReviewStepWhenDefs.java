@@ -7,9 +7,8 @@ import com.beerair.core.review.dto.request.ReviewRequest;
 import com.beerair.core.review.infrastructure.ReviewRepository;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.ScenarioScope;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @ScenarioScope
 public class ReviewStepWhenDefs {

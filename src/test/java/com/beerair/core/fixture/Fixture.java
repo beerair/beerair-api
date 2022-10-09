@@ -1,13 +1,12 @@
 package com.beerair.core.fixture;
 
+import com.beerair.core.error.TestDebugException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
-import com.beerair.core.error.TestDebugException;
 import lombok.SneakyThrows;
 
 /**

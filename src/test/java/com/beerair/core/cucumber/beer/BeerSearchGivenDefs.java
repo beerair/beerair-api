@@ -3,8 +3,6 @@ package com.beerair.core.cucumber.beer;
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import com.beerair.core.beer.infrastructure.search.BeerOrderBy;
 import io.cucumber.java.en.Given;
-import io.cucumber.spring.ScenarioScope;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
