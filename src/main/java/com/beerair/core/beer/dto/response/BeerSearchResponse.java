@@ -16,7 +16,8 @@ import lombok.NoArgsConstructor;
 public class BeerSearchResponse {
     @ApiModelProperty(
         dataType = "Array",
-        value = "검색된 맥주"
+        value = "검색된 맥주",
+        example = "[]"
     )
     private List<BeerResponse> values;
 
