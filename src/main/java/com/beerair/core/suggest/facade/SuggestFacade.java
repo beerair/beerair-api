@@ -31,8 +31,8 @@ public class SuggestFacade {
 
         var suggest = suggestService.save(
                 new Suggest(
-                        MapperUtil.writeValueAsString(request.getImages()),
                         request.getName(),
+                        MapperUtil.writeValueAsString(request.getImages()),
                         memberId
                 )
         );
