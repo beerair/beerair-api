@@ -3,11 +3,11 @@ package com.beerair.core.beer.dto.response;
 import com.beerair.core.beer.dto.query.BeerDto;
 import com.beerair.core.beer.dto.query.BeerListItemDto;
 import com.beerair.core.region.dto.response.CountryResponse;
+import com.beerair.core.review.domain.vo.FeelStatus;
 import com.beerair.core.review.dto.query.ReviewDto;
 import com.beerair.core.review.dto.response.ReviewResponse;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import io.swagger.annotations.ApiModelProperty;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -125,13 +125,6 @@ public class BeerResponse {
 		var type = BeerTypeResponse.builder()
 				.korName(beerDto.getKorName())
 				.build();
-		ReviewResponse myReview = null;
-		if (Objects.nonNull(beerDto.getMyFeelStatus())) {
-			myReview = ReviewResponse.builder()
-					.feelScore(beerDto.getMyFeelStatus().getScore())
-					.feelDescription(beerDto.getMyFeelStatus().getDescription())
-					.build();
-		}
 		return BeerResponse.builder()
 				.id(beerDto.getId())
 				.alcohol(beerDto.getAlcohol())
@@ -139,8 +132,17 @@ public class BeerResponse {
 				.imageUrl(beerDto.getImageUrl())
 				.country(country)
 				.type(type)
-				.myReview(myReview)
+				.myReview(createReviewResponse(beerDto.getMyFeelStatus()))
 				.liked(beerDto.getLiked())
 				.build();
+	}
+
+	private static ReviewResponse createReviewResponse(FeelStatus feelStatus) {
+		if (Objects.isNull(feelStatus)) {
+			return null;
+		}
+		return ReviewResponse.builder()
+			.feelStatus(feelStatus)
+			.build();
 	}
 }

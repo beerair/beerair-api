@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class SuggestRegisterRequest {
+
     private final String name;
     private final SuggestImageRegisterRequest images;
 
