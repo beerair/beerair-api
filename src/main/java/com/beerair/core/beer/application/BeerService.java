@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BeerService {
     private static final int RECOMMEND_LIMIT = 9;
-    private static final int SEARCH_LIMIT = 30;
+    public static final int SEARCH_LIMIT = 30;
 
     private final BeerRepository beerRepository;
     private final BeerSearchRepository beerSearchRepository;

@@ -3,13 +3,12 @@ package com.beerair.core.beer.presentation;
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 import com.beerair.core.beer.application.BeerLikeService;
-import com.beerair.core.beer.dto.response.BeerResponse;
+import com.beerair.core.beer.dto.response.BeerLikeResponse;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +29,7 @@ public class BeerLikeController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "맥주 찜(좋아요) 목록 조회 api")
     @GetMapping
-    public ResponseDto<List<BeerResponse>> getAll(@AuthMember LoggedInMember member) {
+    public ResponseDto<BeerLikeResponse> getAll(@AuthMember LoggedInMember member) {
         var result = beerLikeService.getAll(member.getId());
         return new ResponseDto<>(result);
     }
