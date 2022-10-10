@@ -18,8 +18,8 @@ public class BeerLikeStepThenDefs {
 
     @Then("맥주 목록에서 첫번째 맥주에 리뷰가 존재한다.")
     public void 맥주_목록에서_리뷰_검증() {
-        ResponseDto<List<BeerResponse>> response = CucumberHttpResponseContext.getBody(new TypeReference<>() {});
-        var first = response.getData().get(0);
+        List<BeerResponse> response = CucumberHttpResponseContext.getListInFirstClassBody(new TypeReference<>() {});
+        var first = response.get(0);
         assertThat(first.getMyReview()).isNotNull();
     }
 }
