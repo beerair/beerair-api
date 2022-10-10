@@ -1,12 +1,12 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.2'
-    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
-    id 'java'
+    id "org.springframework.boot" version "2.7.2"
+    id "io.spring.dependency-management" version "1.0.12.RELEASE"
+    id "java"
 }
 
-group = 'com.beerair'
-version = '0.0.2-SNAPSHOT'
-sourceCompatibility = '11'
+group = "com.beerair"
+version = "1.0.0"
+sourceCompatibility = "11"
 
 configurations {
     compileOnly {
@@ -19,10 +19,11 @@ jar {
 }
 
 ext {
-    cucumberVersion = '7.8.0'
-    securityVersion = '5.3.4 RELEASE'
-    jjwtVersion = '0.11.5'
-    embeddedRadisVersion = '0.7.2' // log 라이브러리 충돌 문제로 해당 버전 사용함
+    CUCUMBER_VERSION = "7.8.0"
+    JJWT_VERSION = "0.11.5"
+    EMBEDDED_REDIS_VERSION = "0.7.2"
+    SWAGGER_VERSION = "3.0.0"
+    H2_VERSION = "2.1.214"
 }
 
 repositories {
@@ -30,40 +31,40 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
 
-    implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
-    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwtVersion}"
-    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwtVersion}"
+    implementation "io.jsonwebtoken:jjwt-api:${JJWT_VERSION}"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${JJWT_VERSION}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${JJWT_VERSION}"
 
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'mysql:mysql-connector-java'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compileOnly "org.projectlombok:lombok"
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    runtimeOnly "mysql:mysql-connector-java"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
 
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.projectlombok:lombok"
+    testImplementation "org.projectlombok:lombok"
+    testAnnotationProcessor "org.projectlombok:lombok"
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    testImplementation "it.ozimov:embedded-redis:${embeddedRadisVersion}"
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation "org.springframework.boot:spring-boot-starter-data-redis"
+    testImplementation "it.ozimov:embedded-redis:${EMBEDDED_REDIS_VERSION}"
+    implementation "io.springfox:springfox-boot-starter:${SWAGGER_VERSION}"
 
-    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
-    testImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
-    testImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
-    testImplementation "io.cucumber:cucumber-bom:${cucumberVersion}"
-    testImplementation 'org.junit.platform:junit-platform-suite'
-    testImplementation 'com.h2database:h2:2.1.214'
-    testImplementation 'org.apache.commons:commons-lang3'
-    testImplementation 'org.apache.httpcomponents:httpclient'
+    testImplementation "io.cucumber:cucumber-java:${CUCUMBER_VERSION}"
+    testImplementation "io.cucumber:cucumber-spring:${CUCUMBER_VERSION}"
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:${CUCUMBER_VERSION}"
+    testImplementation "io.cucumber:cucumber-bom:${CUCUMBER_VERSION}"
+    testImplementation "org.junit.platform:junit-platform-suite"
+    testImplementation "com.h2database:h2:${H2_VERSION}"
+    testImplementation "org.apache.commons:commons-lang3"
+    testImplementation "org.apache.httpcomponents:httpclient"
 }
 
-tasks.named('test') {
+tasks.named("test") {
     useJUnitPlatform()
 }
