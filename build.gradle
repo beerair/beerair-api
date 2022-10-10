@@ -14,10 +14,15 @@ configurations {
     }
 }
 
+jar {
+    enabled = false
+}
+
 ext {
     cucumberVersion = '7.8.0'
     securityVersion = '5.3.4 RELEASE'
     jjwtVersion = '0.11.5'
+    embeddedRadisVersion = '0.7.2' // log 라이브러리 충돌 문제로 해당 버전 사용함
 }
 
 repositories {
@@ -46,7 +51,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    testImplementation 'it.ozimov:embedded-redis:0.7.2'
+    testImplementation "it.ozimov:embedded-redis:${embeddedRadisVersion}"
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
     testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
