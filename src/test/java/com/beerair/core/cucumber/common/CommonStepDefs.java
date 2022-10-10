@@ -32,10 +32,10 @@ public class CommonStepDefs {
 
     @Then("{int}개가 조회된다.")
     public void matchCollectionSize(int expect) {
-        ResponseDto<List<?>> response = CucumberHttpResponseContext.getBody(
+        List<?> response = CucumberHttpResponseContext.getListInFirstClassBody(
             new TypeReference<>() {}
         );
-        assertThat(response.getData().size()).isEqualTo(expect);
+        assertThat(response.size()).isEqualTo(expect);
     }
 
     @Given("-- 리스트 중 {int}번째 선택")
