@@ -46,6 +46,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    testImplementation 'it.ozimov:embedded-redis:0.7.2'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
     testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
