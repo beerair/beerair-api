@@ -1,8 +1,10 @@
 package com.beerair.core.cucumber;
 
 import com.beerair.core.common.dto.ResponseDto;
+import com.beerair.core.error.TestDebugException;
 import com.beerair.core.fixture.Fixture;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.List;
@@ -41,6 +43,28 @@ public class CucumberHttpResponseContext {
         return OBJECT_MAPPER.readValue(
             json.toString(), typeReference
         );
+    }
+
+    @SneakyThrows
+    public static <T> List<T> getListInFirstClassBody(TypeReference<List<T>> typeReference) {
+        var jsonNode = OBJECT_MAPPER.readTree(
+            OBJECT_MAPPER.writeValueAsString(latestResponse.getBody())
+        );
+        return getListInFirstClassBody(jsonNode, typeReference);
+    }
+
+    @SneakyThrows
+    private static <T> List<T> getListInFirstClassBody(JsonNode node, TypeReference<List<T>> typeReference) {
+        System.out.println(node);
+        if (node.isArray()) {
+            return OBJECT_MAPPER.readValue(
+                node.toString(), typeReference
+            );
+        }
+        if (node.size() > 1) {
+            throw new TestDebugException("일급 객체가 아닙니다.");
+        }
+        return getListInFirstClassBody(node.fields().next().getValue(), typeReference);
     }
 
     @SneakyThrows
