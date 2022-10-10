@@ -42,9 +42,9 @@ public class MemberResponse {
     private String nickname;
 
     @ApiModelProperty(
-        dataType = "String",
+        dataType = "Array[String]",
         value = "권한 정보",
-        example = "ROLE_MEMBER"
+        example = "[\"ROLE_MEMBER\"]"
     )
     private Set<String> authorities;
 
