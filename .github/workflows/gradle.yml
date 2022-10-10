@@ -16,7 +16,7 @@ jobs:
 
       # Submodule Update
       - name: Git Sumbmodule Update
-        run: git submodule update --init --recursive --remote
+        run: git submodule update --init --recursive
 
       # Set JDK Version
       - name: Set Up Jdk 11
