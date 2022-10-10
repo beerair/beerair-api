@@ -20,6 +20,18 @@
 
 <br />
 
+## 😀 Developer
+
+<div align="center">
+
+|                                      스승님                                      |                                     마스터!                                      |                                      극락                                       | 
+|:-----------------------------------------------------------------------------:|:-----------------------------------------------------------------------------:|:-----------------------------------------------------------------------------:|
+| <img src="https://avatars.githubusercontent.com/u/35737046?v=4" width="250"/> | <img src="https://avatars.githubusercontent.com/u/59888684?v=4" width="250"/> | <img src="https://avatars.githubusercontent.com/u/50691225?v=4" width="250"/> |
+|                      [김재원](https://github.com/darkant99)                      |                       [김태호](https://github.com/Ting-Kim)                       |                    [김동건](https://github.com/DongGeon0908)                     |
+|                                    코딩은 재밌어                                    |                                  개발짱이 될 거예요                                   |                                     극락코딩                                      |
+
+</div>
+
 ## 🍻 Intro: 서비스 소개
 
 ![intro2](https://user-images.githubusercontent.com/39763891/175971803-95e2b5ab-e03e-4cf4-abda-d65a3c845aa4.png)
