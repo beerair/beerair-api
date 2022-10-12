@@ -18,7 +18,7 @@ public class MemberService {
 
     public Member get(String memberId) {
         return memberRepository.findById(memberId)
-            .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(MemberNotFoundException::new);
     }
 
     public Member get(LoggedInMember user) {
@@ -41,7 +41,11 @@ public class MemberService {
 
     public MemberResponse getMe(LoggedInMember user) {
         var result = memberRepository.findByIdWithLevel(user.getId())
-            .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(MemberNotFoundException::new);
         return MemberResponse.from(result);
+    }
+
+    public Long count() {
+        return memberRepository.count();
     }
 }
