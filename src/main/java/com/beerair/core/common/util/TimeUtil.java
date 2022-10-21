@@ -32,6 +32,9 @@ public class TimeUtil {
     }
 
     public static LocalDateTime from(Instant instant) {
+
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
+
+    public static ZoneId KST = ZoneId.of("Asia/Seoul");
 }
