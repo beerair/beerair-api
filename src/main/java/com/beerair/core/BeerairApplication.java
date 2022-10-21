@@ -1,7 +1,5 @@
 package com.beerair.core;
 
-import java.util.Arrays;
-import java.util.TimeZone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -9,6 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.Environment;
+
+import java.util.Arrays;
+import java.util.TimeZone;
+
+import static com.beerair.core.common.util.TimeUtil.KST;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,6 +31,6 @@ public class BeerairApplication implements ApplicationListener<ApplicationReadyE
 
     public static void init() {
         log.info("Spring Server TimeZone : Asia/Seoul");
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+        TimeZone.setDefault(TimeZone.getTimeZone(KST));
     }
 }
