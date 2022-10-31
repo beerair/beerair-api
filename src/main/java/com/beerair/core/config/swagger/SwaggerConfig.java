@@ -1,4 +1,4 @@
-package com.beerair.core.config;
+package com.beerair.core.config.swagger;
 
 import com.beerair.core.member.dto.LoggedInMember;
 import java.util.Collections;
@@ -23,15 +23,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 @EnableOpenApi
 public class SwaggerConfig {
-    @Value("${swagger.url}")
-    private String url;
-
-    @Value("${swagger.desc}")
-    private String desc;
-
-    @Value("${spring.profiles.active}")
-    private String profile;
-
     @Bean
     public Docket restApi() {
         return new Docket(DocumentationType.OAS_30)
@@ -41,7 +32,6 @@ public class SwaggerConfig {
                         LoggedInMember.class,
                         HttpServletRequest.class
                 )
-                .servers(getServer(profile, url, desc))
                 .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo())
                 .select()
@@ -71,9 +61,5 @@ public class SwaggerConfig {
         var authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         return Collections.singletonList(new SecurityReference("authorization", authorizationScopes));
-    }
-
-    private Server getServer(String profile, String url, String desc) {
-        return new Server(profile, url, desc, Collections.emptyList(), Collections.emptyList());
     }
 }
