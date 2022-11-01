@@ -7,19 +7,20 @@ import com.beerair.core.auth.presentation.loginhandler.TokenDelivery;
 import com.beerair.core.auth.presentation.tokenreader.AuthTokenReader;
 import com.beerair.core.error.exception.BusinessException;
 import com.beerair.core.error.exception.auth.ExpiredAuthTokenException;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Optional;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -39,7 +40,8 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         try {
             setAuthentication(request, response);
-        } catch (BusinessException ignored) {
+        } catch (BusinessException e) {
+            logger.error(e.getErrorMessage());
         } finally {
             filterChain.doFilter(request, response);
         }
@@ -55,6 +57,8 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
             authentication = convert(access.get());
         } catch (ExpiredAuthTokenException e) {
             /* 쿠키 방식 일경우 재귀적으로 다시 인가할 수 있지만, 헤더 방식 일경우 재귀로 다시 인가하면 무한으로 재귀하게 됨 */
+            logger.error(e.getErrorMessage());
+
             var newAccess = refresh(request, response).orElseThrow(() -> e);
             authentication = convert(newAccess);
         }
@@ -73,9 +77,8 @@ public class AuthTokenAuthenticationFilter extends OncePerRequestFilter {
         if (refreshToken.isPresent()) {
             var tokens = refreshTokenService.issueByRefreshToken(refreshToken.get());
             tokenDelivery.deliver(request, response, tokens.getAccessToken(), tokens.getRefreshToken());
-            return Optional.of(
-                    tokens.getAccessToken().getToken()
-            );
+
+            return Optional.of(tokens.getAccessToken().getToken());
         }
         return Optional.empty();
     }

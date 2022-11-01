@@ -44,10 +44,10 @@ public class AuthTokenService {
 
         var newAccess = accessTokenCrypto.encrypt(authentication);
         var newRefresh = refreshTokenCrypto.encrypt(authentication);
+
         issueRefreshToken(memberId, newRefresh);
-        return new TokenRefreshResponse(
-                newAccess, newRefresh
-        );
+
+        return new TokenRefreshResponse(newAccess, newRefresh);
     }
 
     public void issueRefreshToken(String memberId, AuthToken authToken) {

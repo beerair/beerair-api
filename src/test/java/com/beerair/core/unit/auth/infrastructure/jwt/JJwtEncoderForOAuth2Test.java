@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.beerair.core.auth.domain.AuthTokenAuthentication;
 import com.beerair.core.auth.dto.response.CustomGrantedAuthority;
-import com.beerair.core.auth.infrastructure.jwt.JJwtCrypto;
+import com.beerair.core.auth.infrastructure.jwt.JwtCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.dto.OAuth2Member;
 import com.beerair.core.error.exception.auth.ExpiredAuthTokenException;
 import com.beerair.core.fixture.Fixture;
@@ -22,14 +22,14 @@ class JJwtEncoderForOAuth2Test {
     private static final String ALGORITHM = "HS256";
     private static final String KEY = "8L49ndmVcjq6zOnWpGyQW7NoeEpAE9pP7csj1kWCnC4KOcrK";
 
-    private Fixture<JJwtCrypto> crypto;
+    private Fixture<JwtCrypto> crypto;
     private AuthTokenAuthentication authentication;
     private Collection<GrantedAuthority> authorities;
     private OAuth2Member oAuth2Member;
 
     @BeforeEach
     void setUp() {
-        var crypto = JJwtCrypto.builder()
+        var crypto = JwtCrypto.builder()
                 .tokenPurpose("test")
                 .signatureAlgorithm(ALGORITHM)
                 .signatureKey(KEY)

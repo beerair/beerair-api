@@ -24,7 +24,7 @@ import javax.xml.bind.DatatypeConverter;
 import lombok.Builder;
 import lombok.experimental.UtilityClass;
 
-public class JJwtCrypto implements AuthTokenCrypto {
+public class JwtCrypto implements AuthTokenCrypto {
     private final SignatureAlgorithm signatureAlgorithm;
     private final Key signatureKey;
     private final int expiration;
@@ -32,7 +32,7 @@ public class JJwtCrypto implements AuthTokenCrypto {
     private final String tokenPurpose;
 
     @Builder
-    private JJwtCrypto(String tokenPurpose, String signatureAlgorithm, String signatureKey, int expiration) {
+    private JwtCrypto(String tokenPurpose, String signatureAlgorithm, String signatureKey, int expiration) {
         this.tokenPurpose = tokenPurpose;
         this.signatureAlgorithm = SignatureAlgorithm.forName(signatureAlgorithm);
         this.signatureKey = new SecretKeySpec(

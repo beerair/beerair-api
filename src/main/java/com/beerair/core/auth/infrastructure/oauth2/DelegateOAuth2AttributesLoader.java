@@ -16,7 +16,7 @@ public abstract class DelegateOAuth2AttributesLoader extends OAuth2AttributesLoa
         if (!isLoadable(request)) {
             return next(request);
         }
-        DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) delegate.loadUser(request);
+        var defaultOAuth2User = (DefaultOAuth2User) delegate.loadUser(request);
         return convert(
                 defaultOAuth2User,
                 getAttributesKey(request)

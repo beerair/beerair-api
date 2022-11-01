@@ -3,7 +3,7 @@ package com.beerair.core.config.security;
 import com.beerair.core.auth.application.AuthTokenService;
 import com.beerair.core.auth.domain.AuthTokenCrypto;
 import com.beerair.core.auth.domain.TokenPurpose;
-import com.beerair.core.auth.infrastructure.jwt.JJwtCrypto;
+import com.beerair.core.auth.infrastructure.jwt.JwtCrypto;
 import com.beerair.core.auth.infrastructure.oauth2.KakaoOAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.NaverOAuth2AttributesLoader;
 import com.beerair.core.auth.infrastructure.oauth2.OAuth2AttributesLoader;
@@ -48,7 +48,7 @@ public class SecurityBeanConfig {
     @Primary
     @Bean(name = TokenPurpose.ACCESS)
     public AuthTokenCrypto accessTokenCrypto() {
-        return JJwtCrypto.builder()
+        return JwtCrypto.builder()
                 .tokenPurpose(TokenPurpose.ACCESS)
                 .signatureAlgorithm(accessSignatureAlgorithm)
                 .signatureKey(accessSignatureKey)
@@ -58,7 +58,7 @@ public class SecurityBeanConfig {
 
     @Bean(name = TokenPurpose.REFRESH)
     public AuthTokenCrypto refreshTokenCrypto() {
-        return JJwtCrypto.builder()
+        return JwtCrypto.builder()
                 .tokenPurpose(TokenPurpose.REFRESH)
                 .signatureAlgorithm(refreshSignatureAlgorithm)
                 .signatureKey(refreshSignatureKey)

@@ -1,4 +1,4 @@
-package com.beerair.core.config.bean;
+package com.beerair.core.config.crypto;
 
 import com.beerair.core.common.domain.AES256Crypto;
 import com.beerair.core.common.domain.Crypto;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 @Profile({"local", "prod", "staging"})
 @Configuration
-public class CommonBeanConfig {
+public class CryptoConfig {
     @Bean
     @ConditionalOnMissingBean(Crypto.class)
     public Crypto crypto(@Value("${fieldCrypto.aes256.secretKey}") String secretKey) {
