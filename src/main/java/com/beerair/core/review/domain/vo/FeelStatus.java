@@ -1,5 +1,7 @@
 package com.beerair.core.review.domain.vo;
 
+import com.beerair.core.error.exception.common.InvalidRequestParameterException;
+import java.util.Arrays;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -14,4 +16,11 @@ public enum FeelStatus {
 
     private final int score;
     private final String description;
+
+    public static FeelStatus fromScore(Integer score) {
+        return Arrays.stream(values())
+            .filter(eachFeelStatus -> score == eachFeelStatus.score)
+            .findFirst()
+            .orElseThrow(() -> new InvalidRequestParameterException("유효한 평점이 아닙니다."));
+    }
 }

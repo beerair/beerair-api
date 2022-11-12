@@ -40,11 +40,11 @@ public class ReviewResponse {
     private String content;
 
     @ApiModelProperty(
-        dataType = "String",
+        dataType = "Number",
         value = "평점",
-        example = "VERY_GOOD"
+        example = "5"
     )
-    private FeelStatus feelStatus;
+    private Integer feelStatus;
 
     @ApiModelProperty(
         dataType = "String",
@@ -77,7 +77,7 @@ public class ReviewResponse {
 
                 .content(dto.getReview().getContent())
                 .imageUrl(dto.getReview().getImageUrl())
-                .feelStatus(dto.getReview().getFeelStatus())
+                .feelStatus(dto.getReview().getFeelStatus().getScore())
                 .createdAt(dto.getReview().getCreatedAt())
 
                 .build();
@@ -105,7 +105,7 @@ public class ReviewResponse {
                 .beer(beer)
                 .departuresCountry(CountryResponse.from(dto.getDeparturesCountry()))
                 .arrivalCountry(CountryResponse.from(dto.getArrivalCountry()))
-                .feelStatus(dto.getReview().getFeelStatus())
+                .feelStatus(dto.getReview().getFeelStatus().getScore())
                 .createdAt(dto.getReview().getCreatedAt())
                 .build();
     }
@@ -119,7 +119,7 @@ public class ReviewResponse {
                 .id(dto.getReview().getId())
                 .member(member)
                 .flavors(flavors(dto))
-                .feelStatus(dto.getReview().getFeelStatus())
+                .feelStatus(dto.getReview().getFeelStatus().getScore())
                 .content(dto.getReview().getContent())
                 .createdAt(dto.getReview().getCreatedAt())
                 .build();
@@ -130,7 +130,7 @@ public class ReviewResponse {
                 .id(review.getId())
                 .content(review.getContent())
                 .imageUrl(review.getImageUrl())
-                .feelStatus(review.getFeelStatus())
+                .feelStatus(review.getFeelStatus().getScore())
                 .createdAt(review.getCreatedAt())
                 .build();
     }

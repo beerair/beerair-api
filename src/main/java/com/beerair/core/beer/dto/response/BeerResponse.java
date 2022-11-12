@@ -142,7 +142,7 @@ public class BeerResponse {
 			return null;
 		}
 		return ReviewResponse.builder()
-			.feelStatus(feelStatus)
+			.feelStatus(feelStatus.getScore())
 			.build();
 	}
 }
