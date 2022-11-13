@@ -39,7 +39,7 @@ public class BeerLikeController {
     @PostMapping
     public ResponseDto<Void> like(
             @AuthMember LoggedInMember member,
-            @RequestParam("beerId") String beerId
+            @RequestParam("beerId") Integer beerId
     ) {
         beerLikeService.like(member.getId(), beerId);
         return new ResponseDto<>();
@@ -50,7 +50,7 @@ public class BeerLikeController {
     @DeleteMapping
     public ResponseDto<Void> unlike(
             @AuthMember LoggedInMember member,
-            @RequestParam("beerId") String beerId
+            @RequestParam("beerId") Integer beerId
     ) {
         beerLikeService.unlike(member.getId(), beerId);
         return new ResponseDto<>();

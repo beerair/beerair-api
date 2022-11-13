@@ -30,7 +30,7 @@ public class ReviewQueryService {
             .collect(Collectors.toList());
     }
 
-    public List<ReviewResponse> getAllByBeer(String beerId) {
+    public List<ReviewResponse> getAllByBeer(Integer beerId) {
         return reviewQueryRepository.findAllByBeerId(beerId)
                 .stream()
                 .map(ReviewResponse::ofListItemAtBeer)

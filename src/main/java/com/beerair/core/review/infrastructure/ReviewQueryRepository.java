@@ -70,7 +70,7 @@ public interface ReviewQueryRepository extends JpaRepository<Review, String> {
             "LEFT OUTER JOIN Flavor f3 ON f3.id = r.flavorIds.flavor3 " +
             "WHERE r.beerId = :beerId AND r.deletedAt IS NULL " +
             "ORDER BY r.createdAt DESC")
-    List<ReviewDto> findAllByBeerId(@Param("beerId") String beerId);
+    List<ReviewDto> findAllByBeerId(@Param("beerId") Integer beerId);
 
     @Query("SELECT r as review, " +
             "f1 as flavor1, " +
@@ -84,5 +84,5 @@ public interface ReviewQueryRepository extends JpaRepository<Review, String> {
             "LEFT OUTER JOIN Flavor f3 ON f3.id = r.flavorIds.flavor3 " +
             "WHERE r.beerId = :beerId AND r.deletedAt IS NULL " +
             "ORDER BY r.createdAt DESC")
-    List<ReviewDto> findAllByBeerId(@Param("beerId") String beerId, Pageable pageable);
+    List<ReviewDto> findAllByBeerId(@Param("beerId") Integer beerId, Pageable pageable);
 }

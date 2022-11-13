@@ -82,7 +82,8 @@ public class ReviewController {
     @ApiOperation(value = "특정 맥주에 대한 리뷰 조회")
     @GetMapping
     public ResponseDto<CursorPageDto<Integer, ReviewResponse>> getAllByBeer(
-            @RequestParam("beerId") String beerId
+            @RequestParam("beerId") Integer beerId,
+            @RequestParam(value = "cursor", required = false) Integer cursor
     ) {
         var result = queryService.getAllByBeer(beerId);
         return null;

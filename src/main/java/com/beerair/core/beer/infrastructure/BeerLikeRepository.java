@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface BeerLikeRepository extends JpaRepository<BeerLike, Long> {
     @Modifying
     @Query("DELETE FROM BeerLike bl WHERE bl.memberId = :memberId AND bl.beerId = :beerId")
-    Integer deleteByBeerIdAndMemberId(@Param("memberId") String memberId, @Param("beerId") String beerId);
+    Integer deleteByBeerIdAndMemberId(@Param("memberId") String memberId, @Param("beerId") Integer beerId);
 
     @Transactional(readOnly = true)
     @Query("SELECT COUNT(bl) FROM BeerLike bl WHERE bl.memberId = :memberId")
