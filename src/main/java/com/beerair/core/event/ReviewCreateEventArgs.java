@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 public class ReviewCreateEventArgs {
-    private final String reviewId;
+    private final Integer reviewId;
     private final String beerId;
     private final String memberId;
 }

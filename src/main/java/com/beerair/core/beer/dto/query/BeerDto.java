@@ -65,7 +65,7 @@ public interface BeerDto {
 	}
 
 	interface ReviewInfo {
-		String getId();
+		Integer getId();
 		FeelStatus getFeelStatus();
 		String getContent();
 		String getImageUrl();

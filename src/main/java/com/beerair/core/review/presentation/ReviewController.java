@@ -2,6 +2,7 @@ package com.beerair.core.review.presentation;
 
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
+import com.beerair.core.common.dto.CursorPageDto;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
@@ -80,10 +81,10 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "특정 맥주에 대한 리뷰 조회")
     @GetMapping
-    public ResponseDto<List<ReviewResponse>> getAllByBeer(
+    public ResponseDto<CursorPageDto<Integer, ReviewResponse>> getAllByBeer(
             @RequestParam("beerId") String beerId
     ) {
         var result = queryService.getAllByBeer(beerId);
-        return new ResponseDto<>(result);
+        return null;
     }
 }

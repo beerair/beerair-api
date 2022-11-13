@@ -26,11 +26,11 @@ import lombok.NoArgsConstructor;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ReviewResponse {
     @ApiModelProperty(
-        dataType = "String",
+        dataType = "Number",
         value = "리뷰 ID",
-        example = "52abe0bf432a44e881a62aad7686ddb8"
+        example = "1"
     )
-    private String id;
+    private Integer id;
 
     @ApiModelProperty(
         dataType = "String",

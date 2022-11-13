@@ -36,7 +36,7 @@ Feature: Review
         Then    요청이 성공한다.
         And     6개가 조회된다.
 
-    Scenario: 리뷰 등록, 삭제, 목록 조회, 특정 맥주에 대한 리뷰 조회
+    Scenario: 리뷰 등록, 삭제, 목록 조회, 특정 맥주에 대한 리뷰 조회 (Cursor 방식으로 2개씩 조회)
         Given   access: '1234', refresh: '5678' 회원가입된 유저의 토큰이 발급 되어있다.
         And     Access Token 사용 : '1234'
 
