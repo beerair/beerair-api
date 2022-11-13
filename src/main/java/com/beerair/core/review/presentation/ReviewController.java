@@ -41,7 +41,7 @@ public class ReviewController {
     @GetMapping("{id}")
     public ResponseDto<ReviewResponse> get(
             @AuthMember LoggedInMember member,
-            @PathVariable("id") String reviewId
+            @PathVariable("id") Integer reviewId
     ) {
         var result = queryService.get(member.getId(), reviewId);
         return new ResponseDto<>(result);
@@ -60,7 +60,7 @@ public class ReviewController {
     @DeleteMapping("{id}")
     public ResponseDto<Void> delete(
             @AuthMember LoggedInMember member,
-            @PathVariable("id") String reviewId
+            @PathVariable("id") Integer reviewId
     ) {
         commandService.delete(member.getId(), reviewId);
         return new ResponseDto<>();
@@ -81,12 +81,11 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "특정 맥주에 대한 리뷰 조회")
     @GetMapping
-    public ResponseDto<CursorPageDto<Integer, ReviewResponse>> getAllByBeer(
-            @RequestParam("beerId") Integer beerId,
+    public CursorPageDto<Integer, ReviewResponse> getAllByBeer(
+            @RequestParam(value = "beerId") Integer beerId,
             @RequestParam(value = "cursor", required = false) Integer cursor,
             @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit
     ) {
-        var result = queryService.getAllByBeer(beerId, limit);
-        return null;
+        return queryService.getAllByBeer(beerId, cursor, limit);
     }
 }

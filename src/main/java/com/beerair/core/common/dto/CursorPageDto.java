@@ -4,15 +4,19 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 
-@Getter
+@Data
 public class CursorPageDto<KEY, T> implements Serializable {
-    private final List<T> data;
-    private final KEY nextCursor;
-    private final Integer size;
-    private final Boolean hasNext;
+    private List<T> data;
+    private KEY nextCursor;
+    private Integer size;
+    private Boolean hasNext;
+
+    protected CursorPageDto() {
+    }
 
     public CursorPageDto(List<T> data, KEY nextCursor) {
         this.nextCursor = nextCursor;

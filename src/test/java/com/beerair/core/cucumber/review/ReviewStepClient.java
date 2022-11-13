@@ -2,6 +2,7 @@ package com.beerair.core.cucumber.review;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
+import com.beerair.core.common.dto.CursorPageDto;
 import com.beerair.core.cucumber.StepClient;
 import com.beerair.core.review.dto.request.ReviewRequest;
 import org.springframework.context.annotation.Scope;
@@ -28,7 +29,7 @@ public class ReviewStepClient extends StepClient {
         if (Objects.nonNull(limit)) {
             queryParams += "&limit=" + limit;
         }
-        exchange(HttpMethod.GET, queryParams, new HttpEntity<>(authed()));
+        exchange(HttpMethod.GET, queryParams, new HttpEntity<>(authed()), CursorPageDto.class);
     }
 
     public void getAllByMe() {

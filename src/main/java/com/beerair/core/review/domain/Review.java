@@ -27,7 +27,7 @@ import static com.beerair.core.common.util.KeyGenerator.UUID_LENGTH;
 
 @Table(
         indexes = {
-                @Index(name = "INDEX_REVIEW_CURSOR_PAGING", columnList = "beerId, deletedAt"),
+                @Index(name = "INDEX_REVIEW_CURSOR_PAGING", columnList = "beerId"),
                 @Index(name = "INDEX_REVIEW_MEMBER_ID", columnList = "memberId")
         },
         uniqueConstraints = {

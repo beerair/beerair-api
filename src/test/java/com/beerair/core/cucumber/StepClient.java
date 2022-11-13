@@ -37,12 +37,16 @@ public abstract class StepClient {
         return SERVER_URL + ":" + port + endpoint;
     }
 
-    public <T> void exchange(HttpMethod httpMethod, String path, HttpEntity<T> httpEntity) {
+    public <T> void exchange(HttpMethod httpMethod, String path, HttpEntity<T> httpEntity, Class<?> responseClazz) {
         String url = endpoint() + path;
         var response = this.restTemplate.exchange(
-                url, httpMethod, httpEntity, ResponseDto.class
+                url, httpMethod, httpEntity, responseClazz
         );
         CucumberHttpResponseContext.set(response);
+    }
+
+    public <T> void exchange(HttpMethod httpMethod, String path, HttpEntity<T> httpEntity) {
+        exchange(httpMethod, path, httpEntity, ResponseDto.class);
     }
 
     @SneakyThrows

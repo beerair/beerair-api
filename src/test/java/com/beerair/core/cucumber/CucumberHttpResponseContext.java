@@ -59,14 +59,22 @@ public class CucumberHttpResponseContext {
 
     @SneakyThrows
     private static <T> List<T> getListInFirstClassBody(JsonNode node, TypeReference<List<T>> typeReference) {
-        System.out.println(node);
+
         if (node.isArray()) {
             return OBJECT_MAPPER.readValue(
                 node.toString(), typeReference
             );
         }
+        if (node.has("data")) {
+            var dataNode = node.get("data");
+            if (dataNode.isArray()) {
+                return OBJECT_MAPPER.readValue(
+                        dataNode.toString(), typeReference
+                );
+            }
+        }
         if (node.size() > 1) {
-            throw new TestDebugException("일급 객체가 아닙니다.");
+            throw new TestDebugException("List를 찾을 수 없습니다.");
         }
         return getListInFirstClassBody(node.fields().next().getValue(), typeReference);
     }
@@ -85,6 +93,7 @@ public class CucumberHttpResponseContext {
         nextCursor = null;
     }
 
+    @SneakyThrows
     public static void saveCursor() {
         CursorPageDto<?, ?> body = getBody(new TypeReference<>() {});
         nextCursor = body.getNextCursor();
