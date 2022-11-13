@@ -39,7 +39,6 @@ class CursorPagingUtilTest {
     }
 
     List<Integer> createDummyResult(int size) {
-        Random random = new Random();
         return IntStream.range(0, size)
                 .limit(size)
                 .boxed()

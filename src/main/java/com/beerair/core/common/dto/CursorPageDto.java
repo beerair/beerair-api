@@ -20,4 +20,8 @@ public class CursorPageDto<KEY, T> implements Serializable {
         this.data = data;
         this.size = data.size();
     }
+
+    public CursorPageDto(List<T> data) {
+        this(data, null);
+    }
 }
