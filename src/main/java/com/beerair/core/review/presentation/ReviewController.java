@@ -83,9 +83,10 @@ public class ReviewController {
     @GetMapping
     public ResponseDto<CursorPageDto<Integer, ReviewResponse>> getAllByBeer(
             @RequestParam("beerId") Integer beerId,
-            @RequestParam(value = "cursor", required = false) Integer cursor
+            @RequestParam(value = "cursor", required = false) Integer cursor,
+            @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit
     ) {
-        var result = queryService.getAllByBeer(beerId);
+        var result = queryService.getAllByBeer(beerId, limit);
         return null;
     }
 }

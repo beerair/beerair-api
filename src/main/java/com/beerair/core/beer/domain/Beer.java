@@ -17,7 +17,7 @@ import static com.beerair.core.common.util.KeyGenerator.UUID_LENGTH;
 public class Beer extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = UUID_LENGTH)
+    @Column
     private Integer id;
 
     private Float alcohol;

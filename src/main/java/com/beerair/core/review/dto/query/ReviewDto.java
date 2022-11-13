@@ -30,7 +30,7 @@ public interface ReviewDto {
     }
 
     interface BeerInfo {
-        String getId();
+        Integer getId();
         String getKorName();
         String getEngName();
         Float getAlcohol();

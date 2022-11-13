@@ -22,7 +22,7 @@ public class ReviewQueryService {
         return ReviewResponse.from(result);
     }
 
-    public List<ReviewResponse> getAllByMe(String memberId, int limit) {
+    public List<ReviewResponse> getAllByMe(String memberId, Integer limit) {
         Pageable pageable = Pageable.ofSize(limit);
         return reviewQueryRepository.findAllByMemberId(memberId, pageable)
             .stream()
@@ -30,7 +30,7 @@ public class ReviewQueryService {
             .collect(Collectors.toList());
     }
 
-    public List<ReviewResponse> getAllByBeer(Integer beerId) {
+    public List<ReviewResponse> getAllByBeer(Integer beerId, Integer limit) {
         return reviewQueryRepository.findAllByBeerId(beerId)
                 .stream()
                 .map(ReviewResponse::ofListItemAtBeer)

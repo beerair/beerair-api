@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Objects;
 
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component
@@ -16,8 +19,16 @@ public class ReviewStepClient extends StepClient {
         super("/api/v1/reviews");
     }
 
-    public void getAllByBeer(Integer beerId) {
-        exchange(HttpMethod.GET, "?beerId=" + beerId, new HttpEntity<>(authed()));
+    public void getAllByBeer(Integer beerId, Integer cursor, Integer limit) {
+        String queryParams = "?";
+        queryParams += "beerId=" + beerId;
+        if (Objects.nonNull(cursor)) {
+            queryParams += "&cursor=" + cursor;
+        }
+        if (Objects.nonNull(limit)) {
+            queryParams += "&limit=" + limit;
+        }
+        exchange(HttpMethod.GET, queryParams, new HttpEntity<>(authed()));
     }
 
     public void getAllByMe() {

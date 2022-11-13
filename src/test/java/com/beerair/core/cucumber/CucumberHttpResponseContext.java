@@ -1,5 +1,6 @@
 package com.beerair.core.cucumber;
 
+import com.beerair.core.common.dto.CursorPageDto;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.error.TestDebugException;
 import com.beerair.core.fixture.Fixture;
@@ -8,6 +9,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.List;
+import java.util.Map;
+
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +26,7 @@ import org.springframework.http.ResponseEntity;
  * */
 @UtilityClass
 public class CucumberHttpResponseContext {
+    private static Object nextCursor;
     private static final ObjectMapper OBJECT_MAPPER;
     static {
         OBJECT_MAPPER = new ObjectMapper();
@@ -75,6 +79,20 @@ public class CucumberHttpResponseContext {
 
         new Fixture<>(latestResponse)
             .set("body", newBody);
+    }
+
+    public static void clearCursor() {
+        nextCursor = null;
+    }
+
+    public static void saveCursor() {
+        CursorPageDto<?, ?> body = getBody(new TypeReference<>() {});
+        nextCursor = body.getNextCursor();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <KEY> KEY getNextCursor() {
+        return (KEY) nextCursor;
     }
 
     public static String getCookie() {

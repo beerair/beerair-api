@@ -18,7 +18,7 @@ public interface BeerDto {
 
 	interface BeerInfo {
 
-		String getId();
+		Integer getId();
 
 		String getKorName();
 
