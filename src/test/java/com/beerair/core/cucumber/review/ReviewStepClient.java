@@ -16,7 +16,7 @@ public class ReviewStepClient extends StepClient {
         super("/api/v1/reviews");
     }
 
-    public void getAllByBeer(String beerId) {
+    public void getAllByBeer(Integer beerId) {
         exchange(HttpMethod.GET, "?beerId=" + beerId, new HttpEntity<>(authed()));
     }
 
@@ -28,7 +28,7 @@ public class ReviewStepClient extends StepClient {
         exchange(HttpMethod.GET, "/me?limit=" + limit, new HttpEntity<>(authed()));
     }
 
-    public void get(String beerId) {
+    public void get(Integer beerId) {
         exchange(HttpMethod.GET, "/" + beerId, new HttpEntity<>(authed()));
     }
 
@@ -37,7 +37,7 @@ public class ReviewStepClient extends StepClient {
         exchange(HttpMethod.POST, "", httpEntity);
     }
 
-    public void delete(String beerId) {
+    public void delete(Integer beerId) {
         exchange(HttpMethod.DELETE, "/" + beerId, new HttpEntity<>(authed()));
     }
 }

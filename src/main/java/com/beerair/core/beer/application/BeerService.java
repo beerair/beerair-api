@@ -24,7 +24,7 @@ public class BeerService {
     private final BeerSearchRepository beerSearchRepository;
     private final BeerRecommendRepository beerRecommendRepository;
 
-    public BeerResponse getWithRegion(String memberId, String beerId) {
+    public BeerResponse getWithRegion(String memberId, Integer beerId) {
         if (Objects.isNull(memberId)) {
             return BeerResponse.from(beerRepository.findByIdWithTypeAndCountry(beerId)
                     .orElseThrow(BeerNotFoundException::new));

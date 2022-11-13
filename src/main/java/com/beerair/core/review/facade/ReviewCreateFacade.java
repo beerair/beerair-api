@@ -59,7 +59,7 @@ public class ReviewCreateFacade {
                 .build();
     }
 
-    private Route createRoute(Optional<Review> latestReview, String beerId) {
+    private Route createRoute(Optional<Review> latestReview, Integer beerId) {
         var latestRoute = latestReview.map(Review::getRoute)
                 .orElseGet(this::defaultRoute);
         var arrivalCountryId = beerRepository.findCountryIdById(beerId)

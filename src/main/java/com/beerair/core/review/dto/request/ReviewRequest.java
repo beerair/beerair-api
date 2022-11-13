@@ -49,9 +49,9 @@ public class ReviewRequest {
     private List<Long> flavorIds;
 
     @ApiModelProperty(
-        dataType = "String",
+        dataType = "Number",
         value = "맥주 ID",
         example = "1"
     )
-    private String beerId;
+    private Integer beerId;
 }

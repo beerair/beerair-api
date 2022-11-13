@@ -52,7 +52,7 @@ public class Review extends BaseEntity {
 
     @Comment("맥주 Id")
     @Column(nullable = false)
-    private String beerId;
+    private Integer beerId;
 
     @Comment("멤버 Id")
     @Column(nullable = false)
@@ -81,7 +81,7 @@ public class Review extends BaseEntity {
     private Boolean isPublic;
 
     @Builder
-    private Review(Integer previousId, String beerId, String memberId, Route route, FeelStatus feelStatus, ReviewFlavorIds flavorIds, String content, String imageUrl, Boolean isPublic) {
+    private Review(Integer previousId, Integer beerId, String memberId, Route route, FeelStatus feelStatus, ReviewFlavorIds flavorIds, String content, String imageUrl, Boolean isPublic) {
         this.previousId = previousId;
         this.beerId = beerId;
         this.memberId = memberId;

@@ -40,5 +40,5 @@ public interface ReviewRepository extends JpaRepository<Review, String> {
             "FROM Review r " +
             "WHERE r.beerId = :beerId " +
             "AND r.deletedAt IS NULL")
-    Optional<Review> findByBeerId(@Param("beerId") String beerId);
+    Optional<Review> findByBeerId(@Param("beerId") Integer beerId);
 }
