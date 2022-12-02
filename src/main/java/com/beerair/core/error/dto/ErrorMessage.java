@@ -48,6 +48,11 @@ public enum ErrorMessage {
      * Review Error Message
      **/
     REVIEW_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 리뷰 정보가 없습니다."),
+
+    /**
+     * Image Error Message
+     **/
+    IMAGE_SERVER_ERROR(HttpStatus.BAD_REQUEST, "이미지 업로드를 실패했습니다."),
     ;
 
     private final HttpStatus status;
