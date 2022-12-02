@@ -1,7 +1,9 @@
 package com.beerair.core.image.domain;
 
 import com.beerair.core.common.domain.BaseEntity;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "image_metadata")
 public class ImageMetadata extends BaseEntity {
     @Id
