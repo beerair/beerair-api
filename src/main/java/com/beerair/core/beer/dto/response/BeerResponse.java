@@ -26,7 +26,7 @@ public class BeerResponse {
 		value = "ID",
 		example = "1"
 	)
-	private String id;
+	private Integer id;
 
 	private CountryResponse country;
 
@@ -142,7 +142,7 @@ public class BeerResponse {
 			return null;
 		}
 		return ReviewResponse.builder()
-			.feelStatus(feelStatus)
+			.feelStatus(feelStatus.getScore())
 			.build();
 	}
 }

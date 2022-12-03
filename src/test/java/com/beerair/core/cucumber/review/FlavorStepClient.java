@@ -15,7 +15,7 @@ public class FlavorStepClient extends StepClient {
         super("/api/v1/flavors");
     }
 
-    public void getFlavorRank(String beerId, int limit) {
+    public void getFlavorRank(Integer beerId, int limit) {
         String url = "/rank?beerId=" + beerId + "&limit=" + limit;
         exchange(HttpMethod.GET, url, new HttpEntity<>(authed()));
     }

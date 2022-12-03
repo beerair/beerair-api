@@ -2,6 +2,7 @@ package com.beerair.core.review.presentation;
 
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
+import com.beerair.core.common.dto.CursorPageDto;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
@@ -40,7 +41,7 @@ public class ReviewController {
     @GetMapping("{id}")
     public ResponseDto<ReviewResponse> get(
             @AuthMember LoggedInMember member,
-            @PathVariable("id") String reviewId
+            @PathVariable("id") Integer reviewId
     ) {
         var result = queryService.get(member.getId(), reviewId);
         return new ResponseDto<>(result);
@@ -59,7 +60,7 @@ public class ReviewController {
     @DeleteMapping("{id}")
     public ResponseDto<Void> delete(
             @AuthMember LoggedInMember member,
-            @PathVariable("id") String reviewId
+            @PathVariable("id") Integer reviewId
     ) {
         commandService.delete(member.getId(), reviewId);
         return new ResponseDto<>();
@@ -80,10 +81,11 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "특정 맥주에 대한 리뷰 조회")
     @GetMapping
-    public ResponseDto<List<ReviewResponse>> getAllByBeer(
-            @RequestParam("beerId") String beerId
+    public CursorPageDto<Integer, ReviewResponse> getAllByBeer(
+            @RequestParam(value = "beerId") Integer beerId,
+            @RequestParam(value = "cursor", required = false) Integer cursor,
+            @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit
     ) {
-        var result = queryService.getAllByBeer(beerId);
-        return new ResponseDto<>(result);
+        return queryService.getAllByBeer(beerId, cursor, limit);
     }
 }

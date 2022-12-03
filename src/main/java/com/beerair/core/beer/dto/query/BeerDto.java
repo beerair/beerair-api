@@ -18,7 +18,7 @@ public interface BeerDto {
 
 	interface BeerInfo {
 
-		String getId();
+		Integer getId();
 
 		String getKorName();
 
@@ -65,7 +65,7 @@ public interface BeerDto {
 	}
 
 	interface ReviewInfo {
-		String getId();
+		Integer getId();
 		FeelStatus getFeelStatus();
 		String getContent();
 		String getImageUrl();

@@ -1,4 +1,5 @@
 Feature: Beer Search
+    #에일의 정석 Id = 1
     Scenario: 로그인한 상태로 다양한 검색 조건을 등록해 맥주를 검색 한다.
         Given   access: '1234', refresh: '5678' 회원가입된 유저의 토큰이 발급 되어있다.
         And     Access Token 사용 : '1234'
@@ -41,7 +42,7 @@ Feature: Beer Search
         # 정렬 리뷰 많은순
         Given    [맥주 검색 조건 초기화]
 
-        And      '에일의 정석' 맥주에 맛 1,2,3 리뷰 작성을 요청하면
+        And      1 맥주에 맛 1,2,3 리뷰 작성을 요청하면
         And      맥주 검색 조건에 정렬 'REVIEW' 등록
         When     맥주 검색을 요청하면
         Then     요청이 성공한다.

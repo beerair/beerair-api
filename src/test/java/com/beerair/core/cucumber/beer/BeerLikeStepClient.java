@@ -15,12 +15,12 @@ public class BeerLikeStepClient extends StepClient {
         super("/api/v1/beer-likes");
     }
 
-    public void like(String beerId) {
+    public void like(Integer beerId) {
         String query = "?beerId=" + beerId;
         exchange(HttpMethod.POST, query, new HttpEntity<>(authed()));
     }
 
-    public void unlike(String beerId) {
+    public void unlike(Integer beerId) {
         String query = "?beerId=" + beerId;
         exchange(HttpMethod.DELETE, query, new HttpEntity<>(authed()));
     }

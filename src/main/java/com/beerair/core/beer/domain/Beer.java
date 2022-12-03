@@ -7,9 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import static com.beerair.core.common.util.KeyGenerator.UUID_LENGTH;
 
@@ -18,8 +16,9 @@ import static com.beerair.core.common.util.KeyGenerator.UUID_LENGTH;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Beer extends BaseEntity {
     @Id
-    @Column(length = UUID_LENGTH)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Integer id;
 
     private Float alcohol;
 
@@ -51,7 +50,6 @@ public class Beer extends BaseEntity {
             Integer price,
             Long countryId
     ) {
-        this.id = KeyGenerator.createKeyByUUID();
         this.alcohol = alcohol;
         this.content = content;
         this.imageUrl = imageUrl;

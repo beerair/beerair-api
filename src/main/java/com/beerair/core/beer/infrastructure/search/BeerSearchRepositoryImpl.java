@@ -134,7 +134,7 @@ public class BeerSearchRepositoryImpl implements BeerSearchRepository {
         var reader = new NativeQueryReader(row);
 
         var builder = BeerListItemDto.builder()
-                .id(reader.getString(0))
+                .id(reader.getInteger(0))
                 .alcohol(reader.getFloat(1))
                 .korName(reader.getString(2))
                 .imageUrl(reader.getString(3))

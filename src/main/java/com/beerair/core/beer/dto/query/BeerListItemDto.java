@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class BeerListItemDto {
-	private final String id;
+	private final Integer id;
 	private final Float alcohol;
 	private final String korName;
 	private final String imageUrl;

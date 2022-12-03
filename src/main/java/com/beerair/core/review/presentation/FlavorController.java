@@ -36,7 +36,7 @@ public class FlavorController {
     @ApiOperation(value = "특정 맥주의 맛 Rank API")
     @GetMapping("rank")
     public ResponseDto<List<FlavorRankResponse>> getFlavorTop3(
-        @RequestParam("beerId") String beerId,
+        @RequestParam("beerId") Integer beerId,
         @RequestParam("limit") Integer limit
     ) {
         var result = flavorService.getFlavorRank(beerId, limit);

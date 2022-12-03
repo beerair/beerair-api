@@ -42,7 +42,7 @@ public class BeerController {
     @GetMapping("/{beerId}")
     public ResponseDto<BeerResponse> get(
             @AuthMember Optional<LoggedInMember> member,
-            @PathVariable("beerId") String beerId
+            @PathVariable("beerId") Integer beerId
     ) {
         var result = beerService.getWithRegion(
                 member.map(LoggedInMember::getId).orElse(null), beerId

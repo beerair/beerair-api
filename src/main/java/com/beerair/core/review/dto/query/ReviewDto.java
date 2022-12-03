@@ -15,7 +15,7 @@ public interface ReviewDto {
     FlavorDto getFlavor3();
 
     interface ReviewInfo {
-        String getId();
+        Integer getId();
         String getPreviousId();
         String getContent();
         FeelStatus getFeelStatus();
@@ -30,7 +30,7 @@ public interface ReviewDto {
     }
 
     interface BeerInfo {
-        String getId();
+        Integer getId();
         String getKorName();
         String getEngName();
         Float getAlcohol();
