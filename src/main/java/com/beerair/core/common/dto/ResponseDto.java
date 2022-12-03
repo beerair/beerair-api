@@ -1,7 +1,8 @@
 package com.beerair.core.common.dto;
 
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 @Data
 public class ResponseDto<T> implements Serializable {
