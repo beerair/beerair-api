@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface BeerRepository extends JpaRepository<Beer, String>, JpaSpecificationExecutor<Beer> {
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT b.countryId FROM Beer b WHERE b.id = :beerId AND b.deletedAt IS NULL")
-	Optional<Long> findCountryIdById(@Param("beerId") String beerId);
+	Optional<Long> findCountryIdById(@Param("beerId") Integer beerId);
 
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT b as beer, " +
@@ -23,7 +23,7 @@ public interface BeerRepository extends JpaRepository<Beer, String>, JpaSpecific
 	               "JOIN BeerType bt on b.typeId = bt.id " +
 	               "JOIN Country c on b.countryId = c.id " +
 	               "WHERE b.id = :beerId and b.deletedAt is null")
-	Optional<BeerDto> findByIdWithTypeAndCountry(@Param("beerId") String beerId);
+	Optional<BeerDto> findByIdWithTypeAndCountry(@Param("beerId") Integer beerId);
 
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT b as beer, " +
@@ -34,7 +34,7 @@ public interface BeerRepository extends JpaRepository<Beer, String>, JpaSpecific
 	               "LEFT OUTER JOIN BeerLike bl on b.id = bl.beerId and bl.memberId = :memberId " +
 				   "LEFT OUTER JOIN Review r ON r.beerId = b.id AND r.memberId = :memberId AND r.deletedAt IS NULL " +
 	               "WHERE b.id = :beerId and b.deletedAt is null")
-	Optional<BeerDto> findByIdWithTypeAndCountry(@Param("beerId") String beerId, @Param("memberId") String memberId);
+	Optional<BeerDto> findByIdWithTypeAndCountry(@Param("beerId") Integer beerId, @Param("memberId") String memberId);
 
     @Transactional(readOnly = true)
     Boolean findByKorNameOrEngName(String korName, String engName);

@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 public class BeerLikeService {
     private final BeerLikeRepository beerLikeRepository;
 
-    public void like(String memberId, String beerId) {
+    public void like(String memberId, Integer beerId) {
         var beerLike = new BeerLike(memberId, beerId);
         beerLikeRepository.save(beerLike);
     }
 
-    public void unlike(String memberId, String beerId) {
+    public void unlike(String memberId, Integer beerId) {
         beerLikeRepository.deleteByBeerIdAndMemberId(memberId, beerId);
     }
 

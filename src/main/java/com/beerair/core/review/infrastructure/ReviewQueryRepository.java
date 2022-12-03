@@ -27,7 +27,7 @@ public interface ReviewQueryRepository extends JpaRepository<Review, String> {
             "LEFT OUTER JOIN Flavor f2 ON f2.id = r.flavorIds.flavor2 " +
             "LEFT OUTER JOIN Flavor f3 ON f3.id = r.flavorIds.flavor3 " +
             "WHERE r.memberId = :memberId AND r.id = :reviewId AND r.deletedAt IS NULL")
-    Optional<ReviewDto> findByMemberIdAndReviewId(@Param("memberId") String memberId, @Param("reviewId") String reviewId);
+    Optional<ReviewDto> findByMemberIdAndReviewId(@Param("memberId") String memberId, @Param("reviewId") Integer reviewId);
 
     @Query("SELECT r as review, " +
             "b as beer, " +
@@ -68,7 +68,19 @@ public interface ReviewQueryRepository extends JpaRepository<Review, String> {
             "LEFT OUTER JOIN Flavor f1 ON f1.id = r.flavorIds.flavor1 " +
             "LEFT OUTER JOIN Flavor f2 ON f2.id = r.flavorIds.flavor2 " +
             "LEFT OUTER JOIN Flavor f3 ON f3.id = r.flavorIds.flavor3 " +
+            "WHERE r.id IN (:ids) AND r.deletedAt IS NULL " +
+            "ORDER BY r.id DESC")
+    List<ReviewDto> findAllByIdIn(@Param("ids") List<Integer> beerId);
+
+    @Query("SELECT r.id " +
+            "FROM Review r " +
+            "WHERE r.id <= :cursor AND r.beerId = :beerId AND r.deletedAt IS NULL " +
+            "ORDER BY r.id DESC")
+    List<Integer> findIdByBeerIdForCursor(@Param("beerId") Integer beerId, @Param("cursor") Integer cursor, Pageable pageable);
+
+    @Query("SELECT r.id " +
+            "FROM Review r " +
             "WHERE r.beerId = :beerId AND r.deletedAt IS NULL " +
-            "ORDER BY r.createdAt DESC")
-    List<ReviewDto> findAllByBeerId(@Param("beerId") String beerId);
+            "ORDER BY r.id DESC")
+    List<Integer> findIdByBeerId(@Param("beerId") Integer beerId, Pageable pageable);
 }

@@ -33,12 +33,12 @@ public interface ReviewRepository extends JpaRepository<Review, String> {
             "AND (r.id = :reviewId OR r.previousId = :reviewId) " +
             "AND r.deletedAt IS NULL " +
             "ORDER BY r.createdAt")
-    List<Review> findAllByIdAndPreviousIdAndMemberId(@Param("memberId") String memberId, @Param("reviewId") String reviewId);
+    List<Review> findAllByIdAndPreviousIdAndMemberId(@Param("memberId") String memberId, @Param("reviewId") Integer reviewId);
 
     /** 리뷰 목록이 작업될때까지 테스트에서 임시로 사용할 메서드 입니다. */
     @Query("SELECT r as review " +
             "FROM Review r " +
             "WHERE r.beerId = :beerId " +
             "AND r.deletedAt IS NULL")
-    Optional<Review> findByBeerId(@Param("beerId") String beerId);
+    Optional<Review> findByBeerId(@Param("beerId") Integer beerId);
 }

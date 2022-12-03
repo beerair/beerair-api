@@ -8,5 +8,6 @@ public class CucumberHttpResponseCleanUp implements CleanUp {
     @Override
     public void exec() {
         CucumberHttpResponseContext.set(null);
+        CucumberHttpResponseContext.clearCursor();
     }
 }

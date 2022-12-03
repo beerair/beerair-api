@@ -27,14 +27,14 @@ public class FlavorRankRepositoryImpl implements FlavorRankRepository {
     private EntityManager em;
 
     @Override
-    public List<FlavorRankDto> findRankByBeerId(String beerId, int limit) {
+    public List<FlavorRankDto> findRankByBeerId(Integer beerId, int limit) {
         List<?> result = createQuery(beerId, limit).getResultList();
         return result.stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
     }
 
-    private Query createQuery(String beerId, int limit) {
+    private Query createQuery(Integer beerId, int limit) {
         var query = em.createNativeQuery(SQL);
         query.setParameter("beerId", beerId);
         query.setMaxResults(limit);

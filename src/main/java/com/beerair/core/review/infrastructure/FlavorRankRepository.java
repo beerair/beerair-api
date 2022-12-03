@@ -4,5 +4,5 @@ import com.beerair.core.review.dto.query.FlavorRankDto;
 import java.util.List;
 
 public interface FlavorRankRepository {
-    List<FlavorRankDto> findRankByBeerId(String beerId, int limit);
+    List<FlavorRankDto> findRankByBeerId(Integer beerId, int limit);
 }

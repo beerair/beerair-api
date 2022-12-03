@@ -45,7 +45,7 @@ public class BeerRecommendRepositoryImpl implements BeerRecommendRepository {
     private BeerListItemDto convert(Object row) {
         var reader = new NativeQueryReader(row);
         return BeerListItemDto.builder()
-                .id(reader.getString(0))
+                .id(reader.getInteger(0))
                 .alcohol(reader.getFloat(1))
                 .korName(reader.getString(2))
                 .imageUrl(reader.getString(3))

@@ -5,6 +5,8 @@ import com.beerair.core.common.util.KeyGenerator;
 import com.beerair.core.review.domain.vo.FeelStatus;
 import com.beerair.core.review.domain.vo.ReviewFlavorIds;
 import com.beerair.core.review.domain.vo.Route;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,12 +27,8 @@ import static com.beerair.core.common.util.KeyGenerator.UUID_LENGTH;
 
 @Table(
         indexes = {
-                @Index(name = "INDEX_BEER_ID", columnList = "beerId"),
-                @Index(name = "INDEX_PREVIOUS_ID", columnList = "previousId"),
-                @Index(name = "INDEX_MEMBER_ID", columnList = "memberId"),
-                @Index(name = "INDEX_FLAVOR1_ID", columnList = "flavor1"),
-                @Index(name = "INDEX_FLAVOR2_ID", columnList = "flavor2"),
-                @Index(name = "INDEX_FLAVOR3_ID", columnList = "flavor3")
+                @Index(name = "INDEX_REVIEW_CURSOR_PAGING", columnList = "beerId"),
+                @Index(name = "INDEX_REVIEW_MEMBER_ID", columnList = "memberId")
         },
         uniqueConstraints = {
                 @UniqueConstraint(name = "UNIQUE_MEMBER_BEER", columnNames = {
@@ -44,16 +42,17 @@ import static com.beerair.core.common.util.KeyGenerator.UUID_LENGTH;
 public class Review extends BaseEntity {
     @Comment("Id")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = UUID_LENGTH)
-    private String id;
+    private Integer id;
 
     @Comment("이전 리뷰 맥주 Id")
-    @Column(length = UUID_LENGTH)
-    private String previousId;
+    @Column
+    private Integer previousId;
 
     @Comment("맥주 Id")
     @Column(nullable = false)
-    private String beerId;
+    private Integer beerId;
 
     @Comment("멤버 Id")
     @Column(nullable = false)
@@ -82,8 +81,7 @@ public class Review extends BaseEntity {
     private Boolean isPublic;
 
     @Builder
-    private Review(String previousId, String beerId, String memberId, Route route, FeelStatus feelStatus, ReviewFlavorIds flavorIds, String content, String imageUrl, Boolean isPublic) {
-        this.id = KeyGenerator.createKeyByUUID();
+    private Review(Integer previousId, Integer beerId, String memberId, Route route, FeelStatus feelStatus, ReviewFlavorIds flavorIds, String content, String imageUrl, Boolean isPublic) {
         this.previousId = previousId;
         this.beerId = beerId;
         this.memberId = memberId;

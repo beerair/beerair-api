@@ -29,7 +29,7 @@ public class FlavorService {
     }
 
     @Transactional(readOnly = true)
-    public List<FlavorRankResponse> getFlavorRank(String beerId, int limit) {
+    public List<FlavorRankResponse> getFlavorRank(Integer beerId, int limit) {
         return flavorRankRepository.findRankByBeerId(beerId, limit)
                 .stream()
                 .map(FlavorRankResponse::from)

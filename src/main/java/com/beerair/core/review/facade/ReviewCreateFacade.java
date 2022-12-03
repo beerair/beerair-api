@@ -6,6 +6,7 @@ import com.beerair.core.error.exception.region.CountryNotFoundException;
 import com.beerair.core.event.ReviewCreateEventArgs;
 import com.beerair.core.region.infrastructure.CountryRepository;
 import com.beerair.core.review.domain.Review;
+import com.beerair.core.review.domain.vo.FeelStatus;
 import com.beerair.core.review.domain.vo.ReviewFlavorIds;
 import com.beerair.core.review.domain.vo.Route;
 import com.beerair.core.review.dto.request.ReviewRequest;
@@ -52,13 +53,13 @@ public class ReviewCreateFacade {
                 .beerId(request.getBeerId())
                 .content(request.getContent())
                 .beerId(request.getBeerId())
-                .feelStatus(request.getFeelStatus())
+                .feelStatus(FeelStatus.fromScore(request.getFeelStatus()))
                 .imageUrl(request.getImageUrl())
                 .isPublic(request.getIsPublic())
                 .build();
     }
 
-    private Route createRoute(Optional<Review> latestReview, String beerId) {
+    private Route createRoute(Optional<Review> latestReview, Integer beerId) {
         var latestRoute = latestReview.map(Review::getRoute)
                 .orElseGet(this::defaultRoute);
         var arrivalCountryId = beerRepository.findCountryIdById(beerId)

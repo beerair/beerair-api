@@ -21,11 +21,11 @@ public class ReviewRequest {
     private String content;
 
     @ApiModelProperty(
-        dataType = "String",
+        dataType = "Number",
         value = "평점",
-        example = "VERY_GOOD"
+        example = "5"
     )
-    private FeelStatus feelStatus;
+    private Integer feelStatus;
 
     @ApiModelProperty(
         dataType = "String",
@@ -49,9 +49,9 @@ public class ReviewRequest {
     private List<Long> flavorIds;
 
     @ApiModelProperty(
-        dataType = "String",
+        dataType = "Number",
         value = "맥주 ID",
         example = "1"
     )
-    private String beerId;
+    private Integer beerId;
 }

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewCommandService {
     private final ReviewRepository reviewRepository;
 
-    public void delete(String memberId, String reviewId) {
+    public void delete(String memberId, Integer reviewId) {
         var reviews = reviewRepository.findAllByIdAndPreviousIdAndMemberId(memberId, reviewId);
         if (reviews.isEmpty()) {
             return;

@@ -9,8 +9,8 @@ public class FlavorStepWhenDefs {
     @Autowired
     private FlavorStepClient flavorStepClient;
 
-    @When("{string} 맥주 맛 TOP{int}를 요청하면")
-    public void 맥주_맛_RANK_조회_요청(String beerId, int rank) {
+    @When("{int} 맥주 맛 TOP{int}를 요청하면")
+    public void 맥주_맛_RANK_조회_요청(Integer beerId, int rank) {
         flavorStepClient.getFlavorRank(beerId, rank);
     }
 }
