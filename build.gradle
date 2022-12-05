@@ -24,7 +24,7 @@ ext {
     EMBEDDED_REDIS_VERSION = "0.7.2"
     SWAGGER_VERSION = "3.0.0"
     H2_VERSION = "2.1.214"
-    AWS_STARTER_VERSION = "2.2.6.RELEASE"
+    AWS_S3_SDK_VERSION = "1.12.351"
 }
 
 repositories {
@@ -54,7 +54,7 @@ dependencies {
     testAnnotationProcessor "org.projectlombok:lombok"
 
     // aws
-    implementation("org.springframework.cloud:spring-cloud-starter-aws:${AWS_STARTER_VERSION}")
+    implementation("com.amazonaws:aws-java-sdk-s3:${AWS_S3_SDK_VERSION}")
 
     implementation "org.springframework.boot:spring-boot-starter-data-redis"
     testImplementation "it.ozimov:embedded-redis:${EMBEDDED_REDIS_VERSION}"
