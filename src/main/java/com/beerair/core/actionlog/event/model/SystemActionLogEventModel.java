@@ -22,7 +22,7 @@ public class SystemActionLogEventModel {
         this.referer = request.getHeader("Referer");
     }
 
-    public String getClientIpAddress(HttpServletRequest request) {
+    private String getClientIpAddress(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
 
         if (ip == null) {
