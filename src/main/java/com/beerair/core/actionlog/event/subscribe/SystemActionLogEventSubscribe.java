@@ -5,6 +5,7 @@ import com.beerair.core.actionlog.domain.SystemActionLog;
 import com.beerair.core.actionlog.event.model.SystemActionLogEventModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class SystemActionLogEventSubscribe {
     private final SystemActionLogService systemActionLogService;
 
+    @Async(value = "systemActionLogExecutor")
     @EventListener(SystemActionLogEventModel.class)
     public void subscribe(SystemActionLogEventModel model) {
         var systemActionLog = new SystemActionLog(
