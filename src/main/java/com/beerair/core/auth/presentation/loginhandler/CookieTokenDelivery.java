@@ -24,7 +24,7 @@ public class CookieTokenDelivery implements TokenDelivery {
 
     private int maxExpired(AuthToken accessToken, AuthToken refreshToken) {
         long max = Math.max(accessToken.getExpired().getTime(), refreshToken.getExpired().getTime());
-        return (int)(max - new Date().getTime()) / 1000;
+        return (int)((max - new Date().getTime()) / 1000L);
     }
 
     private Cookie toCookie(String cookieName, AuthToken authToken, int maxAge) {
