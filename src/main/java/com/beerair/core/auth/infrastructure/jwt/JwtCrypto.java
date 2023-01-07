@@ -27,12 +27,12 @@ import lombok.experimental.UtilityClass;
 public class JwtCrypto implements AuthTokenCrypto {
     private final SignatureAlgorithm signatureAlgorithm;
     private final Key signatureKey;
-    private final int expiration;
+    private final long expiration;
     private final JwtParser jwtParser;
     private final String tokenPurpose;
 
     @Builder
-    private JwtCrypto(String tokenPurpose, String signatureAlgorithm, String signatureKey, int expiration) {
+    private JwtCrypto(String tokenPurpose, String signatureAlgorithm, String signatureKey, long expiration) {
         this.tokenPurpose = tokenPurpose;
         this.signatureAlgorithm = SignatureAlgorithm.forName(signatureAlgorithm);
         this.signatureKey = new SecretKeySpec(

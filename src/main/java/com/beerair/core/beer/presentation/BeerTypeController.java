@@ -1,9 +1,7 @@
 package com.beerair.core.beer.presentation;
 
-import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
-
 import com.beerair.core.beer.application.BeerTypeService;
-import com.beerair.core.beer.dto.response.BeerTypeResponses;
+import com.beerair.core.beer.dto.response.BeerTypeResponse;
 import com.beerair.core.common.dto.ResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "[10] 맥주 종류 API")
 @RestController
@@ -24,7 +26,7 @@ public class BeerTypeController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "맥주 종류 목록 조회 api")
     @GetMapping
-    public ResponseDto<BeerTypeResponses> getAll() {
+    public ResponseDto<List<BeerTypeResponse>> getAll() {
         var result = beerTypeService.getAll();
         return new ResponseDto<>(result);
     }

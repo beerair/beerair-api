@@ -27,7 +27,7 @@ public class SecurityBeanConfig {
     @Value("${auth.jjwt.access.signatureKey}")
     private String accessSignatureKey;
     @Value("${auth.jjwt.access.expiration}")
-    private int accessExpiration;
+    private long accessExpiration;
 
     @Value("${auth.jjwt.refresh.signatureAlgorithm}")
     private String refreshSignatureAlgorithm;
