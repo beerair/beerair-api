@@ -1,9 +1,11 @@
 package com.beerair.core.beer.application;
 
 import com.beerair.core.beer.dto.response.BeerTypeResponse;
-import com.beerair.core.beer.dto.response.BeerTypeResponses;
 import com.beerair.core.beer.infrastructure.BeerTypeRepository;
+
+import java.util.List;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,12 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class BeerTypeService {
     private final BeerTypeRepository beerTypeRepository;
 
-    public BeerTypeResponses getAll() {
+    public List<BeerTypeResponse> getAll() {
         return beerTypeRepository.findAll()
-            .stream()
-            .map(BeerTypeResponse::from)
-            .collect(Collectors.collectingAndThen(
-                Collectors.toList(), BeerTypeResponses::from
-            ));
+                .stream()
+                .map(BeerTypeResponse::from)
+                .collect(Collectors.toList());
     }
 }

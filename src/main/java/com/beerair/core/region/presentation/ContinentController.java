@@ -1,20 +1,18 @@
 package com.beerair.core.region.presentation;
 
-import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
-
 import com.beerair.core.common.dto.ResponseDto;
-import com.beerair.core.region.dto.response.ContinentResponses;
-import com.beerair.core.region.dto.response.CountryResponses;
+import com.beerair.core.region.dto.response.ContinentResponse;
+import com.beerair.core.region.dto.response.CountryResponse;
 import com.beerair.core.region.facade.RegionFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
 @Api(tags = "[4] 대륙 API")
 @RestController
@@ -26,7 +24,7 @@ public class ContinentController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "대륙 목록 조회 api")
     @GetMapping
-    public ResponseDto<ContinentResponses> getAll() {
+    public ResponseDto<List<ContinentResponse>> getAll() {
         var result = regionFacade.getAllContinents();
         return new ResponseDto<>(result);
     }
@@ -34,7 +32,7 @@ public class ContinentController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "특정 대륙 내 국가 목록 조회 api")
     @GetMapping(value = "/{continentId}/countries")
-    public ResponseDto<CountryResponses> getCountriesByContinentId(
+    public ResponseDto<List<CountryResponse>> getCountriesByContinentId(
             @PathVariable(value = "continentId") Long continentId
     ) {
         var result = regionFacade.getCountriesByContinentId(continentId);

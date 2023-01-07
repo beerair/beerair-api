@@ -1,31 +1,28 @@
 package com.beerair.core.region.application;
 
 import com.beerair.core.region.dto.response.CountryResponse;
-import com.beerair.core.region.dto.response.CountryResponses;
 import com.beerair.core.region.infrastructure.CountryRepository;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CountryService {
     private final CountryRepository countryRepository;
 
-    public CountryResponses getAll() {
-        var country = countryRepository.findAll()
+    public List<CountryResponse> getAll() {
+        return countryRepository.findAll()
                 .stream().map(CountryResponse::from)
                 .collect(Collectors.toList());
-
-        return new CountryResponses(country);
     }
 
-    public CountryResponses getByContinentId(Long continentId) {
-        var country = countryRepository.findByContinentId(continentId)
+    public List<CountryResponse> getByContinentId(Long continentId) {
+        return countryRepository.findByContinentId(continentId)
                 .stream()
                 .map(CountryResponse::from)
                 .collect(Collectors.toList());
-
-        return new CountryResponses(country);
     }
 }

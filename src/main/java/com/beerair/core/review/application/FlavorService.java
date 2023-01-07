@@ -2,7 +2,6 @@ package com.beerair.core.review.application;
 
 import com.beerair.core.review.dto.response.FlavorRankResponse;
 import com.beerair.core.review.dto.response.FlavorResponse;
-import com.beerair.core.review.dto.response.FlavorsResponse;
 import com.beerair.core.review.infrastructure.FlavorRankRepository;
 import com.beerair.core.review.infrastructure.FlavorRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +18,11 @@ public class FlavorService {
     private final FlavorRankRepository flavorRankRepository;
     private final FlavorRepository flavorRepository;
 
-    public FlavorsResponse getAll() {
-        var flavors = flavorRepository.findAll()
+    public List<FlavorResponse> getAll() {
+        return flavorRepository.findAll()
                 .stream()
                 .map(flavor -> new FlavorResponse(flavor.getId(), flavor.getContent()))
                 .collect(Collectors.toList());
-
-        return new FlavorsResponse(flavors);
     }
 
     @Transactional(readOnly = true)
