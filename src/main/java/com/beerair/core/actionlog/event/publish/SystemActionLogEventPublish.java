@@ -13,9 +13,7 @@ public class SystemActionLogEventPublish {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     public void publish(HttpServletRequest request) {
-        if (request.getRequestURI().startsWith("/api")) {
-            var event = new SystemActionLogEventModel(request);
-            applicationEventPublisher.publishEvent(event);
-        }
+        var event = new SystemActionLogEventModel(request);
+        applicationEventPublisher.publishEvent(event);
     }
 }

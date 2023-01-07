@@ -18,7 +18,11 @@ public class SystemActionLogFilter implements Filter {
     private final SystemActionLogEventPublish systemActionLogEventPublish;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+    public void doFilter(
+            ServletRequest request,
+            ServletResponse response,
+            FilterChain chain
+    ) throws ServletException, IOException {
         var httpServletRequest = (HttpServletRequest) request;
 
         systemActionLogEventPublish.publish(httpServletRequest);
