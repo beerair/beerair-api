@@ -19,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -29,6 +30,7 @@ public class SecurityConfig {
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final AuthenticationFailureHandler authenticationFailureHandler;
     private final AuthTokenAuthenticationFilter authTokenAuthenticationFilter;
+    private final CorsConfigurationSource corsConfigurationSource;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,6 +43,8 @@ public class SecurityConfig {
 
     private void configureAuthToken(HttpSecurity http) throws Exception {
         http.csrf()
+                .and()
+                .cors().configurationSource(corsConfigurationSource)
                 .and()
                 .csrf().disable()
                 .httpBasic().disable()
