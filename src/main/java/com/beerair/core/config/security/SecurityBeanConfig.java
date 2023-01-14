@@ -52,7 +52,7 @@ public class SecurityBeanConfig {
                 .tokenPurpose(TokenPurpose.ACCESS)
                 .signatureAlgorithm(accessSignatureAlgorithm)
                 .signatureKey(accessSignatureKey)
-                .expiration(accessExpiration)
+                .expiration(accessExpiration * 24 * 365) // TODO 무제한 엑세스 토큰 발급 위함
                 .build();
     }
 
