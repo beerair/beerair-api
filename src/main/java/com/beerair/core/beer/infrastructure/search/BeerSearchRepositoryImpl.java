@@ -4,58 +4,103 @@ import com.beerair.core.beer.dto.query.BeerListItemDto;
 import com.beerair.core.beer.infrastructure.BeerSearchRepository;
 import com.beerair.core.common.util.NativeQueryReader;
 import com.beerair.core.review.domain.vo.FeelStatus;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import lombok.SneakyThrows;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.math.BigInteger;
+import java.net.URLDecoder;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
 @Repository
 public class BeerSearchRepositoryImpl implements BeerSearchRepository {
+    private static final String SELECT_COUNT;
+    private static final String FROM_FOR_COUNT;
+
+    static {
+        SELECT_COUNT = "SELECT COUNT(*)";
+        FROM_FOR_COUNT = String.join(" ", List.of(
+                "FROM beer b",
+                "INNER JOIN beer_type bt on b.type_id = bt.id",
+                "INNER JOIN country c on b.country_id = c.id"
+        ));
+    }
+
     private static final String CHAR_SET = "UTF-8";
     @PersistenceContext
     private EntityManager em;
 
     @Transactional(readOnly = true)
     @Override
-    public List<BeerListItemDto> search(String memberId, BeerSearchCondition condition, BeerOrderBy order, int offset, int limit) {
-        List<?> result = createQuery(memberId, condition, order, offset, limit).getResultList();
+    public Page<BeerListItemDto> search(String memberId, BeerSearchCondition condition, BeerOrderBy order, int offset, int limit) {
+        Pageable pageable = pageable(offset, limit);
+        long count = fetchCount(condition);
+        if (count == 0) {
+            return new PageImpl<>(Collections.emptyList(), pageable, count);
+        }
+        List<BeerListItemDto> beers = fetchBeers(memberId, condition, order, pageable);
+        return new PageImpl<>(beers, pageable, count);
+    }
+
+    private PageRequest pageable(int offset, int limit) {
+        return PageRequest.of(offset / limit, limit);
+    }
+
+    private long fetchCount(BeerSearchCondition condition) {
+        BigInteger result = (BigInteger) createCountQuery(condition).getSingleResult();
+        return result.longValue();
+    }
+
+    private Query createCountQuery(BeerSearchCondition condition) {
+        List<Consumer<Query>> queryVisitors = new ArrayList<>();
+        List<String> sqlPieces = new ArrayList<>();
+        sqlPieces.add(SELECT_COUNT);
+        sqlPieces.add(FROM_FOR_COUNT);
+        sqlPieces.add(where(queryVisitors, condition));
+
+        String sql = String.join(" ", sqlPieces);
+        var query = em.createNativeQuery(sql);
+        queryVisitors.forEach(each -> each.accept(query));
+        return query;
+    }
+
+    private List<BeerListItemDto> fetchBeers(String memberId, BeerSearchCondition condition, BeerOrderBy order, Pageable pageable) {
+        List<?> result = createQuery(memberId, condition, order, pageable).getResultList();
         return result.stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
     }
 
-    private Query createQuery(String memberId, BeerSearchCondition condition, BeerOrderBy order, int offset, int limit) {
-        List<Consumer<Query>> queryVisitors = new ArrayList<>();
-        String sql = String.join(" ", List.of(
-                select(memberId),
-                from(queryVisitors, memberId, order),
-                where(queryVisitors, condition),
-                orderBy(order)
-        ));
 
+    private Query createQuery(String memberId, BeerSearchCondition condition, BeerOrderBy order, Pageable pageable) {
+        List<Consumer<Query>> queryVisitors = new ArrayList<>();
+        List<String> sqlPieces = new ArrayList<>();
+        sqlPieces.add(select(memberId));
+        sqlPieces.add(from(queryVisitors, memberId, order));
+        sqlPieces.add(where(queryVisitors, condition));
+        sqlPieces.add(orderBy(order));
+
+        String sql = String.join(" ", sqlPieces);
         var query = em.createNativeQuery(sql);
         queryVisitors.forEach(each -> each.accept(query));
-        query.setFirstResult(offset);
-        query.setMaxResults(limit);
+        query.setFirstResult((int) pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
         return query;
     }
 
     private String select(String memberId) {
         boolean isMember = Objects.nonNull(memberId);
-
-        var sql = new ArrayList<>(List.of(
-                "SELECT b.id as id, b.alcohol as alcohol, b.kor_name as korName, b.image_url as imageUrl",
-                "c.kor_name as country",
-                "bt.kor_name as type"
-        ));
+        var sql = new ArrayList<String>();
+        sql.add("SELECT b.id as id, b.alcohol as alcohol, b.kor_name as korName, b.image_url as imageUrl, c.kor_name as country, bt.kor_name");
         if (isMember) {
             sql.add("r.feel_status as myFeelStatus");
             sql.add("bl.id IS NOT NULL as liked");
