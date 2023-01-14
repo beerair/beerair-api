@@ -1,15 +1,17 @@
 package com.beerair.core.cucumber.beer;
 
-import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
-
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
+import com.beerair.core.common.dto.PageResponseDto;
 import com.beerair.core.cucumber.StepClient;
-import java.util.Optional;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Optional;
+
+import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 @Scope(SCOPE_CUCUMBER_GLUE)
 @Component
@@ -32,7 +34,7 @@ public class BeerStepClient extends StepClient {
         uriBuilder.queryParamIfPresent(
                 "order", Optional.ofNullable(request.getOrder())
         );
-        exchange(HttpMethod.GET, uriBuilder.toUriString(), new HttpEntity<>(authed()));
+        exchange(HttpMethod.GET, uriBuilder.toUriString(), new HttpEntity<>(authed()), PageResponseDto.class);
     }
 
     public void getRecommends() {
