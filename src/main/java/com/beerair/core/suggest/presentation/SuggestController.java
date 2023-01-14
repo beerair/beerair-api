@@ -2,7 +2,7 @@ package com.beerair.core.suggest.presentation;
 
 import static com.beerair.core.common.util.CommonUtil.APPLICATION_JSON_UTF_8;
 
-import com.beerair.core.common.dto.PageDto;
+import com.beerair.core.common.dto.PageResponseDto;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
 import com.beerair.core.member.presentation.annotation.AuthMember;
@@ -66,7 +66,7 @@ public class SuggestController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "요청한 맥주 목록 조회 api")
     @GetMapping
-    public PageDto<SuggestResponse> getAll(
+    public PageResponseDto<SuggestResponse> getAll(
             @AuthMember Optional<LoggedInMember> member,
             @PageableDefault Pageable pageable
     ) {
@@ -74,7 +74,7 @@ public class SuggestController {
                 member.map(LoggedInMember::getId).orElse(null),
                 pageable
         );
-        return new PageDto<>(result);
+        return new PageResponseDto<>(result);
     }
 
     @ResponseStatus(HttpStatus.OK)

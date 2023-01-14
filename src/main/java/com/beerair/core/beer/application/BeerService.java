@@ -2,12 +2,12 @@ package com.beerair.core.beer.application;
 
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import com.beerair.core.beer.dto.response.BeerResponse;
-import com.beerair.core.beer.dto.response.BeerSearchResponse;
 import com.beerair.core.beer.infrastructure.BeerRecommendRepository;
 import com.beerair.core.beer.infrastructure.BeerRepository;
 import com.beerair.core.beer.infrastructure.BeerSearchRepository;
 import com.beerair.core.error.exception.beer.BeerNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,9 +37,7 @@ public class BeerService {
         return beerRepository.findByKorNameOrEngName(name, name);
     }
 
-    public BeerSearchResponse search(String memberId, BeerSearchRequest request) {
-        var total = beerRepository.findCount();
-
+    public Page<BeerResponse> search(String memberId, BeerSearchRequest request) {
         var searched = beerSearchRepository.search(
                 memberId,
                 request.toBeerSearchCondition(),
@@ -47,12 +45,7 @@ public class BeerService {
                 request.getOffset(),
                 SEARCH_LIMIT
         );
-
-        var contents = searched.stream()
-                .map(BeerResponse::ofListItem)
-                .collect(Collectors.toList());
-
-        return BeerSearchResponse.from(contents, total);
+        return searched.map(BeerResponse::ofListItem);
     }
 
     public List<BeerResponse> getRecommends(String memberId) {

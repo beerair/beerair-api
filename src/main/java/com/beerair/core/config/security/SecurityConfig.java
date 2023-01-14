@@ -62,12 +62,7 @@ public class SecurityConfig {
     }
 
     private void configureAuthorizeRequests(HttpSecurity http) throws Exception {
-        final var ONLY_USER = createAccess(Role.USER.getAuthorities());
-        final var ONLY_MEMBER = createAccess(Role.MEMBER.getAuthorities());
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/v1/members").access(ONLY_USER)
-                .antMatchers("/api/v1/members/*").access(ONLY_MEMBER)
-                .antMatchers("/api/v1/members").access(ONLY_MEMBER)
                 .anyRequest().permitAll();
     }
 
