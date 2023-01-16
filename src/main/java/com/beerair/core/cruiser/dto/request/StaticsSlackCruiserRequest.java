@@ -9,10 +9,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StaticsSlackCruiserRequest implements SlackCruiserMessage {
     private final Long memberCount;
+    private final Long totalApiCallCount;
 
     @Override
     public CruiserRequest message() {
-        var message = "유저수 " + memberCount;
+        var message = "유저수 " + memberCount + " / 총 API 요청 수 " + totalApiCallCount;
         return new CruiserRequest(message);
     }
 }

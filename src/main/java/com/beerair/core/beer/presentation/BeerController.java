@@ -33,7 +33,7 @@ public class BeerController {
             @AuthMember Optional<LoggedInMember> member,
             BeerSearchRequest request
     ) {
-        String memberId = member.map(LoggedInMember::getId).orElse(null);
+        var memberId = member.map(LoggedInMember::getId).orElse(null);
         return new PageResponseDto<>(beerService.search(memberId, request));
     }
 
