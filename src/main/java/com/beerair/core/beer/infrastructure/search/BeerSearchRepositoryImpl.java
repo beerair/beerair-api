@@ -163,16 +163,18 @@ public class BeerSearchRepositoryImpl implements BeerSearchRepository {
         if (order == BeerOrderBy.REVIEW) {
             return "ORDER BY rc.cnt DESC";
         }
-        if (order == BeerOrderBy.NAME) {
-            return "ORDER BY c.kor_name";
+        if (order == BeerOrderBy.BEER_KOR_NAME) {
+            return "ORDER BY b.kor_name ASC";
         }
         if (order == BeerOrderBy.ALCOHOL_HIGHEST) {
             return "ORDER BY b.alcohol DESC";
         }
         if (order == BeerOrderBy.ALCOHOL_LOWEST) {
-            return "ORDER BY b.alcohol";
+            return "ORDER BY b.alcohol ASC";
         }
-        return "";
+
+        /** default order setup */
+        return "ORDER BY b.id DESC";
     }
 
     private BeerListItemDto convert(Object row) {

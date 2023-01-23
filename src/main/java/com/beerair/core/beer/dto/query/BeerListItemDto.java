@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class BeerListItemDto {
 	private final Integer id;
 	private final Float alcohol;
+    /** Beer Kor Name */
 	private final String korName;
 	private final String imageUrl;
 	private final String country;
