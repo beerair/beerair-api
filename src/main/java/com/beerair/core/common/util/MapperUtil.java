@@ -55,4 +55,13 @@ public class MapperUtil {
             throw new MapperException(e.getMessage());
         }
     }
+
+    public static <T> T readValue(String json, Class<T> clazz) {
+        try {
+            return mapper().readValue(json, clazz);
+        } catch (JsonProcessingException e) {
+            log.error("[ERROR] Exception -> {}", e.getMessage());
+            throw new MapperException(e.getMessage());
+        }
+    }
 }

@@ -1,21 +1,28 @@
 package com.beerair.core.suggest.dto.response;
 
-import io.swagger.annotations.ApiModelProperty;
+import com.beerair.core.common.util.MapperUtil;
+import com.beerair.core.suggest.domain.Suggest;
+import com.beerair.core.suggest.domain.vo.SuggestStatus;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class SuggestRegisterResponse {
-    @ApiModelProperty(
-        dataType = "Number",
-        value = "제안 ID",
-        example = "1"
-    )
     private final Long id;
+    private final String beerName;
+    private final List<String> images;
+    private final SuggestStatus status;
 
-    @ApiModelProperty(
-        dataType = "String",
-        value = "맥주 이름",
-        example = "참이슬"
-    )
-    private final String name;
+    @SuppressWarnings("UNCHECKED_CAST")
+    public static SuggestRegisterResponse from(Suggest suggest) {
+        var images = (List<String>) MapperUtil.readValue(suggest.getImageUrls(), List.class);
+
+        return new SuggestRegisterResponse(
+                suggest.getId(),
+                suggest.getBeerName(),
+                images,
+                suggest.getStatus()
+        );
+    }
 }

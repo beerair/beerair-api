@@ -3,6 +3,8 @@ package com.beerair.core.suggest.dto.request;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class SuggestRegisterRequest {
     @ApiModelProperty(
@@ -11,10 +13,10 @@ public class SuggestRegisterRequest {
         example = "참이슬"
     )
     private final String name;
-    private final SuggestImageRegisterRequest images;
+    private final List<String> images;
 
     @Data
-    public static class SuggestImageRegisterRequest {
+    public static class SuggestImageModel {
         @ApiModelProperty(
             dataType = "String",
             value = "맥주 이미지1",

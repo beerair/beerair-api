@@ -2,6 +2,8 @@ package com.beerair.core.suggest.facade;
 
 import com.beerair.core.beer.application.BeerService;
 import com.beerair.core.common.util.MapperUtil;
+import com.beerair.core.cruiser.domain.CruiserClient;
+import com.beerair.core.cruiser.dto.request.SuggestRegisterSlackCruiserRequest;
 import com.beerair.core.error.exception.suggest.BeerAlreadyExistsException;
 import com.beerair.core.error.exception.suggest.BeerSuggestAlreadyExistsException;
 import com.beerair.core.suggest.application.SuggestService;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class SuggestFacade {
     private final SuggestService suggestService;
     private final BeerService beerService;
+    private final CruiserClient cruiserClient;
 
     public void validate(String memberId, String name) {
         if (beerService.existsByKorNameOrEngName(name)) {
@@ -27,18 +30,16 @@ public class SuggestFacade {
     }
 
     public SuggestRegisterResponse register(String memberId, SuggestRegisterRequest request) {
-        validate(request.getName(), memberId);
-
-        var suggest = suggestService.save(
-                new Suggest(
-                        request.getName(),
-                        MapperUtil.writeValueAsString(request.getImages()),
-                        memberId
-                )
+        var suggest = new Suggest(
+                request.getName(),
+                MapperUtil.writeValueAsString(request.getImages()),
+                memberId
         );
+        var suggested = suggestService.save(suggest);
 
-        // TODO : SLACK MONITORING
+        var cruiserMessage = new SuggestRegisterSlackCruiserRequest(suggested).message();
+        cruiserClient.send(cruiserMessage);
 
-        return new SuggestRegisterResponse(suggest.getId(), suggest.getBeerName());
+        return SuggestRegisterResponse.from(suggested);
     }
 }

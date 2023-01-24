@@ -7,8 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-
 @RequiredArgsConstructor
 public class SlackCruiser implements CruiserClient {
     private final CruiserProperties cruiserProperties;
@@ -23,7 +21,6 @@ public class SlackCruiser implements CruiserClient {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(String.class)
-                .timeout(Duration.ofMillis(5000))
-                .block();
+                .subscribe();
     }
 }
