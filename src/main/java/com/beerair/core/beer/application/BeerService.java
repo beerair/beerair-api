@@ -2,6 +2,7 @@ package com.beerair.core.beer.application;
 
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import com.beerair.core.beer.dto.response.BeerResponse;
+import com.beerair.core.beer.dto.response.BeerStatisticsResponse;
 import com.beerair.core.beer.infrastructure.BeerRecommendRepository;
 import com.beerair.core.beer.infrastructure.BeerRepository;
 import com.beerair.core.beer.infrastructure.BeerSearchRepository;
@@ -53,5 +54,20 @@ public class BeerService {
                 .stream()
                 .map(BeerResponse::ofListItem)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Beer 통계 자료 제공 API
+     */
+    public BeerStatisticsResponse getStatistics(String memberId) {
+        /** 추후 다른 용도로 사용하기 위해 전체 리스트 조회 - 로컬 캐시 저장 적용 필요 */
+        var beers = beerRepository.findAll();
+        var totalBeerCount = (long) beers.size();
+        var isActiveBeerCount = beers.stream()
+                .filter(beer -> !beer.isDeleted())
+                .count();
+        var isDeletedBeerCount = totalBeerCount - isActiveBeerCount;
+
+        return new BeerStatisticsResponse(totalBeerCount, isActiveBeerCount, isDeletedBeerCount);
     }
 }

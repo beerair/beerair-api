@@ -3,6 +3,7 @@ package com.beerair.core.beer.presentation;
 import com.beerair.core.beer.application.BeerService;
 import com.beerair.core.beer.dto.request.BeerSearchRequest;
 import com.beerair.core.beer.dto.response.BeerResponse;
+import com.beerair.core.beer.dto.response.BeerStatisticsResponse;
 import com.beerair.core.common.dto.PageResponseDto;
 import com.beerair.core.common.dto.ResponseDto;
 import com.beerair.core.member.dto.LoggedInMember;
@@ -53,6 +54,17 @@ public class BeerController {
     @GetMapping("/recommends")
     public ResponseDto<List<BeerResponse>> getRecommends(@AuthMember LoggedInMember member) {
         var result = beerService.getRecommends(member.getId());
+        return new ResponseDto<>(result);
+    }
+
+    @ApiOperation(value = "맥주 통계 정보 조히 api")
+    @GetMapping("/statistics")
+    public ResponseDto<BeerStatisticsResponse> getStatistics(
+            @AuthMember Optional<LoggedInMember> member
+    ) {
+        var memberId = member.map(LoggedInMember::getId).orElse(null);
+        var result = beerService.getStatistics(memberId);
+
         return new ResponseDto<>(result);
     }
 }
