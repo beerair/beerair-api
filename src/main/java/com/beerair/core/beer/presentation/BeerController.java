@@ -57,7 +57,7 @@ public class BeerController {
         return new ResponseDto<>(result);
     }
 
-    @ApiOperation(value = "맥주 통계 정보 조히 api")
+    @ApiOperation(value = "맥주 통계 정보 조회 api")
     @GetMapping("/statistics")
     public ResponseDto<BeerStatisticsResponse> getStatistics(
             @AuthMember Optional<LoggedInMember> member
