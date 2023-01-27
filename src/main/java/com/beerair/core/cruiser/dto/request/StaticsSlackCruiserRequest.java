@@ -13,7 +13,7 @@ public class StaticsSlackCruiserRequest implements SlackCruiserMessage {
 
     @Override
     public CruiserRequest message() {
-        var message = "*:블루짱: 전일 통계 정보 제공 :블루짱:*\n" +
+        var message = "*:palm_up_hand: 전일 통계 정보 제공 :palm_up_hand:*\n" +
                 "유저수 > " + memberCount + "\n" +
                 "총 API 요청 수 > " + totalApiCallCount;
 
