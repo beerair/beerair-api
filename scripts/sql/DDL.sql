@@ -142,22 +142,20 @@ CREATE TABLE `beer_like`
 CREATE INDEX idx_id ON beer_like (id);
 CREATE INDEX idx_member_id ON beer_like (member_id);
 
-CREATE TABLE `beer_suggest`
+CREATE TABLE `suggest`
 (
-    `id`               bigint NOT NULL AUTO_INCREMENT,
-    `created_at`       datetime                                                      DEFAULT CURRENT_TIMESTAMP,
-    `deleted_at`       datetime                                                      DEFAULT NULL,
-    `modified_at`      datetime                                                      DEFAULT CURRENT_TIMESTAMP,
-    `image_url_first`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-    `image_url_second` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-    `beer_name`        varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  DEFAULT NULL,
-    `completed_at`     datetime                                                      DEFAULT NULL,
-    `rejection_reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-    `status`           varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  DEFAULT NULL,
-    `member_id`        varchar(50) COLLATE utf8mb4_general_ci                        DEFAULT NULL,
+    `id`            bigint NOT NULL AUTO_INCREMENT,
+    `created_at`    datetime                                DEFAULT NULL,
+    `deleted_at`    datetime                                DEFAULT NULL,
+    `modified_at`   datetime                                DEFAULT NULL,
+    `beer_name`     varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `completed_at`  datetime                                DEFAULT NULL,
+    `image_urls`    varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `member_id`     varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `reject_reason` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `status`        int                                     DEFAULT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
-CREATE INDEX idx_id ON beer_suggest (id);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `image_metadata`
 (
